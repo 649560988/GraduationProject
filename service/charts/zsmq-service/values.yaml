@@ -1,0 +1,58 @@
+# Default values for manager-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: registry.cn-hangzhou.aliyuncs.com/operation-zsmq/zsmq-service
+  pullPolicy: Always
+
+
+deployment:
+  managementPort: 8080
+
+env:
+  open:
+    ## mysql
+    SPRING_DATASOURCE_URL: jdbc:mysql://localhost/demo_service?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    SPRING_DATASOURCE_USERNAME: root
+    SPRING_DATASOURCE_PASSWORD: choerodon
+    #swagger
+    SWAGGER_AUTHSERVER: http://api.zsmq.console.retailsolution.cn
+
+metrics:
+  path: /prometheus
+  group: spring-boot
+
+logs:
+ parser: spring-boot
+
+persistence:
+  enabled: false
+  ## A manually managed Persistent Volume and Claim
+  ## Requires persistence.enabled: true
+  ## If defined, PVC must be created manually before volume will be bound
+  # existingClaim:
+  # subPath:
+
+service:
+  enabled: false
+  type: ClusterIP
+  port: 8080
+  
+ingress:
+  enabled: false
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources,such as Minikube. If you do want to specify resources,uncomment the following
+  # lines,adjust them as necessary,and remove the curly braces after 'resources:'.
+  limits:
+    # cpu: 100m
+    # memory: 2Gi
+  requests:
+    # cpu: 100m
+    # memory: 1.5Gi
+

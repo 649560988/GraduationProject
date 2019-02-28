@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.czhand.zsmq.infra.mapper.SysParamChildrenMapper" >
+  <resultMap id="BaseResultMap" type="com.czhand.zsmq.domain.SysParamChildren" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sys_param_id" property="sysParamId" jdbcType="VARCHAR" />
+    <result column="param_name" property="paramName" jdbcType="VARCHAR" />
+    <result column="param_code" property="paramCode" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="BIGINT" />
+    <result column="version" property="version" jdbcType="BIGINT" />
+    <result column="creation_by" property="creationBy" jdbcType="BIGINT" />
+    <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+        id,sys_param_id,param_name,param_code,sort,version,
+        creation_by,creation_date,update_by,update_date
+    </sql>
+
+  <select id="selectByParamIdAndName" parameterType="com.czhand.zsmq.domain.SysParamChildren" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_param_children spc
+    where spc.sys_param_id = #{sysParamId}
+    and spc.param_name = #{paramName}
+    and spc.param_code = #{paramCode}
+  </select>
+
+  <select id="getChildParam" parameterType="com.czhand.zsmq.domain.SysParamChildren" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_param_children spc
+    where spc.sys_param_id = #{sysParamId}
+  </select>
+</mapper>

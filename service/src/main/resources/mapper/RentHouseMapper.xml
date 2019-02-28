@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czhand.zsmq.infra.mapper.RentHouseMapper">
+  <resultMap id="BaseResultMap" type="com.czhand.zsmq.domain.RentHouse">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="community_name" jdbcType="VARCHAR" property="communityName" />
+    <result column="building_number" jdbcType="VARCHAR" property="buildingNumber" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="house_numbers" jdbcType="VARCHAR" property="houseNumbers" />
+    <result column="house_area" jdbcType="VARCHAR" property="houseArea" />
+    <result column="house_style" jdbcType="VARCHAR" property="houseStyle" />
+    <result column="oriented" jdbcType="VARCHAR" property="oriented" />
+    <result column="floor" jdbcType="VARCHAR" property="floor" />
+    <result column="decoration" jdbcType="VARCHAR" property="decoration" />
+    <result column="rent" jdbcType="VARCHAR" property="rent" />
+    <result column="payment_type" jdbcType="VARCHAR" property="paymentType" />
+    <result column="landlord_name" jdbcType="VARCHAR" property="landlordName" />
+    <result column="house_description" jdbcType="VARCHAR" property="houseDescription" />
+    <result column="rental_request" jdbcType="VARCHAR" property="rentalRequest" />
+    <result column="contact_information" jdbcType="VARCHAR" property="contactInformation" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="is_rent" jdbcType="INTEGER" property="isRent" />
+  </resultMap>
+</mapper>

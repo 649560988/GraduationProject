@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.czhand.zsmq.infra.mapper.EntFinanceMapper">
+    <resultMap id="BaseResultMap" type="com.czhand.zsmq.domain.EntFinance">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="year" property="year" jdbcType="VARCHAR"/>
+        <result column="month" property="month" jdbcType="VARCHAR"/>
+        <result column="sale" property="sale" jdbcType="DECIMAL"/>
+        <result column="taxes" property="taxes" jdbcType="DECIMAL"/>
+        <result column="ent_id" property="entId" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="creation_by" property="creationBy" jdbcType="BIGINT"/>
+        <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, year, month, sale, taxes, ent_id, version,creation_by,
+        creation_date,update_by,update_date
+    </sql>
+    <select id="queryFinance" parameterType="java.lang.String" resultType="com.czhand.zsmq.domain.EntFinance">
+        SELECT
+          SUM(f.taxes) taxes,SUM(f.sale) sale,f.`year` year,b.ent_name entName,b.ent_short_name entShortName
+        FROM
+	      ent_finance f,ent_base b
+        WHERE
+	      f.ent_id = b.id
+	    and f.year=#{year}
+        GROUP BY
+	      f.ent_id,f.`year`
+    </select>
+
+</mapper>

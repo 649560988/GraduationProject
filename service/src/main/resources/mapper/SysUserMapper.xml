@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.czhand.zsmq.infra.mapper.SysUserMapper" >
+    <resultMap id="BaseResultMap" type="com.czhand.zsmq.domain.SysUser">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="real_name" jdbcType="VARCHAR" property="realName" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+        <result column="is_del" jdbcType="INTEGER" property="isDel" />
+        <result column="version" jdbcType="BIGINT" property="version" />
+        <result column="creation_by" jdbcType="BIGINT" property="creationBy" />
+        <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate" />
+        <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+        <collection property="sysRoles" ofType="com.czhand.zsmq.domain.SysRole">
+            <result property="id" column="role_id" />
+            <result property="name" column="role_name" />
+        </collection>
+    </resultMap>
+
+    <select id="selectByRealName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from sys_user
+    where real_name
+    like concat('%',#{realName},'%')
+  </select>
+
+    <update id="stopOrStart" parameterType="com.czhand.zsmq.domain.SysMenu">
+        update sys_user
+        set is_del=#{isDel},
+        update_by=#{updateBy},
+        update_date=NOW(),
+        version=version+1
+        where id=#{id}
+    </update>
+
+
+
+    <select id="selectPhoneById" parameterType="com.czhand.zsmq.domain.SysUser" resultType="com.czhand.zsmq.domain.SysUser">
+        select * from sys_user
+        where is_del=0
+        and telephone=#{telephone}
+        and id!=#{id}
+    </select>
+
+    <select id="selectOldPwdById" parameterType="com.czhand.zsmq.domain.SysUser" resultType="com.czhand.zsmq.domain.SysUser">
+          select * from sys_user
+        where is_del=0
+        and id=#{id}
+    </select>
+
+    <select id="selectRolesById" parameterType="java.lang.Long" resultType="com.czhand.zsmq.domain.SysRole">
+     select sr.id,sr.name from sys_user  su,sys_user_role sur,sys_role sr
+        where su.id=sur.user_id
+        and sr.id=sur.role_id
+        and user_id=#{Id}
+				and su.is_del=0
+				and sr.is_del=0
+    </select>
+
+
+    <select id="selectIdByUserName" parameterType="java.lang.String" resultType="java.lang.Long">
+       select id from sys_user where user_name=#{userName}
+    </select>
+
+    <select id="isUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sys_user where user_name=#{userName}
+    </select>
+
+    <select id="isTel" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sys_user where telephone=#{isTel}
+    </select>
+
+</mapper>

@@ -1,0 +1,44 @@
+# application.yml
+
+spring:
+  application:
+    name: zsmq-service
+  datasource:
+    url: jdbc:mysql://47.100.243.106:3306/bisj?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true
+    username: hapadmin
+    password: hapadmin123
+server:
+  port: 8080
+  spring:
+
+swagger:
+  authserver: http://localhost:8080
+
+
+
+# mybatis实体类，映射xml路径配置
+mybatis:
+    type-aliases-package: com.czhand.zsmq.domain
+    mapper-locations: classpath:mapper/*.xml
+
+# 配置封装好的基本sql
+mapper:
+    mappers:
+        - com.czhand.zsmq.infra.utils.mapper.BaseMapper
+    not-empty: false
+    identity: MYSQL
+
+# 分页插件配置
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
+
+
+# 日志格式
+logging:
+    # 设置包日志级别
+    level:
+        com.czhand.zsmq.infra.mapper: debug

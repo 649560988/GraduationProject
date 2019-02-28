@@ -1,0 +1,180 @@
+html,
+body,
+:global(#root) {
+  height: 100%;
+}
+
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/***** antd 样式覆盖 ****/
+
+// temp fix for https://github.com/ant-design/ant-design/commit/a1fafb5b727b62cb0be29ce6e9eca8f579d4f8b7
+:global {
+  .ant-spin-container {
+    overflow: visible !important;
+  }
+
+  .global-spin {
+    width: 100%;
+    margin: 40px 0 !important;
+  }
+  // 表格公共样式
+  .ant-table {
+    font-size:12px!important;
+  }
+
+  .ant-table-thead > tr > th{
+    font-weight: bold !important;
+    background: #ffffff !important;
+  }
+
+  .ant-table-tbody > tr > td{
+    padding:9px 8px !impsortant;
+  }
+
+  .ant-table-tbody > tr > td button{
+    height:auto !important;
+  }
+}
+
+body,
+:global(.ant-card) {
+  font-size: 12px;
+}
+
+:global(.ant-btn) {
+  font-size: 12px;
+  border-radius: 2px;
+}
+
+:global(.ant-layout) {
+  min-height: 100%;
+}
+
+:global(.ant-table-thead>tr>th) {
+  padding: 14px 8px;
+  background-color: #fff;
+}
+
+:global(.ant-table-tbody>tr>td)  {
+  padding: 0px 8px;
+}
+
+:global(.ant-input) {
+  height: 28px;
+  font-size: 12px;
+  border-radius: 2px;
+}
+:global(.ant-time-picker-input) {
+  height: 28px;
+  font-size: 12px;
+  border-radius: 2px;
+}
+:global(.ant-input-group.ant-input-group-compact > span > .ant-input){
+  border-right-width:1px;
+}
+
+:global(.ant-row.ant-form-item) {
+  margin-bottom: 20px;
+}
+
+:global(.ant-form) label {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+:global(.ant-form-item-control) {
+  line-height: 1.5;
+}
+
+:global(.ant-btn) {
+  height: 28px;
+}
+
+:global(.ant-select-selection.ant-select-selection--single) {
+  height: 28px;
+  font-size: 12px;
+  line-height: 28px;
+
+  :global(.ant-select-selection__rendered) {
+    height: 26px;
+    line-height: 26px;
+  }
+}
+
+:global(.ant-select-dropdown-menu-item) {
+  font-size: 12px;
+}
+
+:global(.ant-btn.ant-btn-primary.disabled),
+:global(.ant-btn.ant-btn-primary[disabled]),
+:global(.ant-btn.ant-btn-primary.disabled:hover),
+:global(.ant-btn.ant-btn-primary[disabled]:hover),
+:global(.ant-btn.ant-btn-primary.disabled:focus),
+:global(.ant-btn.ant-btn-primary[disabled]:focus),
+:global(.ant-btn.ant-btn-primary.disabled:active),
+:global(.ant-btn.ant-btn-primary[disabled]:active),
+:global(.ant-btn.ant-btn-primary.disabled.active),
+:global(.ant-btn.ant-btn-primary[disabled].active){
+  color: #fff;
+  background-color: #1890ff;
+  border-color: #1890ff;
+  opacity: 0.33;
+}
+
+.ant-menu-vertical {
+  :global(.ant-menu-item) {
+    font-size: 12px;
+  }
+}
+
+
+:global(.ant-layout) {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+:global(.ant-layout-header) {
+background: #fff;
+height: 48px;
+line-height: 48px;
+}
+
+
+
+:global {
+  .ocms-global-header-drawer {
+
+    .ant-drawer-mask,
+    &.ant-drawer-open .ant-drawer-mask {
+      // visibility: hidden;
+      transition: none;
+      animation: none;
+      opacity: 0;
+    }
+
+    &.ant-drawer-open .ant-drawer-content-wrapper,
+    .ant-drawer-content-wrapper {
+      box-shadow: none;
+      margin-top: 49px;
+    }
+
+    .ant-drawer-content {
+      border-left: 1px solid #e8e8e8;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    .ant-drawer-header {
+      display: none;
+    }
+  }
+}

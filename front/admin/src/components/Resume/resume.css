@@ -1,0 +1,88 @@
+.Resume__editBtn {
+  width: 21px;
+  height: 23px;
+  cursor: pointer;
+  background-image: url('./images/edit.png')
+}
+
+.Resume__editBtn:hover {
+  background-image: url('./images/edit-selected.png')
+}
+
+.Resume__trashBtn {
+  width: 19px;
+  height: 22px;
+  cursor: pointer;
+  background-image: url('./images/trash.png')
+}
+.Resume__trashBtn:hover {
+  background-image: url('./images/trash-selected.png')
+}
+
+.Resume__editingBlock {
+  position: relative;
+  min-height: 100px;
+  border: 1px solid #3f51b5;
+  border-radius: 3px;
+}
+
+.Resume__editingBlock:before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  content: ' ';
+  height: 3px;
+  background-color: #798bf2;
+}
+
+.Resume__attachmentBg {
+  position: relative;
+  cursor: pointer;
+  display: block;
+  width: 152px;
+  height: 176px;
+  border-radius: 6px;
+  border: 1px solid #EEE;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  transition: all .15s ease;
+  background-image: url('./images/attachment-bg.png');
+}
+
+
+.Resume__attachmentBg:hover {
+  background-image: url('./images/attachment-bg-selected.png');
+  box-shadow: 1px 3px 4px rgba(0,0,0,0.09);
+}
+
+.Resume__attachName {
+  font-size: 18px;
+  text-align: center;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.Resume__attachmentBg:hover .Resume__attachName{
+  color: #5d6bc0;
+}
+
+.Resume__attachmentBg__deleteBtn {
+  position: absolute;
+  top: 6px;
+  display: none;
+  right: 10px;
+}
+
+.Resume__attachmentBg:hover .Resume__attachmentBg__deleteBtn {
+  display: block;
+}
+
+.Resume__text {
+  word-break: break-all;
+  line-height: 26px
+}

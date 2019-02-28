@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.czhand.zsmq.infra.mapper.MessageBaseMapper">
+    <resultMap id="BaseResultMap" type="com.czhand.zsmq.domain.MessageBase">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="is_all" property="isAll" jdbcType="INTEGER"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="creation_by" property="creationBy" jdbcType="BIGINT"/>
+        <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.czhand.zsmq.domain.MessageBase" extends="BaseResultMap">
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+
+    <select id="queryAll" resultMap="ResultMapWithBLOBs">
+        SELECT* from message_base
+        where is_del=0
+        <if test="title!=null">
+            and title like concat('%',#{title},'%')
+        </if>
+
+    </select>
+
+    <select id="queryReadAll" resultType="com.czhand.zsmq.api.dto.MessageSelfDTO">
+        select mb.id ,mb.is_all as isAll ,mb.is_del as isDel ,mb.title,mb.content,
+        mb.update_date as updateDate from message_base as mb
+        where
+        mb.is_all=1 and mb.is_del=0
+        <if test="content != null">
+            AND mb.content like CONCAT('%','${content}','%')
+        </if>
+    </select>
+
+
+    <select id="queryContainSelf" resultType="com.czhand.zsmq.api.dto.MessageSelfDTO" >
+        select mb.id ,mb.is_all as isAll ,mb.is_del as isDel ,mb.title,mb.content,mu.is_read as isRead,
+        mb.update_date as updateDate from message_base as mb,message_user as mu
+        where mb.id=mu.message_id
+        and
+        mb.is_all=0 and mb.is_del=0
+        and user_id=#{userId}
+        <if test="content != null">
+            AND mb.content like CONCAT('%','${content}','%')
+        </if>
+    </select>
+
+
+</mapper>

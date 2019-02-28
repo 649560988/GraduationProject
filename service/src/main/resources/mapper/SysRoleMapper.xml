@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.czhand.zsmq.infra.mapper.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="com.czhand.zsmq.domain.SysRole">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="creation_by" property="creationBy" jdbcType="BIGINT"/>
+        <result column="creation_date" property="creationDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="BIGINT"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <update id="stopOrStart">
+        update sys_role
+        set is_del=#{isDel},
+        update_by=#{updateBy},
+        update_date=NOW(),
+        version=version+1
+        where id=#{id}
+    </update>
+    <select id="selectAllRole" resultMap="BaseResultMap">
+        select * from sys_role
+        where is_del=#{isDel}
+
+        <if test="roleName != null and roleName != ''">
+            AND name like concat('%',#{roleName},'%')
+        </if>
+
+    </select>
+    <select id="selectAllRoles" resultMap="BaseResultMap">
+        select * from sys_role
+        where 1=1
+        <if test="roleName != null and roleName != ''">
+            AND name like concat('%',#{roleName},'%')
+        </if>
+
+    </select>
+</mapper>

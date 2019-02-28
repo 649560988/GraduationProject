@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czhand.zsmq.infra.mapper.RentOrderMapper">
+  <resultMap id="BaseResultMap" type="com.czhand.zsmq.domain.RentOrder">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="house_id" jdbcType="VARCHAR" property="houseId" />
+    <result column="rent_time" jdbcType="INTEGER" property="rentTime" />
+    <result column="money" jdbcType="VARCHAR" property="money" />
+  </resultMap>
+</mapper>

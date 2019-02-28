@@ -1,0 +1,47 @@
+.ant-upload-select-picture-card i {
+    font-size: 32px;
+    color: #999;
+  }
+  
+  .ant-upload-select-picture-card .ant-upload-text {
+    margin-top: 8px;
+    color: #666;
+  }
+
+  .mask {
+    position: absolute;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    margin-left: -100px;
+    height: 100px;
+    width: 100px;
+}
+.mask :hover {
+    height: 100px;
+    width: 100px;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.eye {
+   font-size: 20px;
+   height: 100px;
+   width: 100px;
+   padding: 40px;
+   opacity: 0;
+   color: white;
+   cursor: pointer;
+}
+
+.eye :hover {
+    font-size: 20px;
+    opacity: 1;
+    color: white;
+    height: 100px;
+    width: 100px;
+    padding: 40px;
+    margin-top: -40px;
+    margin-left: -40px; 
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0);
+}

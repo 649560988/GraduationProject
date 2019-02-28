@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <properties resource="application.yml"/>
+
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.czhand.zsmq.infra.utils.mapper.BaseMapper"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://47.100.243.106:3306/hs_cloud?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="hapadmin"
+                        password="hapadmin123">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.czhand.zsmq.domain" targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
+
+        <javaClientGenerator targetPackage="com.czhand.zsmq.infra.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
+
+
+
+        <!-- 这个插件有个bug 就是多次运行 mvn mybatis-generator:generate mapper.xml 会进行追加操作 -->
+        <table tableName="%">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+
+        <!--mysql 配置-->
+        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--oracle 配置-->
+        <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
+        <!--</table>-->
+
+        <!--mvn mybatis-generator:generate-->
+        <!--<table tableName="message_base" domainObjectName="MessageBase" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="message_user" domainObjectName="MessageUser" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+
+    </context>
+</generatorConfiguration>
