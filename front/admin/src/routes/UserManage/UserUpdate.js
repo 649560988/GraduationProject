@@ -167,6 +167,7 @@ class UserUpdate extends React.Component {
      */
     create = (fieldsValue) => {
         fieldsValue.password = '012345678'
+        console.log(fieldsValue)
         request('/v1/sysuser', {
             method: 'POST',
             // credentials: 'omit',

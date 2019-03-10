@@ -60,8 +60,10 @@
 				and su.is_del=0
 				and sr.is_del=0
     </select>
-
-
+  <insert id="insertByRegister">
+      INSERT INTO sys_user(user_name,real_name,is_del,`password`,telephone)
+      values (#{user_name},#{real_name},#{is_del},#{password},#{telephone})
+  </insert>
     <select id="selectIdByUserName" parameterType="java.lang.String" resultType="java.lang.Long">
        select id from sys_user where user_name=#{userName}
     </select>

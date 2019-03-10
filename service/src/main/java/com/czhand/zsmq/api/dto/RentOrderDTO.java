@@ -2,6 +2,7 @@ package com.czhand.zsmq.api.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
@@ -17,6 +18,7 @@ public class RentOrderDTO {
      * 创建时间
      */
     @ApiModelProperty("创建时间")
+    @CreatedDate
     private Date createdTime;
 
     /**

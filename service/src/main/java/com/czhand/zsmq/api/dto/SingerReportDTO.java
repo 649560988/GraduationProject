@@ -2,6 +2,8 @@ package com.czhand.zsmq.api.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 
@@ -71,12 +73,14 @@ public class SingerReportDTO {
      * 创建时间
      */
     @ApiModelProperty("创建时间")
+    @CreatedDate
     private Date createdTime;
 
     /**
      * 更新时间
      */
     @ApiModelProperty("更新时间")
+    @LastModifiedDate
     private Date updatedTime;
 
     private static final long serialVersionUID = 1L;
@@ -98,7 +102,6 @@ public class SingerReportDTO {
     public void setId(Long id) {
         this.id = id;
     }
-
     /**
      * 获取举报人id
      *

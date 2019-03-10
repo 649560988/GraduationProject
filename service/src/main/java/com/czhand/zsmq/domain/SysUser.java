@@ -2,6 +2,8 @@ package com.czhand.zsmq.domain;
 
 import com.czhand.zsmq.api.dto.ent.EntBaseDTO;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -60,6 +62,7 @@ public class SysUser implements Serializable {
      * 创建时间 创建时间
      */
     @Column(name = "creation_date")
+    @CreatedDate
     private Date creationDate;
 
     /**
@@ -72,6 +75,7 @@ public class SysUser implements Serializable {
      * 更新时间 更新时间
      */
     @Column(name = "update_date")
+    @LastModifiedDate
     private Date updateDate;
 
     private static final long serialVersionUID = 1L;

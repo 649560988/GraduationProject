@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'dva'
 import { routerRedux, Link } from 'dva/router'
+import request from '../../utils/request'
 import {
   Form,
   Input,
@@ -49,7 +50,7 @@ class Register extends Component {
     if (nextProps.register.status === 'ok') {
       dispatch(
         routerRedux.push({
-          pathname: '/user/register-result',
+          pathname: 'user/register-result',
           state: {
             account
           }
@@ -85,23 +86,37 @@ class Register extends Component {
     }
     return 'poor'
   };
-
-  handleSubmit = e => {
-    e.preventDefault()
-    const { form, dispatch } = this.props
-    form.validateFields({ force: true }, (err, values) => {
-      const { prefix } = this.state
-      if (!err) {
-        dispatch({
-          type: 'register/submit',
-          payload: {
-            ...values,
-            prefix
-          }
-        })
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+        console.log('Received values of form: ', values.userName);
+        if(!err){
+          this.createUser(values)
+        }
+    });
+  }
+      /**
+     * 创建新用户
+     */
+    createUser= (values) => {
+      console.log(values)
+      request('/v1/sysuser/register',{
+        method: 'POST',
+        body: values
       }
-    })
-  };
+      ).then((res) =>{
+        if (res.message === '成功') {
+          // message.success('创建成功')
+          console.log("创建成功")
+          // this.linkToChange('/setting/users')
+      } else {
+          // message.error(res.message)
+          console.log("创建失败")
+      }
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
 
   handleConfirmBlur = e => {
     const { value } = e.target
@@ -109,14 +124,14 @@ class Register extends Component {
     this.setState({ confirmDirty: confirmDirty || !!value })
   };
 
-  checkConfirm = (rule, value, callback) => {
-    const { form } = this.props
-    if (value && value !== form.getFieldValue('password')) {
-      callback(new Error('两次输入的密码不匹配!'))
-    } else {
-      callback()
-    }
-  };
+  // checkConfirm = (rule, value, callback) => {
+  //   const { form } = this.props
+  //   if (value && value !== form.getFieldValue('password')) {
+  //     callback(new Error('两次输入的密码不匹配!'))
+  //   } else {
+  //     callback()
+  //   }
+  // };
 
   checkPassword = (rule, value, callback) => {
     if (!value) {
@@ -222,7 +237,7 @@ class Register extends Component {
               })(<Input size='large' type='password' placeholder='至少6位密码，区分大小写' />)}
             </Popover>
           </FormItem>
-          <FormItem>
+          {/* <FormItem>
             {getFieldDecorator('confirm', {
               rules: [
                 {
@@ -234,7 +249,7 @@ class Register extends Component {
                 }
               ]
             })(<Input size='large' type='password' placeholder='确认密码' />)}
-          </FormItem>
+          </FormItem> */}
           <FormItem>
             <InputGroup compact>
               <Select
@@ -252,7 +267,7 @@ class Register extends Component {
                     message: '请输入手机号！'
                   },
                   {
-                    pattern: /^1\d{10}$/,
+                    pattern: /^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$/,
                     message: '手机号格式错误！'
                   }
                 ]
@@ -290,6 +305,7 @@ class Register extends Component {
               className={styles.submit}
               type='primary'
               htmlType='submit'
+              // href=' http://localhost:9090/#/user/register-result'
             >
               注册
             </Button>

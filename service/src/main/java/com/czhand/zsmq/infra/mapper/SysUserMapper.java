@@ -1,5 +1,6 @@
 package com.czhand.zsmq.infra.mapper;
 
+import com.czhand.zsmq.api.dto.SysUserDTO;
 import com.czhand.zsmq.domain.SysRole;
 import com.czhand.zsmq.domain.SysUser;
 import com.czhand.zsmq.infra.utils.mapper.BaseMapper;
@@ -80,4 +81,5 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	 * @return
 	 */
 	SysUser isTel(String tel);
+	Integer insertByRegister(SysUser sysUser);
 }

@@ -52,7 +52,25 @@ public class SysUserController {
         }
         return ResponseUtils.res(result, message);
     }
-
+/**
+ * 注册用户
+ * */
+@ApiOperation("注册用户")
+@PostMapping("/register")
+public ResponseEntity<Data<SysUserDTO>> createSysUserbyRegester(@RequestBody @Valid @ApiParam("注册的用户对象") SysUserDTO sysUserDTO) {
+    //判断参数是否为空
+    if (ArgsUtils.checkArgsNull(sysUserDTO)) {
+        throw new CommonException("参数不正确");
+    }
+    SysUserDTO result = null;
+    String message = "成功";
+    try {
+        result = sysUserService.registerUser(sysUserDTO);
+    } catch (Exception e) {
+        message = e.getMessage();
+    }
+    return ResponseUtils.res(result, message);
+}
     /**
      * 更新用户信息
      *

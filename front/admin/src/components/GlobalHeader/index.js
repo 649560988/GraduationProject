@@ -8,6 +8,7 @@ import styles from './index.less'
 import styled from 'styled-components'
 import { setCookie } from '../../utils/cookie'
 import { connect } from 'dva'
+import { request } from 'http';
 
 const AvatarCard = styled.div`
   display: flex;
@@ -29,6 +30,12 @@ export default @connect(({ locale }) => ({
   locale
 }))
 class GlobalHeader extends PureComponent {
+  constructor(props){
+    super(props);
+    this.state={
+      cuttentItem: '首页'
+    }
+  }
   state = {
     drawerVisible: false
   }
@@ -103,6 +110,12 @@ class GlobalHeader extends PureComponent {
     })
     this.props.onMenuClick(...args)
   }
+  handClick=(e)=>{
+    console.log("click",e)
+    this.setState({
+      cuttentItem:e.key
+    })
+  }
 
   render() {
     const {
@@ -119,10 +132,10 @@ class GlobalHeader extends PureComponent {
 
     const noticeData = this.getNoticeData();
     return (
-      <div className={styles.header}>
+      <div className={styles.header}  >
         {isMobile && [
           <Link to="/" className={styles.logo} key="logo">
-            <img src={logo} alt="logo" width="32" />
+            <img src={logo} alt="logo" width="20" />
           </Link>,
           <Divider type="vertical" key="line" />,
         ]}
@@ -132,7 +145,7 @@ class GlobalHeader extends PureComponent {
           onClick={this.toggle}
         />
         <div className={styles.right}>
-          {/* <Dropdown
+          <Dropdown
             placement="bottomRight"
             overlay={
               <Menu
@@ -155,7 +168,7 @@ class GlobalHeader extends PureComponent {
                 </span>
               </Button>
             </span>
-          </Dropdown> */}
+          </Dropdown>
           <React.Fragment>
             <span
               className={`${styles.action} ${styles.account}`}
@@ -214,9 +227,33 @@ class GlobalHeader extends PureComponent {
               </div>
             </Drawer>
           </React.Fragment>
-
-
         </div>
+        <div
+        className={styles.right} >
+      <Menu  onClick={this.handClick} selectedKeys={[this.state.cuttentItem]} mode='horizontal' >
+       <Menu.Item>
+    <a href= " http://localhost:9090/#/home">首页</a>
+      </Menu.Item>
+      <Menu.Item>
+       <a href= " http://localhost:9090/#/building">新房</a>
+      </Menu.Item>
+      <Menu.Item>
+  <a href="">二手房</a>
+      </Menu.Item>
+      <Menu.Item>
+  <a href="">租房</a>
+     </Menu.Item>
+     <Menu.Item>
+ <a href="">写字楼</a>
+     </Menu.Item>
+     <Menu.Item>
+    <a href="">楼讯</a>
+     </Menu.Item>
+     <Menu.Item>
+  <a href="">问答</a>
+     </Menu.Item>
+         </Menu> 
+     </div>
       </div>
     );
   }

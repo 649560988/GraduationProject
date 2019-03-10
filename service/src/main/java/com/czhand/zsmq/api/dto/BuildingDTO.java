@@ -1,11 +1,16 @@
 package com.czhand.zsmq.api.dto;
 
+import com.czhand.zsmq.domain.Picture;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @ApiModel("楼盘消息")
 public class BuildingDTO implements  Serializable{
@@ -104,20 +109,55 @@ public class BuildingDTO implements  Serializable{
          */
         @ApiModelProperty("车位数")
         private Integer parkingNumber;
+        /**
+         * 描述
+         */
+        @ApiModelProperty("描述")
+        private String description;
+
+        public String getDescription() {
+                return description;
+        }
+
+        public void setDescription(String description) {
+                this.description = description;
+        }
 
         /**
          * 创建时间
          */
         @ApiModelProperty("创建时间")
+        @CreatedDate
         private Date createdTime;
 
         /**
          * 更新时间
          */
         @ApiModelProperty("更新时间")
+        @LastModifiedDate
         private Date updatedTime;
+        /**
+         * 图片路劲
+         *
+         * @return CREATED_TIME - 创建时间
+         */
+        @ApiModelProperty("图片")
+
+        private List<Picture> srcs;
+
 
         private static final long serialVersionUID = 1L;
+
+        public List<Picture> getSrcs() {
+                return srcs;
+        }
+
+        public void setSrcs(List<Picture> srcs) {
+                this.srcs = srcs;
+        }
+
+
+
 
         /**
          * 获取主键id
@@ -415,7 +455,11 @@ public class BuildingDTO implements  Serializable{
         public Date getCreatedTime() {
             return createdTime;
         }
-
+        /**
+         * 图片路劲
+         *
+         * @return CREATED_TIME - 创建时间
+         */
         /**
          * 设置创建时间
          *

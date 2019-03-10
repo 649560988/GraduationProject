@@ -62,18 +62,46 @@ public class SysUserServiceImpl implements SysUserService {
     /**
      * 注册用户
      *
-     * @param sysUser 用户信息
+     * @param SysUserDTO 用户信息
      * @return 成功为0，失败为1
      * @throws CommonException
      */
     @Override
-    public SysUser registerUser(SysUser sysUser) {
-        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
-        int result = userMapper.insert(sysUser);
-        if (result != 1) {
-            throw new CommonException("注册用户失败");
+    public SysUserDTO registerUser(SysUserDTO sysUserDTO) {
+        SysUser sysUser = ConvertHelper.convert(sysUserDTO, SysUser.class);
+        //验证登录名是否唯一
+        SysUser sUser = userMapper.isUserName(sysUser.getUserName());
+        if (sUser != null) {
+            throw new CommonException("该用户已经存在");
         }
-        return userMapper.selectByPrimaryKey(sysUser.getId());
+
+        //验证电话号码是否唯一
+        SysUser sUser2 = userMapper.isTel(sysUser.getTelephone());
+        if (sUser2 != null) {
+            throw new CommonException("该电话号码已经存在");
+        }
+
+        //加密密码
+        String newPwd = passwordEncoder.encode(sysUser.getPassword());
+        sysUser.setPassword(newPwd);
+        sysUser.setVersion(1L);
+        sysUser.setCreationBy(getUserId());
+        sysUser.setUpdateBy(getUserId());
+        sysUser.setCreationDate(new Date());
+        sysUser.setUpdateDate(new Date());
+        int result = userMapper.insert(sysUser);
+        Long Id=sysUser.getId();
+//        Long Id=building.getId();
+//        if(result!=1){
+//            throw new CommonException("插入失败");
+//        }
+//        return ConvertHelper.convert(buildingMapper.selectByPrimaryKey(Id),BuildingDTO.class);
+        if (result != 1) {
+            throw new CommonException("创建用户失败");
+        }
+//        SysUserDTO sysUserDTOResult = ConvertHelper.convert(userMapper.selectByPrimaryKey(sysUser.getId()), SysUserDTO.class);
+//        return ConvertHelper.convert(sysUserDTOResult, SysUserDTO.class);
+        return ConvertHelper.convert(userMapper.selectByPrimaryKey(Id),SysUserDTO.class);
     }
 
     /**
@@ -118,7 +146,6 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserDTOResult.setSysRoles(ConvertHelper.convertList(roleList, SysRoleDTO.class));
         return ConvertHelper.convert(sysUserDTOResult, SysUserDTO.class);
     }
-
     /**
      * 更新用户
      *

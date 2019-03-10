@@ -82,6 +82,12 @@ export const getRouterData = app => {
     '/home': {
       component: dynamicWrapper(app, [], () => import('../routes/Dashboard/Myhome'))
     },
+    '/building': {
+      component: dynamicWrapper(app,[],() => import('../routes/Building/Building'))
+    },
+    '/building-create':{
+      component:dynamicWrapper(app,[],() => import('../routes/Building/BuildingCreate'))
+    },
     '/base-info-defend/external-consultant-resume/:resumeId': {
       component: dynamicWrapper(app, ['list', 'user'], () => import('../routes/ExternalConsultant/ResumeAdmin.js'))
     },

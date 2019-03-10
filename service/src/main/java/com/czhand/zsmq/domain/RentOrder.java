@@ -1,5 +1,7 @@
 package com.czhand.zsmq.domain;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
@@ -17,6 +19,7 @@ public class RentOrder implements Serializable {
      * 创建时间
      */
     @Column(name = "CREATED_TIME")
+    @CreatedDate
     private Date createdTime;
 
     /**

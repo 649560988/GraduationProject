@@ -1,5 +1,8 @@
 package com.czhand.zsmq.domain;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
@@ -33,12 +36,14 @@ public class Comment implements Serializable {
      * 创建时间
      */
     @Column(name = "CREATED_TIME")
+    @CreatedDate
     private Date createdTime;
 
     /**
      * 更新时间
      */
     @Column(name = "UPDATED_TIME")
+    @LastModifiedDate
     private Date updatedTime;
 
     /**

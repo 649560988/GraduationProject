@@ -269,12 +269,13 @@ export default class SiderMenu extends PureComponent {
         </div>
         <Menu
           key='Menu'
-          theme='dark'
+          theme='light'
           mode='inline'
           {...menuProps}
           onOpenChange={this.handleOpenChange}
           selectedKeys={selectedKeys}
           style={{ padding: '16px 0', width: '100%' }}
+          // style={{width: 256}}
         >
           {this.getNavMenuItems(menuData)}
         </Menu>

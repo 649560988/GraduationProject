@@ -7,7 +7,6 @@
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   position: relative;
 }
-
 .logo {
   height: 48px;
   line-height: 42px;
@@ -61,8 +60,44 @@ i.trigger {
   &:hover {
     background: @primary-1;
   }
+ 
 }
 
+.myleft{
+  float: left;
+  height: 100%;
+  .action {
+    cursor: pointer;
+    padding: 0 12px;
+    display: inline-block;
+    transition: all 0.3s;
+    height: 100%;
+    > i {
+      font-size: 16px;
+      vertical-align: middle;
+      color: @text-color;
+    }
+    &:hover,
+    &:global(.ant-popover-open) {
+      // background: @primary-1;
+    }
+    .search {
+      padding: 0;
+      margin: 0 12px;
+      &:hover {
+        background: transparent;
+      }
+    }
+    .account {
+      .avatar {
+        margin: 12px 8px 12px 0;
+        color: @primary-color;
+        background: rgba(233, 233, 233, 0.85);
+        vertical-align: middle;
+      }
+    }
+}
+}
 .right {
   float: right;
   height: 100%;

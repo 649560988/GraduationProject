@@ -22,7 +22,7 @@ public interface SysUserService {
 	 * @return 成功为0，失败为1
 	 * @throws CommonException
 	 */
-	SysUser registerUser(SysUser sysUser);
+    SysUserDTO registerUser(SysUserDTO sysUserDT);
 
 
     /**
@@ -33,6 +33,13 @@ public interface SysUserService {
      * @throws CommonException
      */
     SysUserDTO createSysUser(SysUserDTO sysUserDTO) throws CommonException;
+
+
+
+
+
+
+
 
     /**
      * 更新用户

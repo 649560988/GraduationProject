@@ -1,9 +1,12 @@
 package com.czhand.zsmq.domain;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
-
 public class Picture implements Serializable {
     /**
      * 主键id
@@ -27,12 +30,14 @@ public class Picture implements Serializable {
      * 创建时间
      */
     @Column(name = "CREATE_TIME")
+    @CreatedDate
     private Date createTime;
 
     /**
      * 更新时间
      */
     @Column(name = "UPDATED_TIME")
+    @LastModifiedDate
     private Date updatedTime;
 
     /**

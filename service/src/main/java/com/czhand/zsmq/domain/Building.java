@@ -1,8 +1,12 @@
 package com.czhand.zsmq.domain;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 public class Building implements Serializable {
@@ -58,6 +62,20 @@ public class Building implements Serializable {
     private Date deliveryTime;
 
     /**
+     * 描述
+     * */
+    @Column(name = "description")
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * 楼盘户型
      */
     @Column(name = "house_style")
@@ -101,13 +119,31 @@ public class Building implements Serializable {
      * 创建时间
      */
     @Column(name = "CREATED_TIME")
+    @CreatedDate
     private Date createdTime;
 
     /**
      * 更新时间
      */
     @Column(name = "UPDATED_TIME")
+    @LastModifiedDate
     private Date updatedTime;
+
+    /**
+     * 图片路劲
+     *
+     * @return CREATED_TIME - 创建时间
+     */
+    @Transient
+    private List<Picture> srcs;
+
+    public List<Picture> getSrcs() {
+        return srcs;
+    }
+
+    public void setSrcs(List<Picture> srcs) {
+        this.srcs = srcs;
+    }
 
     private static final long serialVersionUID = 1L;
 

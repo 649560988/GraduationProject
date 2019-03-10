@@ -3,8 +3,9 @@ import { connect } from 'dva'
 import { Link } from 'dva/router'
 import {
   Checkbox,
-  Alert
+  Alert,
   // Icon
+  Divider 
 } from 'antd'
 import Login from 'components/Login'
 import styles from './Login.less'
@@ -92,8 +93,10 @@ class LoginPage extends Component {
               自动登录
             </Checkbox>
             <Link className={styles.register} to='/user/register'>
+            <Divider type="vertical" />
               注册账户
             </Link>
+            <Divider type="vertical" />
             <a style={{ float: 'right' }} href=''>
               忘记密码
             </a>

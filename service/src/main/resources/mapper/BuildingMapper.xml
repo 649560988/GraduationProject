@@ -23,5 +23,26 @@
     <result column="parking_number" jdbcType="INTEGER" property="parkingNumber" />
     <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <collection property="srcs" ofType="com.czhand.zsmq.domain.Picture">
+      <result column="id" property="id"></result>
+      <result column="src" property="src"/>
+    </collection>
   </resultMap>
+
+  <select id="selectOneAndPicture" resultMap="BaseResultMap" >
+    select b.*, p.*
+    from building b ,picture p
+    where b.id=#{id} and p.type='1' and  p.belong_id= b.id
+  </select>
+  <select id="queryAllBuilding" resultMap="BaseResultMap">
+    select b.*, p.*
+    from building b ,picture p
+    where p.type='1' and  p.belong_id= b.id
+  </select>
+  <select id="queryAllBuildingByArea" resultMap="BaseResultMap">
+        select b.*, p.*
+    from building b ,picture p
+    where b.province=#{arg0} and b.city=#{arg1} and b.area=#{arg2} and p.type='1' and  p.belong_id= b.id
+  </select>
 </mapper>

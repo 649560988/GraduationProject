@@ -8,12 +8,12 @@ import com.czhand.zsmq.infra.utils.web.ResponseUtils;
 import com.czhand.zsmq.infra.utils.web.dto.Data;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @autor wyw
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BuildingController {
     @Autowired
     private BuildingServices buildingServices;
+
 /**
  * 查询单条信息
  * return BuildingDTO
@@ -38,10 +39,45 @@ public class BuildingController {
         BuildingDTO buildingDTO=new BuildingDTO();
         String message="查询成功";
         try{
-            buildingDTO=buildingServices.queryOne(id);
+            buildingDTO=buildingServices.selectOneAndPicture(id);
         }catch (Exception e){
             e.printStackTrace();
         }
         return ResponseUtils.res(buildingDTO,message);
+ }
+ /**
+  * 根据地址查询
+  * */
+ @ApiOperation("根据地址查询楼盘信息")
+ @GetMapping("/selectBy/{province}/{city}/{area}")
+ public  ResponseEntity<Data<List<BuildingDTO>>> queryAllBuildingByArea(@PathVariable("province")  String province,
+                                                                        @PathVariable("city") String city,
+                                                                        @PathVariable("area")String area)
+ {
+     String message="查询成功";
+     List<BuildingDTO> list=buildingServices.queryAllBuildingByArea(province,city,area);
+     return ResponseUtils.res(list,message);
+ }
+ /**
+  *查询所有楼盘信息
+  * */
+ @ApiOperation("查询所有楼盘信息")
+    @GetMapping("/selectAll")
+    public ResponseEntity<Data<List<BuildingDTO>>> queryAllBuilding(){
+//     BuildingDTO buildingDTO=new BuildingDTO();
+     String message="查询成功";
+     List<BuildingDTO> list=buildingServices.queryAllBuilding();
+     return ResponseUtils.res(list,message);
+ }
+ /**
+  * 添加楼盘信息
+  * */
+ @ApiOperation("添加楼盘信息")
+    @PostMapping("/createBuilding")
+    public ResponseEntity<Data<BuildingDTO>> createBuilding(@RequestBody BuildingDTO buildingDTO){
+     String message="添加成功";
+     buildingDTO=buildingServices.createBuilding(buildingDTO);
+     return ResponseUtils.res(buildingDTO,message);
+ }
 }
-}
+
