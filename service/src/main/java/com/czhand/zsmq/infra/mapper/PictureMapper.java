@@ -8,5 +8,4 @@ import java.util.List;
 
 @Component
 public interface PictureMapper extends BaseMapper<Picture> {
-    List<Picture> insertPictures(List<Picture> pictures);
 }

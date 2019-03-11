@@ -10,5 +10,5 @@ import java.util.List;
  * @data 2019/3/7 16:17
  */
 public interface PictureServices {
-    List<PictureDTO> insertPictures(List<String> srcs)throws CommonException;
+    PictureDTO insertPicture(String fileName,Long id,Integer type)throws CommonException;
 }

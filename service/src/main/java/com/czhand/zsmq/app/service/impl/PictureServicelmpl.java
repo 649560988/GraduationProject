@@ -21,16 +21,15 @@ public class PictureServicelmpl implements PictureServices {
     @Autowired
     PictureMapper pictureMapper;
     @Override
-    public List<PictureDTO> insertPictures(List<String> srcs) throws CommonException {
-        List<Picture> list =new ArrayList<>();
-        for(int i=0;i<srcs.size();i++){
-            Picture picture=new Picture();
-            picture.setBelongId(1);
-            picture.setType(1);
-            picture.setSrc(srcs.get(i));
-            list.add(picture);
+    public PictureDTO insertPicture(String fileName,Long id,Integer type) throws CommonException {
+        Picture picture=new Picture();
+        picture.setSrc(fileName);
+        picture.setBelongId(id);
+        picture.setType(type);
+        int result=pictureMapper.insert(picture);
+        if(result!=1){
+            throw new CommonException("插入失败");
         }
-        pictureMapper.insertPictures(list);
-        return ConvertHelper.convertList(list,PictureDTO.class);
+        return ConvertHelper.convert(picture,PictureDTO.class);
     }
 }

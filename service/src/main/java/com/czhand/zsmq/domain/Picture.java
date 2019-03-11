@@ -24,7 +24,7 @@ public class Picture implements Serializable {
      * 所属id 楼盘或出租屋id
      */
     @Column(name = "belong_id")
-    private Integer belongId;
+    private Long belongId;
 
     /**
      * 创建时间
@@ -88,7 +88,7 @@ public class Picture implements Serializable {
      *
      * @return belong_id - 所属id 楼盘或出租屋id
      */
-    public Integer getBelongId() {
+    public Long getBelongId() {
         return belongId;
     }
 
@@ -97,7 +97,7 @@ public class Picture implements Serializable {
      *
      * @param belongId 所属id 楼盘或出租屋id
      */
-    public void setBelongId(Integer belongId) {
+    public void setBelongId(Long belongId) {
         this.belongId = belongId;
     }
 

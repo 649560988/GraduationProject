@@ -9,10 +9,11 @@ import {
   Button,
   Checkbox,
   Upload,
-  Modal
+  Modal,
+  DatePicker,
+  message
 } from 'antd';
 import request from '../../utils/request'
-import PictureWall from '../PictureWall/PictureWall'
 class BuildingCreate extends Component {
   constructor(props) {
     super(props)
@@ -20,20 +21,54 @@ class BuildingCreate extends Component {
       previewVisible: false,
       previewImage: '',
       fileList: [],
-      authorization: ''
+      authorization: '',
+      Uid: '',
+      type:1
     }
     this.getAuthorization().then((result)=>{
       this.setState({authorization:result})
     }) 
   }
+  componentWillMount() {
+    this.getPersonalInfoById()
+}
+  getPersonalInfoById = () => {
+    request('/v1/sysUserDomin/getAuth', {
+        method: 'GET',
+        // credentials: 'omit'
+    }).then((res) => {
+        // console.log(res)
+        if (res.message === '成功') {
+          this.setState({
+            Uid:res.data.id
+          })
+        } else {
+            message.error('获取当前登录人信息失败');
+        }
+    }).catch((err) => {
+        console.log(err)
+    })
+}
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        // const values={
+        //   ...fieldsValue,
+        //   'openingTime':fieldsValue['date-picker'].format('YYYY-MM-DD'),
+        // }
         console.log('Received values of form: ', values);
         this.createBuilding(values)
+        this.postUserID(this.state.Uid)
+
       }
     });
+  }
+  postUserID=(id) =>{
+    request(`/v1/wyw/picture/getUserID/${id}`,{
+      method: 'GET'
+    })
   }
   getAuthorization = async function  () {
     try {
@@ -84,30 +119,6 @@ class BuildingCreate extends Component {
       previewImage: file.url || file.thumbUrl,
     });
   }
-//   createPicture = (value) => {
-//     // const formData = new FormData();
-//     // console.log(value)
-//     value.forEach(file => {
-//         // formData.append('files',element)
-//         // console.log(element)
-//         request('/v1/wyw/picture/insertPictures', {
-//           method: 'POST',
-//           body: {file:file}
-//         }).then((res) => {
-//           if (res.message === '创建成功') {
-//             // message.success('创建成功')
-//             console.log("创建成功")
-//             // this.linkToChange('/setting/users')
-//           } else {
-//             // message.error(res.message)
-//             console.log("创建失败")
-//           }
-//         }).catch((err) => {
-//           console.log(err)
-//         })
-      
-//     });
-// }
 createBuilding = (values) => {
   console.log('data:', values)
   request('/v1/wyw/building/createBuilding', {
@@ -144,7 +155,7 @@ onRemove=(file) =>{
   //  )
   console.log("删除的文件",file)
 }
-beforeUpload(file) {
+// beforeUpload(file) {
   // const isJPG = file.type === 'image/jpeg';
   // if (!isJPG) {
   //   message.error('You can only upload JPG file!');
@@ -154,15 +165,35 @@ beforeUpload(file) {
   //   message.error('Image must smaller than 2MB!');
   // }
   // return isJPG && isLt2M;
-  var fileArr = [];
+  // var fileArr = [];
   //获取新的上传列表
-        fileArr.push(file);
+        // fileArr.push(file);
   //进行赋值保存
       //  this.setState(preState => ({
       //    fileList:fileArr,
       //    uploadPath:''
       //  }))
-}
+//       let fileType = file.type;
+//       let fileName = file.name;
+//       //判断是否支持该文件格式
+//       let isInvalidFileType = !fileType || fileType.length < 1;
+//       if (isInvalidFileType) {
+//           message.error('抱歉，不支持上传该格式的文件！');
+//           return !isInvalidFileType;
+//       }
+
+//       let availFileSuffix = ['.png', '.PNG', '.jpg', '.JPG'];
+//       let fileSuffixName = fileName.substring(file.name.lastIndexOf('.'));
+//       let isAvailableSuffix = availFileSuffix.includes(fileSuffixName);
+//       console.log('fileSuffixName',fileSuffixName)
+//       console.log('isAvailableSuffix',isAvailableSuffix)
+//       console.log('fileType',fileType)
+//       console.log('fileName',fileName)
+//       if (!isAvailableSuffix) {
+//           let msg = '抱歉，只支持上传【' + availFileSuffix.join(' || ') + '】格式的文件！';
+//           message.error(msg);
+//           return isAvailableSuffix;
+// }
 // updateChange = (info) => {      
 //   if (info.file.status === 'done') {
 // //上传成功后将后台返回来的文件地址进行获取--info.file.response
@@ -179,6 +210,28 @@ beforeUpload(file) {
 //   }
 // }
 render() {
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 8 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 8 },
+    },
+  };
+  const tailFormItemLayout = {
+    wrapperCol: {
+      xs: {
+        span: 24,
+        offset: 0,
+      },
+      sm: {
+        span: 16,
+        offset: 8,
+      },
+    },
+  };
     const {
       previewVisible,
       previewImage,
@@ -193,10 +246,11 @@ render() {
     const {
       getFieldDecorator
     } = this.props.form;
+   
     return ( 
-      <Fragment >
-      <Form onSubmit = {this.handleSubmit.bind(this)} >
-      <Form.Item  label = {'楼盘名称'} > 
+      <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+      <Form  onSubmit = {this.handleSubmit.bind(this)} >
+      <Form.Item  {...formItemLayout} label = {'楼盘名称'} > 
       {getFieldDecorator('name', {
           rules: [{
             required: true,
@@ -207,25 +261,123 @@ render() {
            placeholder="请输入楼盘名称" />
           )
         } 
-        </Form.Item> <Form.Item  > 
+        </Form.Item> <Form.Item label = {'联系方式'} {...formItemLayout}  > 
         {getFieldDecorator('telephone', {
             rules: [{
               required: true,
-              message: 'Please input your telephone!'
+              message: '请输入联系方式'
             }],
-          })( <Input prefix = {< Icon type = "lock"style = {{color: 'rgba(0,0,0,.25)'}}
-/>}  placeholder="telephone" />
+          })( <Input  prefix = {< Icon type = "lock" style = {{color: 'rgba(0,0,0,.25)'}}/>} 
+           placeholder="telephone" />
             )
-          } </Form.Item> 
-          <Form.Item > {
-            getFieldDecorator('file', {
+          } 
+          </Form.Item>
+          <Form.Item label = {'预计价格'} {...formItemLayout}  >
+            {getFieldDecorator('estimate_price',{
+                rules: [{
+                  required: true,
+                  message: '预计价格'
+                }]
+            })(
+              <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+              placeholder="请输入预计价格" />
+            )}
+          </Form.Item>
+          <Form.Item label = {'开盘时间'} {...formItemLayout} >
+            {getFieldDecorator('openingTime',{
+                rules: [{
+                  required: true,
+                  message: '开盘时间'
+                }]
+            })(
+              <DatePicker />
+            )}
+          </Form.Item>
+          <Form.Item label = {'交房时间'} {...formItemLayout} >
+          {getFieldDecorator('deliveryTime',{
+                rules: [{
+                  required: true,
+                  message: '交房时间'
+                }]
+            })(
+              <DatePicker />
+            )}
+          </Form.Item> 
+          <Form.Item label = {'楼盘户型'} {...formItemLayout} >
+          {getFieldDecorator('houseStyle',{
+                rules: [{
+                  required: true,
+                  message: '楼盘户型'
+                }]
+            })(
+              <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+              placeholder="请输入预计价格" />
+            )}
+          </Form.Item> 
+          <Form.Item label = {'开发商'} {...formItemLayout} >
+          {getFieldDecorator('developer',{
+                rules: [{
+                  required: true,
+                  message: '开发商'
+                }]
+            })(
+              <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+              placeholder="请输入预计价格" />
+            )}
+          </Form.Item> 
+          <Form.Item label = {'楼层状况'} {...formItemLayout} >
+          {getFieldDecorator('floorNumber',{
+                rules: [{
+                  required: true,
+                  message: '楼层状况'
+                }]
+            })(
+              <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+              placeholder="请输入预计价格" />
+            )}
+          </Form.Item> 
+          <Form.Item label = {'物业管理费'} {...formItemLayout} >
+          {getFieldDecorator('anagement_price',{
+                rules: [{
+                  required: true,
+                  message: '物业管理费'
+                }]
+            })(
+              <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+              placeholder="请输入预计价格" />
+            )}
+          </Form.Item>
+          <Form.Item label = {'物业公司'} {...formItemLayout} >
+          {getFieldDecorator('anagementCompany',{
+                rules: [{
+                  required: true,
+                  message: '物业公司'
+                }]
+            })(
+              <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+              placeholder="请输入预计价格" />
+            )}
+          </Form.Item>
+          <Form.Item label = {'车位数'} {...formItemLayout} >
+          {getFieldDecorator('parkingNumber',{
+                rules: [{
+                  required: true,
+                  message: '车位数'
+                }]
+            })(
+              <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+              placeholder="请输入预计价格" />
+            )}
+          </Form.Item>
+          <Form.Item  {...formItemLayout} > 
+          {getFieldDecorator('file', {
               rules: [{
                 required: true,
                 message: '请上传图片'
               }],
             })( <div className = "clearfix" >
-              <Upload 
-              action="http://localhost:8080/v1/wyw/picture/insertPictures"
+              <Upload  
+              action={`http://localhost:8080/v1/wyw/picture/insertPictures/${this.state.Uid}/${this.state.type}`}
               headers = {
                 {
                   Authorization: this.state.authorization
@@ -236,6 +388,7 @@ render() {
                 fileList
               }
               beforeUpload={this.beforeUpload}
+
               onRemove={this.onRemove}
               onPreview = {
                 this.handlePreview
@@ -270,7 +423,7 @@ render() {
             )
           } 
           </Form.Item> 
-           <Form.Item >
+           <Form.Item {...tailFormItemLayout}>
           <Button type = "primary"
           htmlType = "submit" >
           Log in
@@ -278,8 +431,7 @@ render() {
           
           </Form.Item> 
           </Form> 
-
-    </Fragment>
+          </div>
         )
       }
     }

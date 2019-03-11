@@ -1,11 +1,13 @@
 package com.czhand.zsmq.api.dto;
 
+import com.czhand.zsmq.domain.Picture;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
+import java.util.List;
 
 @ApiModel("出租屋")
 public class RentHouseDTO {
@@ -160,6 +162,22 @@ public class RentHouseDTO {
      */
     @ApiModelProperty("是否出租 ")
     private Integer isRent;
+    /**
+     * 图片路劲
+     *
+     * @return CREATED_TIME - 创建时间
+     */
+    @ApiModelProperty("图片")
+
+    private List<Picture> srcs;
+
+    public List<Picture> getSrcs() {
+        return srcs;
+    }
+
+    public void setSrcs(List<Picture> srcs) {
+        this.srcs = srcs;
+    }
 
     private static final long serialVersionUID = 1L;
 

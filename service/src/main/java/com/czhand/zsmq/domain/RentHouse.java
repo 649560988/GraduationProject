@@ -5,6 +5,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "rent_house")
@@ -142,6 +143,22 @@ public class RentHouse implements Serializable {
     @Column(name = "is_rent")
     private Integer isRent;
 
+    public List<Picture> getSrcs() {
+        return srcs;
+    }
+
+    public void setSrcs(List<Picture> srcs) {
+        this.srcs = srcs;
+    }
+
+    /**
+     * 图片路jin
+
+     *
+     * @return CREATED_TIME - 创建时间
+     */
+    @Transient
+    private List<Picture> srcs;
     private static final long serialVersionUID = 1L;
 
     /**

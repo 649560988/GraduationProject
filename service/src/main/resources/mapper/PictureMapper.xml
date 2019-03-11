@@ -12,10 +12,10 @@
     <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
     <result column="src" jdbcType="VARCHAR" property="src" />
   </resultMap>
-  <insert id="insertPictures" parameterType="java.util.List">
-    insert into picture(type,belong_id,src) values
-    <foreach collection="list" index="item" separator="," close=";">
-      (#{item.type},#{item.belong_id},item.src)
-    </foreach>
-  </insert>
+  <!--<insert id="insertPictures" parameterType="java.util.List">-->
+    <!--insert into picture(type,belong_id,src) values-->
+    <!--<foreach collection="list" index="item" separator="," close=";">-->
+      <!--(#{item.type},#{item.belong_id},item.src)-->
+    <!--</foreach>-->
+  <!--</insert>-->
 </mapper>
