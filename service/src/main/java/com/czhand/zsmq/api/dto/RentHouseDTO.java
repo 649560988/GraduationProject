@@ -133,16 +133,7 @@ public class RentHouseDTO {
     /**
      * 描述
      */
-    @ApiModelProperty("描述")
-    private String description;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
     /**
      * 创建时间
      */

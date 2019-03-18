@@ -39,7 +39,7 @@ public class BuildingController {
         BuildingDTO buildingDTO=new BuildingDTO();
         String message="查询成功";
         try{
-            buildingDTO=buildingServices.selectOneAndPicture(id);
+               buildingDTO=buildingServices.selectOneAndPicture(id);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -73,10 +73,10 @@ public class BuildingController {
   * 添加楼盘信息
   * */
  @ApiOperation("添加楼盘信息")
-    @PostMapping("/createBuilding")
-    public ResponseEntity<Data<BuildingDTO>> createBuilding(@RequestBody BuildingDTO buildingDTO){
+    @PostMapping("/createBuilding/{Uid}")
+    public ResponseEntity<Data<BuildingDTO>> createBuilding(@RequestBody BuildingDTO buildingDTO,@PathVariable("Uid") Long Uid){
      String message="添加成功";
-     buildingDTO=buildingServices.createBuilding(buildingDTO);
+     buildingDTO=buildingServices.createBuilding( buildingDTO,Uid);
      return ResponseUtils.res(buildingDTO,message);
  }
 }

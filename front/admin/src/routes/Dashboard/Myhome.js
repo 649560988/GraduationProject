@@ -14,19 +14,35 @@ export default class Welcome extends React.Component {
     super(props);
     this.state={
       buildingList: [],
-      rentHouse:[],
+      rentHouseList:[],
       data: {},
       src:[]
     }
   }
   componentDidMount(){
-    this. getUserList()
+    this. getBuildingList()
 }
 handclick=(aa)=>{
   // alert("111")
   console.log(aa.id)
 }
-  getUserList=()=>{
+  getRentHouseList=()=>{
+    let url= 'v1/wyw/renthouse/selectAll'
+    request(url,{
+      method: 'GET'
+    }).then((res)=>{
+      if(res.message=== '查询成功'){
+        let rentHouse=[]
+        for(let i of res.data){
+          rentHouse.push(i)
+        }
+        this.setState({
+          rentHouseList:rentHouse
+        })
+      }
+    })
+  }
+  getBuildingList=()=>{
     let url = '/v1/wyw/building/selectAll'
     request(url,{
       method: 'GET'
@@ -94,7 +110,7 @@ handclick=(aa)=>{
            <List
             rowKey="id"
             grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
-            dataSource={this.state.rentHouse}
+            dataSource={this.state.rentHouseList}
             renderItem={item => (
                 <List.Item key={item.id+1}>
                   <Card hoverable style={{ width: 300 }} 

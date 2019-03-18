@@ -4,18 +4,21 @@ import request from '../../utils/request'
 import Address from '../Address/Address';
 import Ellipsis from 'components/Ellipsis';
 class Building extends Component {
-    componentDidMount(){
+    componentWillMount(){
         this.getBuildingList()
     }
     constructor(props){
         super(props);
         this.state={
             cuttentItem: 'sy' ,
-            buildingList:[] 
+            buildingList:[] ,
         }
     }
+    buildingClick=(e)=>{
+      console.log('江苏省',e.target.mitem)
+    }
     handClick=(e)=>{
-        console.log("click",e)
+        console.log("click",e.key)
         this.setState({
           cuttentItem:e.key
         })
@@ -39,7 +42,6 @@ class Building extends Component {
            });
           }
       }
-
       )
       .catch(error=>console.error(error))
     }
@@ -60,30 +62,29 @@ class Building extends Component {
  </Menu> 
  <Address></Address>
  <List
-            rowKey="id"
             grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
             dataSource={this.state.buildingList}
-            renderItem={item => (
-                <List.Item key={item.id+1}>
+            renderItem={(mitem,index) => (
+                <List.Item key={mitem.id}>
+                <div onClick={this.buildingClick} >
                   <Card hoverable style={{ width: 300 }} 
-                  cover={<img alt=""  size="large" src={item.srcs[0]} style={{height:200 
-                    ,width:300}}/>}
+                  cover={<img alt=""  size="large" src={mitem.srcs[0]} style={{height:200 
+                    ,width:300}} href='/setting/user-update/${flag}/${id}'/>}
                   >
                     <Card.Meta
-                      // avatar={ <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                      title={<a href="">{item.name}&nbsp;{item.city}</a>} 
+                      title={<a href="">{mitem.name}&nbsp;{mitem.city}</a>} 
                       description={
                         <Ellipsis  lines={2}>
-                          {item.description}
+                          {mitem.description}
                         </Ellipsis>
                       }
                     />
                   </Card>
+                  </div>
                 </List.Item>
               ) 
             }
           />
-          
           </Fragment>
         );
     }

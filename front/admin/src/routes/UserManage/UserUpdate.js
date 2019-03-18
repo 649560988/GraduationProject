@@ -141,7 +141,7 @@ class UserUpdate extends React.Component {
         this.props.form.validateFields((err, fieldsValue) => {
             if (!err) {
                 let sysRoles = []
-                // console.log(this.state.roles)
+                console.log('values',fieldsValue)
                 fieldsValue.roleIds.map((item) => {
                     this.state.roles.some((role, index) => {
                         if (role.id === item) {

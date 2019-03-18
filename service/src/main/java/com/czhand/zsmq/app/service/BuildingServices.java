@@ -17,5 +17,5 @@ public interface BuildingServices {
     BuildingDTO selectOneAndPicture(Long id)throws CommonException;;
     List<BuildingDTO> queryAllBuilding()throws CommonException;;
     List<BuildingDTO> queryAllBuildingByArea(String province,String city,String area )throws CommonException;;
-    BuildingDTO createBuilding(BuildingDTO buildingDTO)throws CommonException;
+    BuildingDTO createBuilding(BuildingDTO buildingDTO, Long Uid)throws CommonException;
 }

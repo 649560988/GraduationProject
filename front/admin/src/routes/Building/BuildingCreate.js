@@ -60,15 +60,9 @@ class BuildingCreate extends Component {
         // }
         console.log('Received values of form: ', values);
         this.createBuilding(values)
-        this.postUserID(this.state.Uid)
 
       }
     });
-  }
-  postUserID=(id) =>{
-    request(`/v1/wyw/picture/getUserID/${id}`,{
-      method: 'GET'
-    })
   }
   getAuthorization = async function  () {
     try {
@@ -121,7 +115,7 @@ class BuildingCreate extends Component {
   }
 createBuilding = (values) => {
   console.log('data:', values)
-  request('/v1/wyw/building/createBuilding', {
+  request(`/v1/wyw/building/createBuilding/${this.state.Uid}`, {
     method: 'POST',
     body: values
   }).then((res) => {

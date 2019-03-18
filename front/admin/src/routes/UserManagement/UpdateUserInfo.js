@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal, Input, Form, Button, Row, Col, Select } from 'antd'
-// import styles from './UpdateUserInfo.css'
+import styles from './UpdateUserInfo.css'
 import {connect} from 'dva/index'
 import axios from 'axios/index'
 import TableLayout from '../../layouts/TableLayout'

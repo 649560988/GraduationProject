@@ -8,7 +8,8 @@ import {
   Divider 
 } from 'antd'
 import Login from 'components/Login'
-import styles from './Login.less'
+import 
+styles from './Login.less'
 
 const {
   Tab,

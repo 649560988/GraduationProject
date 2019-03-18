@@ -32,8 +32,9 @@ public class BuildingServicesImpl implements BuildingServices {
      * 添加楼盘信息
      * */
     @Override
-    public BuildingDTO createBuilding(BuildingDTO buildingDTO) throws CommonException {
+    public BuildingDTO createBuilding(BuildingDTO buildingDTO, Long Uid) throws CommonException {
         Building building=ConvertHelper.convert(buildingDTO,Building.class);
+        building.setUserId(Uid);
         int result=buildingMapper.insert(building);
         Long Id=building.getId();
         if(result!=1){

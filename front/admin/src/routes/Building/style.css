@@ -1,0 +1,17 @@
+.mimg{
+    width: 95%;
+    height: 100px;
+}
+.carousel{
+  text-align: center;
+  height:300px;
+  line-height: 160px;
+  background: #364d79;
+  overflow: hidden;
+}
+.div1{
+    height:300px;
+    width: 100%;
+    background-color: aqua;
+
+}

@@ -34,7 +34,6 @@ public class PictureController {
      * 插入图片
      * */
     @ApiOperation("插入图片")
-//    @PostMapping("/insertPictures/{belong_id}")
     @PostMapping("/insertPictures/{Uid}/{type}")
     public ResponseEntity<Data<PictureDTO>> insertPictures(@RequestBody MultipartFile file,@PathVariable("Uid") Long Uid,@PathVariable("type") Integer type) throws IOException {
         String newFileName;

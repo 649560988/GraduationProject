@@ -1,6 +1,7 @@
 package com.czhand.zsmq.app.service;
 
 import com.czhand.zsmq.api.dto.RentHouseDTO;
+import com.czhand.zsmq.infra.exception.CommonException;
 
 import java.util.List;
 
@@ -10,5 +11,7 @@ import java.util.List;
  */
 public interface RentHouseService {
     List<RentHouseDTO> queryAllRentHouse();
-    List<RentHouseDTO> selectOneAndPicture(Long id);
+    RentHouseDTO selectOneAndPicture(Long id);
+    List<RentHouseDTO> queryAllRentHouseByArea(String province,String city,String area)throws CommonException;
+    RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO);
 }
