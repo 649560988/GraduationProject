@@ -44,20 +44,20 @@ class Register extends Component {
     prefix: '86'
   };
 
-  componentWillReceiveProps (nextProps) {
-    const { form, dispatch } = this.props
-    const account = form.getFieldValue('mail')
-    if (nextProps.register.status === 'ok') {
-      dispatch(
-        routerRedux.push({
-          pathname: 'user/register-result',
-          state: {
-            account
-          }
-        })
-      )
-    }
-  }
+  // componentWillReceiveProps (nextProps) {
+  //   const { form, dispatch } = this.props
+  //   const account = form.getFieldValue('mail')
+  //   if (nextProps.register.status === 'ok') {
+  //     dispatch(
+  //       routerRedux.push({
+  //         pathname: 'user/register-result',
+  //         state: {
+  //           account
+  //         }
+  //       })
+  //     )
+  //   }
+  // }
 
   componentWillUnmount () {
     clearInterval(this.interval)
@@ -95,18 +95,26 @@ class Register extends Component {
         }
     });
   }
+  
+    /***
+     *   路径跳转
+     */
+    linkToChange = url => {
+      const { history } = this.props
+      history.push(url)
+  }
       /**
      * 创建新用户
      */
     createUser= (values) => {
-      console.log(values)
-      request('/v1/sysuser/register',{
+      console.log('传过来的参数为',values)
+      request('/user/register',{
         method: 'POST',
         body: values
       }
       ).then((res) =>{
-        if (res.message === '成功') {
-          // message.success('创建成功')
+        if (res.message === 'Register success') {
+          this.linkToChange(`/user/login`)
           console.log("创建成功")
           // this.linkToChange('/setting/users')
       } else {
@@ -184,6 +192,14 @@ class Register extends Component {
       </div>
     ) : null
   };
+  
+    /***
+     *   路径跳转
+     */
+    linkToChange = url => {
+      const { history } = this.props
+      history.push(url)
+  }
 
   render () {
     const { form, submitting } = this.props
@@ -260,7 +276,7 @@ class Register extends Component {
               >
                 <Option value='86'>+86</Option>
               </Select>
-              {getFieldDecorator('telphone', {
+              {getFieldDecorator('telephone', {
                 rules: [
                   {
                     required: true,

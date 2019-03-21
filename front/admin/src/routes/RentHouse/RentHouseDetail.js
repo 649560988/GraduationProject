@@ -1,6 +1,40 @@
 import React,{Component} from 'react'
-import {Layout,Carousel, Row, Col,Divider,Tabs,Icon,Tag} from 'antd'
+import {Layout,Carousel, Row, Col,Divider,Tabs,Icon,Tag,
+    Avatar,Form,Button, Comment,List,  Input,  InputNumber,
+    Radio 
+  } from 'antd';
+  import moment from 'moment';
+import request from '../../utils/request';
 import styles from './style.css'
+
+const TextArea = Input.TextArea;
+const CommentList = ({
+       comments
+   }) => (
+   <List 
+       dataSource = {comments}
+       header = {`我的${comments.length} 条评论`}
+       itemLayout = "horizontal"
+       renderItem = {props => 
+       <Comment {...props}/>}
+       />);
+const Editor = ({
+   onChange,
+   onSubmit,
+   submitting,
+   value,}) => ( 
+       <div >
+           <Form.Item >
+           <TextArea rows = {4} onChange = {onChange} value = {value}/>  
+           </Form.Item > 
+           <Form.Item> 
+               <Button htmlType = "submit"
+                       loading = {submitting}
+                       onClick = {onSubmit}
+                       type = "primary">发表评论 </Button> 
+           </Form.Item > 
+       </div>
+       );
 class RentHouseDetail extends Component{
     constructor(props){
         super(props)
@@ -14,16 +48,82 @@ class RentHouseDetail extends Component{
 			picture:[
 				'wyw','qdqw','qwdq'
             ],
-            facility:[
-                {
-
-                }
-            ],
             contenet:[
                 {name:'database',zh_name:'洗衣机'},{name:'credit-card',zh_name:'电视'},{name:'idcard',zh_name:'空调'}
-            ]
+            ],
+            Bid:this.props.match.params.id,
+			Uid:'',
+			value: '',
+			comments: [],
+			submitting: false,
+			type:0
 		}
     }
+    componentWillMount(){
+		this.getCurrentUser()
+	}
+	postComment=()=>{
+		let url=`/v1/wyw/comment/insertcomment/${this.state.Uid}/${this.state.Bid}/${this.state.type}/${this.state.value}`
+		request(url, {
+			method: 'GET',
+	}).then((res) => {
+			if (res.message === '添加成功') {
+				console.log('添加成功')
+			} else {
+				console.log('获取当前登录人信息失败');
+			}
+	}).catch((err) => {
+			console.log(err)
+	})
+	}
+	 callback=(key)=> {
+		console.log(key);
+	  }
+	  getCurrentUser = () => {
+		let url = '/v1/sysUserDomin/getAuth'
+		request(url, {
+			method: 'GET'
+		}).then((res) => {
+			if (res.message === '成功') {
+				this.setState({
+					Uid:res.data.id
+				})
+			} else {
+				console.log(err)
+			}
+		}).catch(() => {})
+}
+
+	handleSubmit = () => {
+		if (!this.state.value) {
+		  return;
+		}
+		this.postComment();
+		this.setState({
+		  submitting: true,
+		});
+
+		setTimeout(() => {
+		  this.setState({
+			submitting: false,
+			value: '',
+			comments: [
+			  {
+				author: 'Han Solo',
+				avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+				content: <p>{this.state.value}</p>,
+				datetime: moment().fromNow(),
+			  },
+			  ...this.state.comments,
+			],
+		  });
+		}, 1000);
+	  }
+	  handleChange = (e) => {
+		this.setState({
+		  value: e.target.value,
+		});
+	  }
     render(){
         return(
             <div style={{ padding: 20, overflowY: 'auto', flex: 1,marginLeft:'30px',marginRight:'90px' }}>
@@ -43,8 +143,14 @@ class RentHouseDetail extends Component{
                </Carousel>
              </div>
             </Tabs.TabPane>
-             <Tabs.TabPane tab="Tab 2" key="2">Content of Tab Pane 2</Tabs.TabPane>
-            <Tabs.TabPane tab="Tab 3" key="3">Content of Tab Pane 3</Tabs.TabPane>
+             <Tabs.TabPane tab="Tab 2" key="2">
+             <div className={styles.div1}>
+             </div>
+             </Tabs.TabPane>
+            <Tabs.TabPane tab="Tab 3" key="3">
+            <div className={styles.div1}>
+             </div>
+            </Tabs.TabPane>
             </Tabs>
             </Col>
             <Col span={8} >
@@ -127,6 +233,25 @@ class RentHouseDetail extends Component{
                     </div> 
                })
            }
+           	<div>
+		< div > {this.state.comments.length > 0 && < CommentList comments = {this.state.comments}/>}</div>
+        <Comment
+          avatar={(
+            <Avatar
+              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              alt="Han Solo"
+            />
+          )}
+          content={(
+            <Editor
+              onChange={this.handleChange}
+              onSubmit={this.handleSubmit}
+              submitting={this.submitting}
+              value={this.state.value}
+            />
+          )}
+        />
+      </div>
            </div>
         )
     }

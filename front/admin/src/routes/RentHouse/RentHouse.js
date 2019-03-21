@@ -1,20 +1,28 @@
 import React, {Component, Fragment} from 'react';
-
+import { Card, Icon, Avatar, Menu , List} from 'antd';
+import request from '../../utils/request'
+import Address from '../Address/Address';
+import Ellipsis from 'components/Ellipsis';
 class RentHouse extends Component{
-    constructor(props){
-        super()
+  constructor(props){
+    super(props);
+    this.state={
+        cuttentItem: 'sy' ,
+        buildingList:[] 
     }
+}
             // <div>{this.props.previewImage}</div>
             componentWillMount(){
                 this.getBuildingList()
             }
-            constructor(props){
-                super(props);
-                this.state={
-                    cuttentItem: 'sy' ,
-                    buildingList:[] 
-                }
+            getCurrentRentHouseItem=(item)=>{
+              this.linkToChange(`/renthouse-detail/${item.id}`)
             }
+            linkToChange = url => {
+              const { history } = this.props
+              history.push(url)
+            };
+         
             handClick=(e)=>{
                 console.log("click",e)
                 this.setState({
@@ -65,7 +73,7 @@ class RentHouse extends Component{
                     grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
                     dataSource={this.state.buildingList}
                     renderItem={item => (
-                        <List.Item key={item.id+1}>
+                        <List.Item key={item.id} onClick={() => this.getCurrentRentHouseItem(item)}>
                           <Card hoverable style={{ width: 300 }} 
                           cover={<img alt=""  size="large" src={item.srcs[0]} style={{height:200 
                             ,width:300}}/>}

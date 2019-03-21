@@ -23,7 +23,10 @@ class BuildingCreate extends Component {
       fileList: [],
       authorization: '',
       Uid: '',
-      type:1
+      type:1,
+      optionHouseStyle:[],
+      houseStyles:[]
+    
     }
     this.getAuthorization().then((result)=>{
       this.setState({authorization:result})
@@ -32,6 +35,56 @@ class BuildingCreate extends Component {
   componentWillMount() {
     this.getPersonalInfoById()
 }
+   /**
+     * 获取所有房屋类型
+     */
+    getAllRoles = () => {
+      request('/v1/wyw/house-style/selectAll', {
+          method: 'get',
+          // credentials: 'omit'
+      }).then((res) => {
+          if (res.message === '查询成功') {
+              this.filterAllHouseStyle(res.data)
+          } else {
+              message.error('查询失败')
+          }
+      }).catch((err) => {
+          console.log(err)
+      })
+  }
+
+  /**
+   * 将所有的角色信息进行筛选留下角色的id和name的json数据保存在state里的数组roles中
+   */
+  filterAllHouseStyle = (data) => {
+      let houseStyles = []
+      data.map((item) => {
+          let houseStyle = {}
+          houseStyle.id = item.id
+          houseStyle.name = item.name
+          houseStyles.push(houseStyle)
+      })
+      this.setState({
+        houseStyles
+      }, () => {
+          this.putAllHouseStylesIntoOptions()
+      })
+  }
+
+  /**
+   * 把所有的角色都放到select的option中
+   */
+  putAllHouseStylesIntoOptions = () => {
+      let optionHouseStyle = []
+      this.state.houseStyles.map((item) => {
+          let option = {}
+          option = <Option key={item.id} value={item.id}>{item.name}</Option>
+          optionHouseStyle.push(option)
+      })
+      this.setState({
+        optionHouseStyle
+      })
+  }
   getPersonalInfoById = () => {
     request('/v1/sysUserDomin/getAuth', {
         method: 'GET',
@@ -49,7 +102,6 @@ class BuildingCreate extends Component {
         console.log(err)
     })
 }
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -297,17 +349,19 @@ render() {
               <DatePicker />
             )}
           </Form.Item> 
-          <Form.Item label = {'楼盘户型'} {...formItemLayout} >
-          {getFieldDecorator('houseStyle',{
-                rules: [{
-                  required: true,
-                  message: '楼盘户型'
-                }]
-            })(
-              <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
-              placeholder="请输入预计价格" />
-            )}
-          </Form.Item> 
+          <Form.Item label={'户型'}  {...formItemLayout}>
+                        {getFieldDecorator('houseStyle', {
+                            // initialValue: this.state.data.roleIds,
+                            rules: [{ required: true, message: '请选择户型' }]
+                        })(
+                            <Select
+                                mode={'multiple'}
+                                placeholder={'请选择户型'}
+                            >
+                                {this.state.optionHouseStyle}
+                            </Select>
+                        )}
+                    </Form.Item>
           <Form.Item label = {'开发商'} {...formItemLayout} >
           {getFieldDecorator('developer',{
                 rules: [{

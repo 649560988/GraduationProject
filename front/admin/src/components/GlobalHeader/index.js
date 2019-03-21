@@ -241,7 +241,7 @@ class GlobalHeader extends PureComponent {
   <a href="">二手房</a>
       </Menu.Item>
       <Menu.Item>
-  <a href="">租房</a>
+  <a href= " http://localhost:9090/#/renthouse">租房</a>
      </Menu.Item>
      <Menu.Item>
  <a href="">写字楼</a>

@@ -14,6 +14,13 @@ class Building extends Component {
             buildingList:[] ,
         }
     }
+    getCurrentBuildingItem=(item)=>{
+      this.linkToChange(`/building-detail/${item.id}`)
+    }
+    linkToChange = url => {
+      const { history } = this.props
+      history.push(url)
+    };
     buildingClick=(e)=>{
       console.log('江苏省',e.target.mitem)
     }
@@ -65,7 +72,7 @@ class Building extends Component {
             grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
             dataSource={this.state.buildingList}
             renderItem={(mitem,index) => (
-                <List.Item key={mitem.id}>
+                <List.Item key={mitem.id} onClick={() => this.getCurrentBuildingItem(mitem)}>
                 <div onClick={this.buildingClick} >
                   <Card hoverable style={{ width: 300 }} 
                   cover={<img alt=""  size="large" src={mitem.srcs[0]} style={{height:200 

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Icon, Layout, Menu, Card, Avatar, List, Carousel, Button } from 'antd'
+import { Icon, Layout, Menu, Card, Avatar, List, Carousel, Button,Popover } from 'antd'
 import GlobalFooter from '../../components/GlobalFooter'
 import request from '../../utils/request'
 import Ellipsis from 'components/Ellipsis';
@@ -21,27 +21,22 @@ export default class Welcome extends React.Component {
   }
   componentDidMount(){
     this. getBuildingList()
+    this.getRentHouseList()
 }
 handclick=(aa)=>{
   // alert("111")
   console.log(aa.id)
 }
-  getRentHouseList=()=>{
-    let url= 'v1/wyw/renthouse/selectAll'
-    request(url,{
-      method: 'GET'
-    }).then((res)=>{
-      if(res.message=== '查询成功'){
-        let rentHouse=[]
-        for(let i of res.data){
-          rentHouse.push(i)
-        }
-        this.setState({
-          rentHouseList:rentHouse
-        })
-      }
-    })
+  getCurrentRentHouseItem=(item)=>{
+    this.linkToChange(`/renthouse-detail/${item.id}`)
   }
+  getCurrentBuildingItem=(item)=>{
+    this.linkToChange(`/building-detail/${item.id}`)
+  }
+  linkToChange = url => {
+    const { history } = this.props
+    history.push(url)
+  };
   getBuildingList=()=>{
     let url = '/v1/wyw/building/selectAll'
     request(url,{
@@ -65,6 +60,22 @@ handclick=(aa)=>{
       }
     })
   }
+  getRentHouseList=()=>{
+    let url= '/v1/wyw/renthouse/selectAll'
+    request(url,{
+      method: 'GET'
+    }).then((res)=>{
+      if(res.message=== '查询成功'){
+        let rentHouse=[]
+        for(let i of res.data){
+          rentHouse.push(i)
+        }
+        this.setState({
+          rentHouseList:rentHouse
+        })
+      }
+    })
+  }
 
     // const imgStyle
    
@@ -78,15 +89,13 @@ handclick=(aa)=>{
      <div><h3>3</h3></div>
       <div><h3>4</h3></div>
     </Carousel>
-    <img alt=""  size="large" src="http://127.0.0.1/a.jpg" style={{height:200 
-                    ,width:300,display:"inline-block"}}/>
     <h1>热门楼盘</h1>
         <List
             rowKey="id"
             grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
             dataSource={this.state.buildingList}
             renderItem={item => (
-                <List.Item key={item.id+1} >
+                <List.Item key={item.id} onClick={() => this.getCurrentBuildingItem(item)} >
                   <Card hoverable style={{ width: 300 }} 
                   cover={<img alt=""  size="large" src={item.srcs} style={{height:200 
                     ,width:300}}/>}
@@ -112,7 +121,8 @@ handclick=(aa)=>{
             grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
             dataSource={this.state.rentHouseList}
             renderItem={item => (
-                <List.Item key={item.id+1}>
+              // <Popover >
+                <List.Item key={item.id} onClick={() => this.getCurrentRentHouseItem(item)}>
                   <Card hoverable style={{ width: 300 }} 
                   cover={<img alt=""  size="large" src={item.srcs} style={{height:200 
                     ,width:300}}/>}
@@ -128,6 +138,7 @@ handclick=(aa)=>{
                     />
                   </Card>
                 </List.Item>
+                // </Popover>
               ) 
             }
           />

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czhand.zsmq.infra.mapper.BuildingMapper">
+  <resultMap id="BaseResultMap" type="com.czhand.zsmq.domain.Building">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="estimate_price" jdbcType="DECIMAL" property="estimatePrice" />
+    <result column="opening_time" jdbcType="TIMESTAMP" property="openingTime" />
+    <result column="delivery_time" jdbcType="TIMESTAMP" property="deliveryTime" />
+    <!--<result column="house_style" jdbcType="VARCHAR" property="houseStyle" />-->
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="developer" jdbcType="VARCHAR" property="developer" />
+    <result column="floor_number" jdbcType="INTEGER" property="floorNumber" />
+    <result column="anagement_price" jdbcType="DECIMAL" property="anagementPrice" />
+    <result column="anagement_company" jdbcType="VARCHAR" property="anagementCompany" />
+    <result column="parking_number" jdbcType="INTEGER" property="parkingNumber" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <collection property="houseStyles" ofType="com.czhand.zsmq.domain.HouseStyle">
+      <result column="id" property="id"></result>
+      <result column="name" property="name"></result>
+    </collection>
+    <collection property="srcs" ofType="com.czhand.zsmq.domain.Picture">
+      <result column="id" property="id"></result>
+      <result column="src" property="src"/>
+    </collection>
+  </resultMap>
+
+  <select id="selectOneAndPicture" resultMap="BaseResultMap" >
+    select b.*, p.*,h.id,h.name
+    from building b ,picture p,house_style h ,rb_style r
+    where b.id=#{id} and p.type='1' and  p.belong_id= b.id and b.id=r.belong_id and r.type='1'
+    and r.house_style_id=h.Id
+  </select>
+  <select id="queryAllBuilding" resultMap="BaseResultMap">
+    select b.*, p.*
+    from building b ,picture p
+    where p.type='1' and  p.belong_id= b.id
+  </select>
+  <select id="queryAllBuildingByArea" resultMap="BaseResultMap">
+        select b.*, p.*
+    from building b ,picture p
+    where b.province=#{arg0} and b.city=#{arg1} and b.area=#{arg2} and p.type='1' and  p.belong_id= b.id
+  </select>
+</mapper>

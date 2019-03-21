@@ -82,13 +82,16 @@ export const getRouterData = app => {
     '/home': {
       component: dynamicWrapper(app, [], () => import('../routes/Dashboard/Myhome'))
     },
-    '/building-detail':{
+    '/building-detail/:id':{
       component: dynamicWrapper(app,[],() => import("../routes/Building/BuildingDetail"))
     },
     '/building': {
       component: dynamicWrapper(app,[],() => import('../routes/Building/Building'))
     },
-    '/renthouse-detail':{
+    '/renthouse':{
+      component: dynamicWrapper(app,[],() => import('../routes/RentHouse/RentHouse'))
+    },
+    '/renthouse-detail/:id':{
       component:dynamicWrapper(app,[],() => import('../routes/RentHouse/RentHouseDetail'))
     }
     ,
