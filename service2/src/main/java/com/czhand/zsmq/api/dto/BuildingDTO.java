@@ -72,14 +72,14 @@ public class BuildingDTO implements  Serializable{
          * 楼盘户型
          */
         @ApiModelProperty("楼盘户型")
-        private List<HouseStyle> houseTypes;
+        private List<HouseStyle> houseStyles;
 
-        public List<HouseStyle> getHouseTypes() {
-                return houseTypes;
+        public List<HouseStyle> getHouseStyles() {
+                return houseStyles;
         }
 
-        public void setHouseTypes(List<HouseStyle> houseTypes) {
-                this.houseTypes = houseTypes;
+        public void setHouseStyles(List<HouseStyle> houseStyles) {
+                this.houseStyles = houseStyles;
         }
 
         /**

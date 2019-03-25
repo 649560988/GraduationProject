@@ -7,10 +7,4 @@
         <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
         <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
     </resultMap>
-    <!--<resultMap id="BaseResultMap" type="com.czhand.zsmq.domain.Building">-->
-        <!--&lt;!&ndash;-->
-          <!--WARNING - @mbg.generated-->
-        <!--&ndash;&gt;-->
-        <!--<id column="id" jdbcType="BIGINT" property="id" />-->
-        <!--<result column="user_id" jdbcType="VARCHAR" property="userI-->
 </mapper>

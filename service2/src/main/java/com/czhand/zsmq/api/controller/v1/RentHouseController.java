@@ -71,10 +71,10 @@ public class RentHouseController {
      * 添加出租房信息
      * */
     @ApiOperation("添加出租房信息")
-    @PostMapping("/createRentHouse")
-    public ResponseEntity<Data<RentHouseDTO>> createRentHouse(@RequestBody RentHouseDTO rentHouseDTO){
+    @PostMapping("/createRentHouse/{id}")
+    public ResponseEntity<Data<RentHouseDTO>> createRentHouse(@RequestBody RentHouseDTO rentHouseDTO,@PathVariable("id") long Uid){
         String message="添加成功";
-        rentHouseDTO=rentHouseService.createRentHouse(rentHouseDTO);
+        rentHouseDTO=rentHouseService.createRentHouse(rentHouseDTO,Uid);
         return ResponseUtils.res(rentHouseDTO,message);
     }
 }

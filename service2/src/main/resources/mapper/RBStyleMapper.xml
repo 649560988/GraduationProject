@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czhand.zsmq.infra.mapper.RBStyleMapper">
+    <resultMap id="BaseResultMap" type="com.czhand.zsmq.domain.RBStyle">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="belong_id" jdbcType="BIGINT" property="belongId"></result>
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="house_style_id" jdbcType="BIGINT" property="houseStyleId" />
+    </resultMap>
+</mapper>

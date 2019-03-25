@@ -13,5 +13,5 @@ public interface RentHouseService {
     List<RentHouseDTO> queryAllRentHouse();
     RentHouseDTO selectOneAndPicture(Long id);
     List<RentHouseDTO> queryAllRentHouseByArea(String province,String city,String area)throws CommonException;
-    RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO);
+    RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO,long Uid);
 }

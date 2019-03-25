@@ -34,17 +34,18 @@ public class PictureController {
      * 插入图片
      * */
     @ApiOperation("插入图片")
-    @PostMapping("/insertPictures/{Uid}/{type}")
+    @PostMapping("/insertPictures/{type}")
     public ResponseEntity<Data<PictureDTO>> insertPictures(@RequestBody MultipartFile file,
-                                                           @PathVariable("Uid") Long Uid,
-                                                           @PathVariable("type") Integer type) throws IOException {
+                                                           @PathVariable("type") Integer type
+                                                          ) throws IOException {
+
         String newFileName;
         if (file == null) {
            throw new CommonException("插入出错");
         }
 
             String originFileName = file.getOriginalFilename();
-            if (originFileName != null && !" ".contentEquals(originFileName)){
+            if (originFileName == null && " ".contentEquals(originFileName)){
                 throw new CommonException("插入出错");
             }
         String extrName = originFileName.substring(originFileName.lastIndexOf("."));
@@ -55,10 +56,9 @@ public class PictureController {
             dirFile.mkdirs();
         }
         file.transferTo(new File(baseDir + newFileName));
-        PictureDTO pictureDTO=pictureServices.insertPicture(newFileName,Uid,type);
+        PictureDTO pictureDTO=pictureServices.insertPicture(newFileName,type);
         String message = "添加成功";
         return ResponseUtils.res(pictureDTO,message);
-
         }
 
 }

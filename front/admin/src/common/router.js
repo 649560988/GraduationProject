@@ -95,6 +95,9 @@ export const getRouterData = app => {
       component:dynamicWrapper(app,[],() => import('../routes/RentHouse/RentHouseDetail'))
     }
     ,
+    '/renthouse-create':{
+      component:dynamicWrapper(app,[],() => import('../routes/RentHouse/RentHouseCreate'))
+    },
     '/building-create':{
       component:dynamicWrapper(app,[],() => import('../routes/Building/BuildingCreate'))
     },

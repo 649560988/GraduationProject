@@ -49,4 +49,8 @@
     from rent_house r,picture p
     where  r.province=#{arg0} and r.city=#{arg1} and r.area=#{arg2} and p.type='0' and  p.belong_id= r.id
   </select>
+  <select id="lastInsertRentHouseId"  resultType="java.lang.Long">
+    select MAX(id)
+    from rent_house
+  </select>
 </mapper>

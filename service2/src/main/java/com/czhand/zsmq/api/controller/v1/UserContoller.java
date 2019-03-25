@@ -53,10 +53,11 @@ public class UserContoller {
 
 	/**
 	 * 注册用户
+	 * @Valid
 	 * */
 	@ApiOperation("注册用户")
 	@PostMapping("/register")
-	public ResponseEntity<Data<SysUserDTO>> registerUser(@RequestBody @Valid SysUserDTO sysUserDTO) {
+	public ResponseEntity<Data<SysUserDTO>> registerUser(@RequestBody  SysUserDTO sysUserDTO) {
 		//判断参数是否为空
 		if (ArgsUtils.checkArgsNull(sysUserDTO)) {
 			throw new CommonException("参数不正确");

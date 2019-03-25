@@ -36,7 +36,7 @@
 
   <select id="selectOneAndPicture" resultMap="BaseResultMap" >
     select b.*, p.*,h.id,h.name
-    from building b ,picture p,house_style h ,rb_style r
+    from building b ,picture p,house_style h ,r_b_style r
     where b.id=#{id} and p.type='1' and  p.belong_id= b.id and b.id=r.belong_id and r.type='1'
     and r.house_style_id=h.Id
   </select>
@@ -49,5 +49,9 @@
         select b.*, p.*
     from building b ,picture p
     where b.province=#{arg0} and b.city=#{arg1} and b.area=#{arg2} and p.type='1' and  p.belong_id= b.id
+  </select>
+  <select id="lastInsertBuildingId" resultType="java.lang.Long">
+    select MAX(id)
+    from building
   </select>
 </mapper>

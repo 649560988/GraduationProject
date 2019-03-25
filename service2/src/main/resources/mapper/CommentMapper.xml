@@ -14,4 +14,7 @@
     <result column="great" jdbcType="INTEGER" property="great" />
     <result column="bad" jdbcType="INTEGER" property="bad" />
   </resultMap>
+  <select id="selectCommentList" resultMap="BaseResultMap">
+    select
+  </select>
 </mapper>

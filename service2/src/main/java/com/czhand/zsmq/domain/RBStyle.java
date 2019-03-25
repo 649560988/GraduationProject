@@ -19,6 +19,17 @@ public class RBStyle implements Serializable {
     @Column(name = "type")
     private  int type;
 
+    @Column(name="house_style_id")
+    private Long houseStyleId;
+
+    public Long getHouseStyleId() {
+        return houseStyleId;
+    }
+
+    public void setHouseStyleId(Long houseStyleId) {
+        this.houseStyleId = houseStyleId;
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,16 +1,21 @@
 package com.czhand.zsmq.app.service.impl;
 
 import com.czhand.zsmq.api.dto.BuildingDTO;
+import com.czhand.zsmq.api.dto.RBStyleDto;
 import com.czhand.zsmq.app.service.BuildingServices;
 import com.czhand.zsmq.domain.Building;
+import com.czhand.zsmq.domain.HouseStyle;
+import com.czhand.zsmq.domain.RBStyle;
 import com.czhand.zsmq.infra.exception.CommonException;
 import com.czhand.zsmq.infra.mapper.BuildingMapper;
+import com.czhand.zsmq.infra.mapper.RBStyleMapper;
 import com.czhand.zsmq.infra.utils.convertor.ConvertHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,52 +23,77 @@ public class BuildingServicesImpl implements BuildingServices {
 
     @Autowired
     BuildingMapper buildingMapper;
-
-
+    @Autowired
+    RBStyleMapper rbStyleMapper;
 
     private final static Logger logger = LoggerFactory.getLogger(BuildingServicesImpl.class);
+
     /**
      * 根据位置查询所有楼盘信息
-     * */
+     */
     @Override
-    public List<BuildingDTO> queryAllBuildingByArea(String province,String city,String area) {
-        List<Building> buildings=buildingMapper.queryAllBuildingByArea(province,city,area);
-        return ConvertHelper.convertList(buildings,BuildingDTO.class);
+    public List<BuildingDTO> queryAllBuildingByArea(String province, String city, String area) {
+        List<Building> buildings = buildingMapper.queryAllBuildingByArea(province, city, area);
+        return ConvertHelper.convertList(buildings, BuildingDTO.class);
     }
+
     /**
      * 添加楼盘信息
-     * */
+     */
     @Override
     public BuildingDTO createBuilding(BuildingDTO buildingDTO, Long Uid) throws CommonException {
-        Building building=ConvertHelper.convert(buildingDTO,Building.class);
+        Building building = ConvertHelper.convert(buildingDTO, Building.class);
         building.setUserId(Uid);
-        int result=buildingMapper.insert(building);
-        Long Id=building.getId();
-        if(result!=1){
+        building.setCreatedTime(new Date());
+        building.setUpdatedTime(new Date());
+        int result = buildingMapper.insert(building);
+        Long Id = building.getId();
+        if (result != 1) {
             throw new CommonException("插入失败");
         }
-        return ConvertHelper.convert(buildingMapper.selectByPrimaryKey(Id),BuildingDTO.class);
+        List<HouseStyle> houseStyleList=ConvertHelper.convertList(building.getHouseStyles(),HouseStyle.class);
+        addHouseStyle(houseStyleList,building.getId());
+        return ConvertHelper.convert(buildingMapper.selectByPrimaryKey(Id), BuildingDTO.class);
     }
 
     /**
      * 根据id查询楼盘信息
-     * */
+     */
     @Override
     public BuildingDTO selectOneAndPicture(Long id) {
-        if (id== null){
+        if (id == null) {
             return null;
         } else {
-         Building building=buildingMapper.selectOneAndPicture(id);
-            return ConvertHelper.convert(building,BuildingDTO.class);
+            Building building = buildingMapper.selectOneAndPicture(id);
+            return ConvertHelper.convert(building, BuildingDTO.class);
         }
 
     }
+
     /**
      * 查询所有楼盘信息
-     * */
+     */
     @Override
     public List<BuildingDTO> queryAllBuilding() {
-        List<Building> buildings=buildingMapper.queryAllBuilding();
-        return ConvertHelper.convertList(buildings,BuildingDTO.class);
+        List<Building> buildings = buildingMapper.queryAllBuilding();
+        return ConvertHelper.convertList(buildings, BuildingDTO.class);
+    }
+    /**
+     * 关联房间类型表
+     * */
+    public boolean addHouseStyle(List<HouseStyle> houseStyleList,Long bId){
+        for(HouseStyle houseStyle:houseStyleList){
+            RBStyle rbStyle1=new RBStyle();
+            rbStyle1.setBelongId(bId);
+            rbStyle1.setType(1);
+            rbStyle1.setHouseStyleId(houseStyle.getId());
+            try {
+               rbStyleMapper.insert(rbStyle1);
+            } catch (Exception e) {
+                throw new CommonException("关联房屋类型失败");
+            }
+        }
+        return true;
     }
 }
+

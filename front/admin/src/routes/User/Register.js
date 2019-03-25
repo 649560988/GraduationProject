@@ -116,7 +116,7 @@ class Register extends Component {
         if (res.message === 'Register success') {
           this.linkToChange(`/user/login`)
           console.log("创建成功")
-          // this.linkToChange('/setting/users')
+          this.linkToChange('/setting/users')
       } else {
           // message.error(res.message)
           console.log("创建失败")

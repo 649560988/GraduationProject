@@ -11,4 +11,5 @@ public interface RentHouseMapper extends BaseMapper<RentHouse> {
     List<RentHouse> queryAllRentHouse();
     RentHouse selectOneAndPicture(Long id);
     List<RentHouse> queryAllRentHouseByArea(String province, String city, String area);
+    long lastInsertRentHouseId();
 }

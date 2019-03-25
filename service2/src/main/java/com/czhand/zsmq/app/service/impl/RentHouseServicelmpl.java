@@ -9,6 +9,7 @@ import com.czhand.zsmq.infra.utils.convertor.ConvertHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,8 +32,11 @@ public class RentHouseServicelmpl implements RentHouseService {
     }
 
     @Override
-    public RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO) {
+    public RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO,long Uid) {
         RentHouse rentHouse=ConvertHelper.convert(rentHouseDTO,RentHouse.class);
+        rentHouse.setUserId(Uid);
+        rentHouse.setCreatedTime(new Date());
+        rentHouse.setUpdatedTime(new Date());
         int result=rentHouseMapper.insert(rentHouse);
         return  null;
     }

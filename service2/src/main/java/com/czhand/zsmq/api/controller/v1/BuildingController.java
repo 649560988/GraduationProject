@@ -61,7 +61,7 @@ public class BuildingController {
  /**
   *查询所有楼盘信息
   * */
- @ApiOperation("查询所有楼盘信息")
+    @ApiOperation("查询所有楼盘信息")
     @GetMapping("/selectAll")
     public ResponseEntity<Data<List<BuildingDTO>>> queryAllBuilding(){
 //     BuildingDTO buildingDTO=new BuildingDTO();
@@ -73,11 +73,11 @@ public class BuildingController {
   * 添加楼盘信息
   * */
  @ApiOperation("添加楼盘信息")
-    @PostMapping("/createBuilding/{Uid}")
+ @PostMapping("/createBuilding/{Uid}")
     public ResponseEntity<Data<BuildingDTO>> createBuilding(@RequestBody BuildingDTO buildingDTO,@PathVariable("Uid") Long Uid){
      String message="添加成功";
-     buildingDTO=buildingServices.createBuilding( buildingDTO,Uid);
-     return ResponseUtils.res(buildingDTO,message);
+     BuildingDTO result=buildingServices.createBuilding( buildingDTO,Uid);
+     return ResponseUtils.res(result,message);
  }
 }
 

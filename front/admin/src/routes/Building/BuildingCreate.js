@@ -7,13 +7,14 @@ import {
   Icon,
   Input,
   Button,
-  Checkbox,
+  Select,
   Upload,
   Modal,
   DatePicker,
   message
 } from 'antd';
 import request from '../../utils/request'
+import TextArea from 'antd/lib/input/TextArea';
 class BuildingCreate extends Component {
   constructor(props) {
     super(props)
@@ -25,7 +26,7 @@ class BuildingCreate extends Component {
       Uid: '',
       type:1,
       optionHouseStyle:[],
-      houseStyles:[]
+      styles:[]
     
     }
     this.getAuthorization().then((result)=>{
@@ -34,6 +35,7 @@ class BuildingCreate extends Component {
   }
   componentWillMount() {
     this.getPersonalInfoById()
+    this.getAllRoles()
 }
    /**
      * 获取所有房屋类型
@@ -57,15 +59,15 @@ class BuildingCreate extends Component {
    * 将所有的角色信息进行筛选留下角色的id和name的json数据保存在state里的数组roles中
    */
   filterAllHouseStyle = (data) => {
-      let houseStyles = []
+      let styles = []
       data.map((item) => {
           let houseStyle = {}
           houseStyle.id = item.id
           houseStyle.name = item.name
-          houseStyles.push(houseStyle)
+          styles.push(houseStyle)
       })
       this.setState({
-        houseStyles
+        styles
       }, () => {
           this.putAllHouseStylesIntoOptions()
       })
@@ -76,7 +78,7 @@ class BuildingCreate extends Component {
    */
   putAllHouseStylesIntoOptions = () => {
       let optionHouseStyle = []
-      this.state.houseStyles.map((item) => {
+      this.state.styles.map((item) => {
           let option = {}
           option = <Option key={item.id} value={item.id}>{item.name}</Option>
           optionHouseStyle.push(option)
@@ -106,10 +108,16 @@ class BuildingCreate extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // const values={
-        //   ...fieldsValue,
-        //   'openingTime':fieldsValue['date-picker'].format('YYYY-MM-DD'),
-        // }
+        let houseStyles =[]
+        values.houseStyleIds.map((item) =>{
+          this.state.styles.some((role,index) =>{
+            if(role.id == item){
+              houseStyles.push(this.state.styles[index])
+              return true
+            }
+          })
+        })
+        values.houseStyles=houseStyles
         console.log('Received values of form: ', values);
         this.createBuilding(values)
 
@@ -308,18 +316,24 @@ render() {
           )
         } 
         </Form.Item> <Form.Item label = {'联系方式'} {...formItemLayout}  > 
-        {getFieldDecorator('telephone', {
+
+        {getFieldDecorator('phone', {
             rules: [{
               required: true,
               message: '请输入联系方式'
+            },
+            {
+              pattern: /^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$/,
+              message: '手机号格式错误！'
             }],
           })( <Input  prefix = {< Icon type = "lock" style = {{color: 'rgba(0,0,0,.25)'}}/>} 
-           placeholder="telephone" />
+           placeholder="phone" />
             )
           } 
           </Form.Item>
+
           <Form.Item label = {'预计价格'} {...formItemLayout}  >
-            {getFieldDecorator('estimate_price',{
+            {getFieldDecorator('estimatePrice',{
                 rules: [{
                   required: true,
                   message: '预计价格'
@@ -350,7 +364,7 @@ render() {
             )}
           </Form.Item> 
           <Form.Item label={'户型'}  {...formItemLayout}>
-                        {getFieldDecorator('houseStyle', {
+                        {getFieldDecorator('houseStyleIds', {
                             // initialValue: this.state.data.roleIds,
                             rules: [{ required: true, message: '请选择户型' }]
                         })(
@@ -381,18 +395,18 @@ render() {
                 }]
             })(
               <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
-              placeholder="请输入预计价格" />
+              placeholder="请输入楼层状况" />
             )}
           </Form.Item> 
           <Form.Item label = {'物业管理费'} {...formItemLayout} >
-          {getFieldDecorator('anagement_price',{
+          {getFieldDecorator('anagementPrice',{
                 rules: [{
                   required: true,
                   message: '物业管理费'
                 }]
             })(
               <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
-              placeholder="请输入预计价格" />
+              placeholder="请输入物业管理费" />
             )}
           </Form.Item>
           <Form.Item label = {'物业公司'} {...formItemLayout} >
@@ -403,7 +417,7 @@ render() {
                 }]
             })(
               <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
-              placeholder="请输入预计价格" />
+              placeholder="请输入物业公司" />
             )}
           </Form.Item>
           <Form.Item label = {'车位数'} {...formItemLayout} >
@@ -414,7 +428,18 @@ render() {
                 }]
             })(
               <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
-              placeholder="请输入预计价格" />
+              placeholder="请输入车位数" />
+            )}
+          </Form.Item>
+          <Form.Item label = {'楼盘描述'} {...formItemLayout} >
+          {getFieldDecorator('description',{
+                rules: [{
+                  required: true,
+                  message: '楼盘描述'
+                }]
+            })(
+              <TextArea prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+              placeholder="请输入楼盘描述" />
             )}
           </Form.Item>
           <Form.Item  {...formItemLayout} > 
@@ -425,7 +450,8 @@ render() {
               }],
             })( <div className = "clearfix" >
               <Upload  
-              action={`http://localhost:8080/v1/wyw/picture/insertPictures/${this.state.Uid}/${this.state.type}`}
+              action={`http://localhost:8080/v1/wyw/picture/insertPictures/${this.state.type}`}
+              // /${this.state.type} /${this.state.Uid}/${this.state.type}
               headers = {
                 {
                   Authorization: this.state.authorization
@@ -435,9 +461,8 @@ render() {
               fileList = {
                 fileList
               }
-              beforeUpload={this.beforeUpload}
+              // beforeUpload={this.beforeUpload}
 
-              onRemove={this.onRemove}
               onPreview = {
                 this.handlePreview
               }
