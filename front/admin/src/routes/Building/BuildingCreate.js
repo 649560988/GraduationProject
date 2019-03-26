@@ -87,6 +87,8 @@ class BuildingCreate extends Component {
         optionHouseStyle
       })
   }
+
+  //获取当前登陆人信息
   getPersonalInfoById = () => {
     request('/v1/sysUserDomin/getAuth', {
         method: 'GET',
@@ -104,6 +106,7 @@ class BuildingCreate extends Component {
         console.log(err)
     })
 }
+    //提交表单数据
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -173,6 +176,7 @@ class BuildingCreate extends Component {
       previewImage: file.url || file.thumbUrl,
     });
   }
+  //创建楼盘信息
 createBuilding = (values) => {
   console.log('data:', values)
   request(`/v1/wyw/building/createBuilding/${this.state.Uid}`, {

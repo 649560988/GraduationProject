@@ -31,7 +31,7 @@ public class RentHouseController {
      * */
     @ApiOperation("查询所有出租房信息")
     @GetMapping("/selectAll")
-    public ResponseEntity<Data<List<RentHouseDTO>>> queryAllRentHousr(){
+    public ResponseEntity<Data<List<RentHouseDTO>>> queryAllRentHouse(){
         String message="查询成功";
         List<RentHouseDTO> list=rentHouseService.queryAllRentHouse();
         return ResponseUtils.res(list,message);
@@ -45,6 +45,15 @@ public class RentHouseController {
                                                                            @PathVariable("city") String city,
                                                                            @PathVariable("area")String area)
     {
+        if(ArgsUtils.checkArgsNull(province)){
+            throw  new CommonException("参数为空");
+        }
+        if(ArgsUtils.checkArgsNull(city)){
+            throw  new CommonException("参数为空");
+        }
+        if(ArgsUtils.checkArgsNull(area)){
+            throw  new CommonException("参数为空");
+        }
         String message="查询成功";
         List<RentHouseDTO> list=rentHouseService.queryAllRentHouseByArea(province,city,area);
         return ResponseUtils.res(list,message);
@@ -73,6 +82,12 @@ public class RentHouseController {
     @ApiOperation("添加出租房信息")
     @PostMapping("/createRentHouse/{id}")
     public ResponseEntity<Data<RentHouseDTO>> createRentHouse(@RequestBody RentHouseDTO rentHouseDTO,@PathVariable("id") long Uid){
+        if(ArgsUtils.checkArgsNull(rentHouseDTO)){
+            throw  new CommonException("参数为空");
+        }
+        if(ArgsUtils.checkArgsNull(Uid)){
+            throw  new CommonException("参数为空");
+        }
         String message="添加成功";
         rentHouseDTO=rentHouseService.createRentHouse(rentHouseDTO,Uid);
         return ResponseUtils.res(rentHouseDTO,message);

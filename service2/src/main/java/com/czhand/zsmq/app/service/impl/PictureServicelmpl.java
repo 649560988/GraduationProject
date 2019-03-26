@@ -27,6 +27,10 @@ public class PictureServicelmpl implements PictureServices {
     BuildingMapper buildingMapper;
     @Autowired
     RentHouseMapper rentHouseMapper;
+
+    /**
+     * 添加图片
+     * */
     @Override
     public PictureDTO insertPicture(String fileName,Integer type) throws CommonException {
         Picture picture=new Picture();

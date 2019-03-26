@@ -18,12 +18,12 @@ import java.util.List;
  */
 @Service
 public class RentHouseServicelmpl implements RentHouseService {
-    /**
-     * 根据id查询
-     * */
     @Autowired
     RentHouseMapper rentHouseMapper;
 
+    /**
+     * 根据id查询
+     * */
     @Override
     public RentHouseDTO selectOneAndPicture(Long id) {
        RentHouse rentHouse=rentHouseMapper.selectOneAndPicture(id);
@@ -31,6 +31,9 @@ public class RentHouseServicelmpl implements RentHouseService {
         return ConvertHelper.convert(rentHouse,RentHouseDTO.class);
     }
 
+    /**
+     * 创建出租房
+     * */
     @Override
     public RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO,long Uid) {
         RentHouse rentHouse=ConvertHelper.convert(rentHouseDTO,RentHouse.class);
@@ -41,6 +44,9 @@ public class RentHouseServicelmpl implements RentHouseService {
         return  null;
     }
 
+    /**
+     * 按要求查找房子
+     * */
     @Override
     public List<RentHouseDTO> queryAllRentHouseByArea(String province, String city, String area) throws CommonException {
         List<RentHouse> rentHouses=rentHouseMapper.queryAllRentHouseByArea( province,  city,  area);

@@ -36,6 +36,7 @@ handclick=(aa)=>{
     const { history } = this.props
     history.push(url)
   };
+  //获取所有楼盘
   getBuildingList=()=>{
     let url = '/v1/wyw/building/selectAll'
     request(url,{
@@ -58,6 +59,7 @@ handclick=(aa)=>{
       }
     })
   }
+  //获取所有出租房
   getRentHouseList=()=>{
     let url= '/v1/wyw/renthouse/selectAll'
     request(url,{
@@ -96,7 +98,7 @@ handclick=(aa)=>{
             renderItem={item => (
                 <List.Item key={item.id} onClick={() => this.getCurrentBuildingItem(item)} >
                   <Card hoverable style={{ width: 300 }} 
-                  cover={<img alt=""   size="large" src="http://localhost:80/${mime.src}" style={{height:200 
+                  cover={<img alt=""   size="large" src={`http://localhost:80/${item.srcs[0]}`} style={{height:200 
                     ,width:300}}/>}
                   >
                     <Card.Meta

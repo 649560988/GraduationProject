@@ -5,6 +5,7 @@ import com.czhand.zsmq.app.service.PictureServices;
 import com.czhand.zsmq.domain.Picture;
 import com.czhand.zsmq.infra.exception.CommonException;
 import com.czhand.zsmq.infra.mapper.PictureMapper;
+import com.czhand.zsmq.infra.utils.ArgsUtils;
 import com.czhand.zsmq.infra.utils.web.ResponseUtils;
 import com.czhand.zsmq.infra.utils.web.dto.Data;
 import io.swagger.annotations.Api;
@@ -43,7 +44,9 @@ public class PictureController {
         if (file == null) {
            throw new CommonException("插入出错");
         }
-
+        if(ArgsUtils.checkArgsNull(type)){
+            throw  new CommonException("参数为空");
+        }
             String originFileName = file.getOriginalFilename();
             if (originFileName == null && " ".contentEquals(originFileName)){
                 throw new CommonException("插入出错");

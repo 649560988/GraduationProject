@@ -29,7 +29,6 @@ public class CommentController {
      */
     @ApiOperation("添加评论")
     @GetMapping("/insertcomment/{Uid}/{Bid}/{type}/{comment}")
-//    @ResponseBody
    public   ResponseEntity<Data<CommentDTO>> insertComment(
                                                             @PathVariable("Uid") Long Uid,
                                                             @PathVariable("Bid") Long Bid,

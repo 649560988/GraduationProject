@@ -23,7 +23,9 @@ public class CommentServicelmpl implements CommentService {
     public List<CommentDTO> selectCommentList() {
         return null;
     }
-
+    /**
+     * 添加评论
+     * */
     @Autowired
     private CommentMapper commentMapper;
     @Override

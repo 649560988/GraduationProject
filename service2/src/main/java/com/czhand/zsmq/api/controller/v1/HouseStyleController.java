@@ -2,6 +2,8 @@
 
   import com.czhand.zsmq.api.dto.HouseStyleDto;
   import com.czhand.zsmq.app.service.HouseStyleService;
+  import com.czhand.zsmq.infra.exception.CommonException;
+  import com.czhand.zsmq.infra.utils.ArgsUtils;
   import com.czhand.zsmq.infra.utils.web.ResponseUtils;
   import com.czhand.zsmq.infra.utils.web.dto.Data;
   import io.swagger.annotations.Api;
@@ -40,6 +42,9 @@
       @ApiOperation("添加房屋类型信息")
       @PostMapping("/createHouseStyle")
       public ResponseEntity<Data<HouseStyleDto>> createHouseStyle(@RequestBody HouseStyleDto houseStyleDto) {
+          if(ArgsUtils.checkArgsNull(houseStyleDto)){
+              throw  new CommonException("参数为空");
+          }
           String message = "添加成功";
           houseStyleDto = houseStyleService.createHouseStyle(houseStyleDto);
           return ResponseUtils.res(houseStyleDto, message);

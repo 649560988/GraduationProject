@@ -8,7 +8,6 @@ import com.czhand.zsmq.infra.utils.web.ResponseUtils;
 import com.czhand.zsmq.infra.utils.web.dto.Data;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +53,15 @@ public class BuildingController {
                                                                         @PathVariable("city") String city,
                                                                         @PathVariable("area")String area)
  {
+     if(ArgsUtils.checkArgsNull(province)){
+         throw  new CommonException("参数为空");
+     }
+     if(ArgsUtils.checkArgsNull(city)){
+         throw  new CommonException("参数为空");
+     }
+     if(ArgsUtils.checkArgsNull(area)){
+         throw  new CommonException("参数为空");
+     }
      String message="查询成功";
      List<BuildingDTO> list=buildingServices.queryAllBuildingByArea(province,city,area);
      return ResponseUtils.res(list,message);
@@ -64,7 +72,6 @@ public class BuildingController {
     @ApiOperation("查询所有楼盘信息")
     @GetMapping("/selectAll")
     public ResponseEntity<Data<List<BuildingDTO>>> queryAllBuilding(){
-//     BuildingDTO buildingDTO=new BuildingDTO();
      String message="查询成功";
      List<BuildingDTO> list=buildingServices.queryAllBuilding();
      return ResponseUtils.res(list,message);
@@ -75,6 +82,12 @@ public class BuildingController {
  @ApiOperation("添加楼盘信息")
  @PostMapping("/createBuilding/{Uid}")
     public ResponseEntity<Data<BuildingDTO>> createBuilding(@RequestBody BuildingDTO buildingDTO,@PathVariable("Uid") Long Uid){
+     if(ArgsUtils.checkArgsNull(buildingDTO)){
+         throw  new CommonException("参数为空");
+     }
+     if(ArgsUtils.checkArgsNull(Uid)){
+         throw  new CommonException("参数为空");
+     }
      String message="添加成功";
      BuildingDTO result=buildingServices.createBuilding( buildingDTO,Uid);
      return ResponseUtils.res(result,message);

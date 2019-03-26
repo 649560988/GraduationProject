@@ -56,26 +56,26 @@ class Building extends Component {
     const { Meta } = Card;
         return (
             <Fragment>
-    <Menu  onClick={this.handClick} selectedKeys={[this.state.cuttentItem]} mode='horizontal' >
-       <Menu.Item>
-       首页
-      </Menu.Item>
-      <Menu.Item>
-  <a href="">楼讯</a>
-      </Menu.Item>
-      <Menu.Item>
-  <a href="">问答</a>
-     </Menu.Item>
- </Menu> 
- <Address></Address>
- <List
+         <Menu  onClick={this.handClick} selectedKeys={[this.state.cuttentItem]} mode='horizontal' >
+         <Menu.Item>
+            首页
+         </Menu.Item>
+         <Menu.Item>
+          <a href="">楼讯</a>
+         </Menu.Item>
+         <Menu.Item>
+          <a href="">问答</a>
+         </Menu.Item>
+         </Menu> 
+         <Address></Address>
+         <List
             grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
             dataSource={this.state.buildingList}
             renderItem={(mitem,index) => (
                 <List.Item key={mitem.id} onClick={() => this.getCurrentBuildingItem(mitem)}>
                 <div onClick={this.buildingClick} >
                   <Card hoverable style={{ width: 300 }} 
-                  cover={<img alt=""  size="large" src="http://localhost:80/${mime.src}" style={{height:200 
+                  cover={<img alt=""  size="large" src={`http://localhost:80/${mime.srcs[0]}`} style={{height:200 
                     ,width:300}} href='/setting/user-update/${flag}/${id}'/>}
                   >
                     <Card.Meta
