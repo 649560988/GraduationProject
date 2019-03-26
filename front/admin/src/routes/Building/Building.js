@@ -75,7 +75,7 @@ class Building extends Component {
                 <List.Item key={mitem.id} onClick={() => this.getCurrentBuildingItem(mitem)}>
                 <div onClick={this.buildingClick} >
                   <Card hoverable style={{ width: 300 }} 
-                  cover={<img alt=""  size="large" src={mitem.srcs[0]} style={{height:200 
+                  cover={<img alt=""  size="large" src="http://localhost:80/${mime.src}" style={{height:200 
                     ,width:300}} href='/setting/user-update/${flag}/${id}'/>}
                   >
                     <Card.Meta

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @autor wyw
@@ -18,6 +19,11 @@ import java.util.Date;
  */
 @Service
 public class CommentServicelmpl implements CommentService {
+    @Override
+    public List<CommentDTO> selectCommentList() {
+        return null;
+    }
+
     @Autowired
     private CommentMapper commentMapper;
     @Override

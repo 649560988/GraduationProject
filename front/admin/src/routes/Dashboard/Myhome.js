@@ -4,11 +4,10 @@ import GlobalFooter from '../../components/GlobalFooter'
 import request from '../../utils/request'
 import Ellipsis from 'components/Ellipsis';
 import Address from '../Address/Address'
+import { number } from 'prop-types';
 const { Footer, Content } = Layout
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
-const requireContext = require.context("E:/img",true, /^\.\/.*\.jpg$/);
-const projectImgs = requireContext.keys().map(requireContext);
 export default class Welcome extends React.Component {
   constructor(props){
     super(props);
@@ -45,16 +44,15 @@ handclick=(aa)=>{
       if(res.message === '查询成功'){
         let children = []
         for(let i of res.data){
+          let src=[]
           children.push(i);
+
         }
        this.setState({
        buildingList: children,
-       src:projectImgs
        });
-       for(let i = 0;i<this.state.buildingList.length;i++)
-          {
-            this.state.buildingList[i].srcs=this.state.src[i];
-          }
+       console.log(this.state.buildingList)
+
       }else{
         console.log("用户信息获取失败")
       }
@@ -66,6 +64,7 @@ handclick=(aa)=>{
       method: 'GET'
     }).then((res)=>{
       if(res.message=== '查询成功'){
+        
         let rentHouse=[]
         for(let i of res.data){
           rentHouse.push(i)
@@ -97,7 +96,7 @@ handclick=(aa)=>{
             renderItem={item => (
                 <List.Item key={item.id} onClick={() => this.getCurrentBuildingItem(item)} >
                   <Card hoverable style={{ width: 300 }} 
-                  cover={<img alt=""  size="large" src={item.srcs} style={{height:200 
+                  cover={<img alt=""   size="large" src="http://localhost:80/${mime.src}" style={{height:200 
                     ,width:300}}/>}
                   >
                     <Card.Meta
