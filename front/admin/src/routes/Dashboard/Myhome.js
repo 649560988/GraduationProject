@@ -15,7 +15,7 @@ export default class Welcome extends React.Component {
       buildingList: [],
       rentHouseList:[],
       data: {},
-      src:[]
+      src:'0ae66068-146e-4984-ba80-b0419141c1f6.jpg'
     }
   }
   componentDidMount(){
@@ -98,11 +98,10 @@ handclick=(aa)=>{
             renderItem={item => (
                 <List.Item key={item.id} onClick={() => this.getCurrentBuildingItem(item)} >
                   <Card hoverable style={{ width: 300 }} 
-                  cover={<img alt=""   size="large" src={`http://localhost:80/${item.srcs[0]}`} style={{height:200 
+                  cover={<img alt=""   size="large" src={`http://localhost:80/${item.srcs[0].src}`} style={{height:200 
                     ,width:300}}/>}
                   >
                     <Card.Meta
-                    //  avatar={ <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                       title={<a href="">{item.name}&nbsp;{item.city}</a>} 
                       description={
                         <Ellipsis  lines={2}>
@@ -125,15 +124,14 @@ handclick=(aa)=>{
               // <Popover >
                 <List.Item key={item.id} onClick={() => this.getCurrentRentHouseItem(item)}>
                   <Card hoverable style={{ width: 300 }} 
-                  cover={<img alt=""  size="large" src={item.srcs} style={{height:200 
+                  cover={<img alt=""  size="large" src={`http://localhost:80/${item.srcs[0].src}`} style={{height:200 
                     ,width:300}}/>}
                   >
                     <Card.Meta
-                    //  avatar={ <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                      title={<a href="">{item.name}&nbsp;{item.city}</a>} 
+                      title={<a href="">{item.communityName}&nbsp;{item.communityName}</a>} 
                       description={
                         <Ellipsis  lines={2}>
-                          {item.description}
+                          {item.houseDescription}
                         </Ellipsis>
                       }
                     />

@@ -12,10 +12,6 @@ import {Layout,Carousel, Row, Col,Divider,Tabs,
     List,
     Input} from 'antd'
 import styles from './style.css'
-// const {
-//     Header, Footer, Sider, Content,
-//   } = Layout;
-// const test = []
  const TextArea = Input.TextArea;
  const CommentList = ({
         comments
@@ -48,14 +44,8 @@ class BuildingDetail extends Component{
     constructor(props){
         super(props)
         this.state={
-            building:{
-                name:'江苏',
-                id:'碧桂园',
-                bname:'至尊'
-			},
-			picture:[
-				'wyw','qdqw','qwdq'
-			],
+			building:'',
+			pictures:[],
 			Bid:this.props.match.params.id,
 			Uid:'',
 			value: '',
@@ -66,7 +56,23 @@ class BuildingDetail extends Component{
 	}
 	componentWillMount(){
 		this.getCurrentUser()
+		this.getCurrentBuilding()
 	}
+	//获取当前楼盘信息
+	getCurrentBuilding=()=>{
+		let url=`/v1/wyw/building/${this.state.Bid}`
+		request(url,{
+			method: "GET"
+		}).then((res)=>{
+			if(res.message=='查询成功'){
+			this.setState({
+				building:res.data,
+				pictures:res.data.srcs
+			})
+			}
+		})
+	}
+	//发表评论
 	postComment=()=>{
 		let url=`/v1/wyw/comment/insertcomment/${this.state.Uid}/${this.state.Bid}/${this.state.type}/${this.state.value}`
 		request(url, {
@@ -83,7 +89,8 @@ class BuildingDetail extends Component{
 	}
 	 callback=(key)=> {
 		console.log(key);
-	  }
+		}
+		//获取当前用户
 	  getCurrentUser = () => {
 		let url = '/v1/sysUserDomin/getAuth'
 		request(url, {
@@ -140,8 +147,11 @@ class BuildingDetail extends Component{
 			 <div className={styles.div1}>
 		         <Carousel autoplay>
 		         {
-		         	this.state.picture.map((item,index)=>{
-		         		return <div className={styles.carousel}><h3>{item}</h3></div>
+		         	this.state.pictures.map((item,index)=>{
+									return <div className={styles.carousel}>
+										<img alt=""   size="large" src={`http://localhost:80/${item.src}`} style={{height:'100%' 
+                    ,width:'100%'}}/>
+										</div>
 		         	})
 		         }
                 </Carousel>

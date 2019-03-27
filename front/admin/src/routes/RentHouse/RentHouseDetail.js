@@ -39,29 +39,38 @@ class RentHouseDetail extends Component{
     constructor(props){
         super(props)
         this.state={
-            building:{
-                name:'江苏',
-                id:'碧桂园',
-                bname:'至尊',
-                description:'万达旁，精装修，灵宝记住'
-			},
-			picture:[
-				'wyw','qdqw','qwdq'
-            ],
-            contenet:[
-                {name:'database',zh_name:'洗衣机'},{name:'credit-card',zh_name:'电视'},{name:'idcard',zh_name:'空调'}
-            ],
-            Bid:this.props.match.params.id,
-			Uid:'',
-			value: '',
-			comments: [],
-			submitting: false,
-			type:0
+          rentHouse:'',
+          pictures:[],
+          Rid:this.props.match.params.id,
+		      Uid:'',
+		      value: '',
+		      comments: [],
+		      submitting: false,
+          type:0,
+          contenet:[
+            {name:'database',zh_name:'洗衣机'},{name:'credit-card',zh_name:'电视'},{name:'idcard',zh_name:'空调'}
+        ],
 		}
     }
     componentWillMount(){
-		this.getCurrentUser()
-	}
+    this.getCurrentUser()
+    this.getCurrentRentHouse()
+  }
+  //获取当前出租屋信息
+  getCurrentRentHouse=()=>{
+    let url=`/v1/wyw/renthouse/${this.state.Rid}`
+    request(url,{
+			method: "GET"
+		}).then((res)=>{
+			if(res.message=='查询成功'){
+			this.setState({
+				rentHouse:res.data,
+				pictures:res.data.srcs
+			})
+			}
+		})
+  }
+  //发表评论
 	postComment=()=>{
 		let url=`/v1/wyw/comment/insertcomment/${this.state.Uid}/${this.state.Bid}/${this.state.type}/${this.state.value}`
 		request(url, {
@@ -128,7 +137,7 @@ class RentHouseDetail extends Component{
         return(
             <div style={{ padding: 20, overflowY: 'auto', flex: 1,marginLeft:'30px',marginRight:'90px' }}>
 			<img className={styles.mimg} src="http://localhost:80/3.jpg"></img>
-            <strong><h1 style={{marginLeft:'30px',marginTop:'5px'}}>{this.state.building.description}</h1></strong> 
+            <strong><h1 style={{marginLeft:'30px',marginTop:'5px'}}>{this.state.rentHouse.houseDescription}</h1></strong> 
             <Row>
             <Col span={16} >
             <Tabs defaultActiveKey="1" onChange={this.callback} tabPosition="left">
@@ -136,8 +145,11 @@ class RentHouseDetail extends Component{
             <div className={styles.div1}>
                 <Carousel autoplay>
                 {
-                    this.state.picture.map((item,index)=>{
-                        return <div className={styles.carousel}><h3>{item}</h3></div>
+                    this.state.pictures.map((item,index)=>{
+                        return <div className={styles.carousel}>
+                        	<img alt=""   size="large" src={`http://localhost:80/${item.src}`} style={{height:'100%' 
+                    ,width:'100%'}}/>
+                        </div>
                     })
                 }
                </Carousel>
@@ -154,9 +166,9 @@ class RentHouseDetail extends Component{
             </Tabs>
             </Col>
             <Col span={8} >
-            <b  style={{fontSize:'250%',lineHeight:'30%',color:'red',marginLeft:'30px'}}>{this.state.building.id}</b>
-            <span> <h3>地址：{this.state.building.name}</h3></span>
-            <h3>小区名：{this.state.building.name}</h3>
+            <b  style={{fontSize:'250%',lineHeight:'30%',color:'red',marginLeft:'30px'}}>{this.state.rentHouse.id}</b>
+            <span> <h3>地址：{this.state.rentHouse.province}</h3></span>
+            <h3>小区名：{this.state.rentHouse.communityName}</h3>
             <Divider />  
           <div style={{marginTop:'8px',marginLeft:'20px'}}>
            <div style={{display:'inline-block',width:'30%'}}>
@@ -164,7 +176,7 @@ class RentHouseDetail extends Component{
            <tr><td valign="top"></td></tr>
            <div style={{marginLeft:'10px'}}>
            <h2>房件面积</h2>
-           <h3>{this.state.building.name}平方米</h3>
+           <h3>{this.state.rentHouse.houseArea}平方米</h3>
            </div>
            </table>
            </div>
@@ -173,7 +185,7 @@ class RentHouseDetail extends Component{
            <tr><td valign="top"></td></tr>
            <div style={{marginLeft:'10px'}}>
           <h2>租金</h2>
-          <h3>{this.state.building.name}</h3>
+          <h3>{this.state.rentHouse.rent}</h3>
            </div>
            </table>
            </div>
@@ -182,7 +194,7 @@ class RentHouseDetail extends Component{
            <tr><td valign="top"></td></tr>
            <div style={{marginLeft:'10px'}}>
            <h2>出租要求</h2>
-           <h3>{this.state.building.name}</h3>
+           <h3>{this.state.rentHouse.rentalRequest}</h3>
            </div>
            </table>
            </div>
@@ -192,7 +204,7 @@ class RentHouseDetail extends Component{
            </table>
            </div>
             </div>
-            <span ><h1 style={{background:'red',width:'60%',marginLeft:'20%',marginTop:'10px'}}><Icon type="mobile" />电话{this.state.building.name}</h1></span>
+            <span ><h1 style={{background:'red',width:'60%',marginLeft:'20%',marginTop:'10px'}}><Icon type="mobile" />电话{this.state.rentHouse.contactInformation}</h1></span>
             </Col>
            </Row>
            <div style={{marginTop:'10px'}}>
@@ -200,18 +212,18 @@ class RentHouseDetail extends Component{
             <Divider /> 
            <Row>
            <Col span={8}>
-           <h2>户型：{this.state.building.name}</h2> 
-           <h2>楼层：{this.state.building.name}</h2>
-           <h2>小区：{this.state.building.name}</h2>
+           <h2>户型：{this.state.rentHouse.houseStyle}</h2> 
+           <h2>楼层：{this.state.rentHouse.floor}</h2>
+           <h2>小区：{this.state.rentHouse.communityName}</h2>
            </Col>
            <Col span={8}>
-           <h2>面积：{this.state.building.name}</h2>
-           <h2>装修：{this.state.building.name}</h2>
-           <h2>要求：{this.state.building.name}</h2>
+           <h2>面积：{this.state.rentHouse.houseArea}</h2>
+           <h2>装修：{this.state.rentHouse.decoration}</h2>
+           <h2>要求：{this.state.rentHouse.rentalRequest}</h2>
            </Col>
            <Col span={8}>
-           <h2>朝向：{this.state.building.name}</h2>
-           <h2>类型:{this.state.building.name}</h2>
+           <h2>朝向：{this.state.rentHouse.oriented}</h2>
+           <h2>类型:{this.state.rentHouse.paymentType}</h2>
            </Col>
            </Row>
            </div>

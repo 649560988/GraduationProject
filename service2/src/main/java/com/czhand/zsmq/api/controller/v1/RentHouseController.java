@@ -68,7 +68,7 @@ public class RentHouseController {
             throw  new CommonException("参数为空");
         }
         RentHouseDTO rentHouseDTO=new RentHouseDTO();
-        String message="添加成功";
+        String message="查询成功";
         try{
             rentHouseDTO=rentHouseService.selectOneAndPicture(id);
         }catch (Exception e){

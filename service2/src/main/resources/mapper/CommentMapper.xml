@@ -15,7 +15,7 @@
     <result column="bad" jdbcType="INTEGER" property="bad" />
   </resultMap>
   <select id="selectCommentList" resultMap="BaseResultMap">
-    select * from comment
-    where
+   <!--  select * from comment
+    where -->
   </select>
 </mapper>

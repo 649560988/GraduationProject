@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface CommentService {
     CommentDTO insertComment(long Uid,long Bid,Integer type,String comment)throws CommonException;
-    List<CommentDTO> selectCommentList();
+    List<CommentDTO> selectCommentList() throws CommonException;
 }

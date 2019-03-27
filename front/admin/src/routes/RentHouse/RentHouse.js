@@ -54,21 +54,21 @@ class RentHouse extends Component{
             }
             render(){
             const { Meta } = Card;
-                return (
-                    <Fragment>
-            <Menu  onClick={this.handClick} selectedKeys={[this.state.cuttentItem]} mode='horizontal' >
-               <Menu.Item>
-               首页
-              </Menu.Item>
-              <Menu.Item>
-            <a href="">楼讯</a>
-              </Menu.Item>
-              <Menu.Item>
-            <a href="">问答</a>
-             </Menu.Item>
-           </Menu> 
-           <Address></Address>
-           <List
+              return (
+               <Fragment>
+                <Menu  onClick={this.handClick} selectedKeys={[this.state.cuttentItem]} mode='horizontal' >
+                <Menu.Item>
+                首页
+                </Menu.Item>
+                <Menu.Item>
+                 <a href="">地图找房</a>
+                </Menu.Item>
+                <Menu.Item>
+                 <a href="">品牌公寓</a>
+                </Menu.Item>
+                </Menu> 
+                <Address></Address>
+                <List
                     rowKey="id"
                     grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
                     dataSource={this.state.buildingList}

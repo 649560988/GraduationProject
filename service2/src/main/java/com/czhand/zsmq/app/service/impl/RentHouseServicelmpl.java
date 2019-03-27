@@ -38,6 +38,9 @@ public class RentHouseServicelmpl implements RentHouseService {
     public RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO,long Uid) {
         RentHouse rentHouse=ConvertHelper.convert(rentHouseDTO,RentHouse.class);
         rentHouse.setUserId(Uid);
+        rentHouse.setProvince("江苏省");
+        rentHouse.setCity("常州市");
+        rentHouse.setArea("天宁区");
         rentHouse.setCreatedTime(new Date());
         rentHouse.setUpdatedTime(new Date());
         int result=rentHouseMapper.insert(rentHouse);

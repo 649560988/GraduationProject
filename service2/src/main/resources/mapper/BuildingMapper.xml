@@ -25,17 +25,17 @@
     <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <collection property="houseStyles" ofType="com.czhand.zsmq.domain.HouseStyle">
-      <result column="id" property="id"></result>
-      <result column="name" property="name"></result>
+      <result column="hId" property="id"></result>
+      <result column="hName" property="name"></result>
     </collection>
     <collection property="srcs" ofType="com.czhand.zsmq.domain.Picture">
-      <result column="id" property="id"></result>
+      <result column="pId" property="id"></result>
       <result column="src" property="src"/>
     </collection>
   </resultMap>
 
   <select id="selectOneAndPicture" resultMap="BaseResultMap" >
-    select b.*, p.*,h.id,h.name
+    select b.*, p.src,h.name as hName,h.Id as hId, p.id as pId
     from building b ,picture p,house_style h ,r_b_style r
     where b.id=#{id} and p.type='1' and  p.belong_id= b.id and b.id=r.belong_id and r.type='1'
     and r.house_style_id=h.Id

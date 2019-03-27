@@ -42,7 +42,7 @@
   <select id="selectOneAndPicture" resultMap="BaseResultMap" >
     select r.*, p.*
     from rent_house r ,picture p
-    where r.id=#{id} and p.type='1' and  p.belong_id= r.id
+    where r.id=#{id} and p.type='0' and  p.belong_id= r.id
   </select>
   <select id="queryAllRentHouseByArea" resultMap="BaseResultMap">
     select r.*,p.*

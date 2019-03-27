@@ -10,8 +10,8 @@ import java.util.List;
  * @data 2019/3/7 16:18
  */
 public interface RentHouseService {
-    List<RentHouseDTO> queryAllRentHouse();
-    RentHouseDTO selectOneAndPicture(Long id);
+    List<RentHouseDTO> queryAllRentHouse()throws CommonException;
+    RentHouseDTO selectOneAndPicture(Long id)throws CommonException;
     List<RentHouseDTO> queryAllRentHouseByArea(String province,String city,String area)throws CommonException;
-    RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO,long Uid);
+    RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO,long Uid)throws CommonException;
 }

@@ -32,7 +32,7 @@ public class BuildingServicesImpl implements BuildingServices {
      * 根据位置查询所有楼盘信息
      */
     @Override
-    public List<BuildingDTO> queryAllBuildingByArea(String province, String city, String area) {
+    public List<BuildingDTO> queryAllBuildingByArea(String province, String city, String area)throws CommonException {
         List<Building> buildings = buildingMapper.queryAllBuildingByArea(province, city, area);
         return ConvertHelper.convertList(buildings, BuildingDTO.class);
     }
@@ -44,6 +44,9 @@ public class BuildingServicesImpl implements BuildingServices {
     public BuildingDTO createBuilding(BuildingDTO buildingDTO, Long Uid) throws CommonException {
         Building building = ConvertHelper.convert(buildingDTO, Building.class);
         building.setUserId(Uid);
+        building.setProvince("江苏省");
+        building.setCity("常州市");
+        building.setArea("天宁区");
         building.setCreatedTime(new Date());
         building.setUpdatedTime(new Date());
         int result = buildingMapper.insert(building);
@@ -60,7 +63,7 @@ public class BuildingServicesImpl implements BuildingServices {
      * 根据id查询楼盘信息
      */
     @Override
-    public BuildingDTO selectOneAndPicture(Long id) {
+    public BuildingDTO selectOneAndPicture(Long id)throws CommonException {
         if (id == null) {
             return null;
         } else {
@@ -74,14 +77,14 @@ public class BuildingServicesImpl implements BuildingServices {
      * 查询所有楼盘信息
      */
     @Override
-    public List<BuildingDTO> queryAllBuilding() {
+    public List<BuildingDTO> queryAllBuilding()throws CommonException {
         List<Building> buildings = buildingMapper.queryAllBuilding();
         return ConvertHelper.convertList(buildings, BuildingDTO.class);
     }
     /**
      * 关联房间类型表
      * */
-    public boolean addHouseStyle(List<HouseStyle> houseStyleList,Long bId){
+    public boolean addHouseStyle(List<HouseStyle> houseStyleList,Long bId)throws CommonException{
         for(HouseStyle houseStyle:houseStyleList){
             RBStyle rbStyle1=new RBStyle();
             rbStyle1.setBelongId(bId);

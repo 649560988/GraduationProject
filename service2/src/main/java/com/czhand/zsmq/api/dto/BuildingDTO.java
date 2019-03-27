@@ -74,14 +74,6 @@ public class BuildingDTO implements  Serializable{
         @ApiModelProperty("楼盘户型")
         private List<HouseStyle> houseStyles;
 
-        public List<HouseStyle> getHouseStyles() {
-                return houseStyles;
-        }
-
-        public void setHouseStyles(List<HouseStyle> houseStyles) {
-                this.houseStyles = houseStyles;
-        }
-
         /**
          * 售楼处电话
          */
@@ -291,6 +283,14 @@ public class BuildingDTO implements  Serializable{
          */
         public void setEstimatePrice(BigDecimal estimatePrice) {
             this.estimatePrice = estimatePrice;
+        }
+
+        public List<HouseStyle> getHouseStyles() {
+                return houseStyles;
+        }
+
+        public void setHouseStyles(List<HouseStyle> houseStyles) {
+                this.houseStyles = houseStyles;
         }
 
         /**
