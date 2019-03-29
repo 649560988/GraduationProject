@@ -3,6 +3,7 @@ package com.czhand.zsmq.infra.mapper;
 import com.czhand.zsmq.domain.SysRole;
 import com.czhand.zsmq.domain.SysUserRole;
 import com.czhand.zsmq.infra.utils.mapper.BaseMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 /**
@@ -10,6 +11,7 @@ import java.util.List;
  *
  * @author linjing
  */
+@Component
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
     /**
      * 新增

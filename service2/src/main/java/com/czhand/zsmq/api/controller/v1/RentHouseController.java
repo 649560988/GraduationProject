@@ -8,8 +8,10 @@ import com.czhand.zsmq.infra.mapper.RentHouseMapper;
 import com.czhand.zsmq.infra.utils.ArgsUtils;
 import com.czhand.zsmq.infra.utils.web.ResponseUtils;
 import com.czhand.zsmq.infra.utils.web.dto.Data;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -92,4 +94,44 @@ public class RentHouseController {
         rentHouseDTO=rentHouseService.createRentHouse(rentHouseDTO,Uid);
         return ResponseUtils.res(rentHouseDTO,message);
     }
+    @ApiOperation("分页查询")
+    @GetMapping("selectAllByPage")
+    public ResponseEntity<Data<PageInfo<RentHouseDTO>>> selectAllByPage(
+            @RequestParam(required = true, name = "pageNo") @ApiParam(value = "分页查询中的参数pageNo",example = "1") int pageNo,
+            @RequestParam(required = true, name = "pageSize") @ApiParam(value = "分页查询中的参数pageSize",example = "10") int pageSize
+    ){
+        PageInfo<RentHouseDTO> rentHouseDTOPageInfo=null;
+        String message = "成功";
+        try {
+            rentHouseDTOPageInfo = rentHouseService.selectAllByPage( pageNo, pageSize);
+        } catch (Exception e) {
+            message = "失败";
+
+        }
+        return ResponseUtils.res(rentHouseDTOPageInfo, message);
+    }
+    /**
+     * 禁用、启用用户
+     *
+     * @param id    要查询对象的ID
+     * @param isdel 是否禁用：禁用为1，启用为0
+     * @return 状态是否更新成功
+     */
+    @ApiOperation("禁用、启用用户")
+    @GetMapping("/{id}/{isdel}")
+    public ResponseEntity<Data<Integer>> stopOrStart(@PathVariable("id") @ApiParam(value = "要禁用对象的ID",example = "1") Long id,
+                                                     @PathVariable("isdel") @ApiParam(value = "是否禁用，禁用为1，启用为0",example = "1") int isdel) {
+        if (ArgsUtils.checkArgsNull(id, isdel)) {
+            throw new CommonException("参数不正确");
+        }
+        int result= 0;
+        String message = "成功";
+        try{
+            result=rentHouseService.stopOrStart(id, isdel);
+        }catch (Exception e){
+           e.printStackTrace();
+        }
+        return ResponseUtils.res(result, message);
+    }
+
 }

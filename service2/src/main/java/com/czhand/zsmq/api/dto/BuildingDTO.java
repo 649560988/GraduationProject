@@ -19,7 +19,8 @@ public class BuildingDTO implements  Serializable{
          */
         @ApiModelProperty("主键id")
         private Long id;
-
+        @ApiModelProperty("是否删除")
+        private Integer isdel;
         /**
          * 发布人id
          */
@@ -274,6 +275,14 @@ public class BuildingDTO implements  Serializable{
          */
         public BigDecimal getEstimatePrice() {
             return estimatePrice;
+        }
+
+        public Integer getIsdel() {
+                return isdel;
+        }
+
+        public void setIsdel(Integer isdel) {
+                this.isdel = isdel;
         }
 
         /**

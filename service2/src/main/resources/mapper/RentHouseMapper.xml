@@ -53,4 +53,15 @@
     select MAX(id)
     from rent_house
   </select>
+  <select id="selectAllByPage" resultMap="BaseResultMap">
+    select *
+    from rent_house
+  </select>
+  <update id="stopOrStart" parameterType="com.czhand.zsmq.domain.RentHouse">
+    update rent_house
+    set
+    is_rent=#{isRent},
+    UPDATED_TIME=NOW()
+    where  id=#{id}
+  </update>
 </mapper>

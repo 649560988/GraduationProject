@@ -197,7 +197,7 @@ public class SysUserServiceImpl implements SysUserService {
         PageHelper.startPage(pageNo, pageSize);
         Page<SysUser> sysUserList = null;
         if (realName == null || ("").equals(realName)) {
-            sysUserList = (Page) userMapper.selectAll();
+            sysUserList = (Page) userMapper.selectAllUser();
         } else {
             sysUserList = (Page) userMapper.selectByRealName(realName);
         }

@@ -4,9 +4,9 @@ spring:
   application:
     name: zsmq-service
   datasource:
-    url: jdbc:mysql://47.100.243.106:3306/bisj?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true
-    username: hapadmin
-    password: hapadmin123
+    url: jdbc:mysql://localhost:3306/rentandsell?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
 server:
   port: 8080
   spring:

@@ -3,7 +3,7 @@ import TableLayout from '../../layouts/TableLayout'
 import { Button, Table, Form, Icon, Tag, Col, Row, Input, Select, message, Tooltip, Popconfirm } from 'antd'
 import request from '../../utils/request'
 
-class UserManageTab extends React.Component {
+class BuildingList extends React.Component {
 
     constructor(props) {
         super(props)
@@ -19,39 +19,25 @@ class UserManageTab extends React.Component {
                 align: 'center',
                 width: '10%',
             }, {
-                title: '用户名',
+                title: '楼盘名称',
+                dataIndex: 'name',
+                align: 'center',
+                width: '15%',
+            }, {
+                title: '发布人姓名',
                 dataIndex: 'userName',
                 align: 'center',
                 width: '15%',
-                render: (text, record) => {
-                    if (text === null) {
-                        return <span title={text}>{text}</span>
-                    } else {
-                        if (text.length > 8) {
-                            return <span title={text}>{text.substring(0, 8)}...</span>
-                        } else {
-                            return <span title={text}>{text}</span>
-                        }
-                    }
-                }
             }, {
-                title: '真实姓名',
-                dataIndex: 'realName',
-                align: 'center',
-                width: '15%',
-                render: (text, record) => {
-                    return <span title={text}>{text}</span>
-                }
-            }, {
-                title: '手机号码',
-                dataIndex: 'telephone',
+                title: '发布时间',
+                dataIndex: 'createTime',
                 align: 'center',
                 width: '20%',
                 render: (text, record) => {
                     return <span title={text}>{text}</span>
                 }
             }, {
-                title: '是否启用',
+                title: '是否删除',
                 dataIndex: 'isDel',
                 align: 'center',
                 width: '10%',
@@ -75,12 +61,12 @@ class UserManageTab extends React.Component {
                     let actionDel = '';
                     if (record.isDel) {
                         actionDel =
-                            <Tooltip title={'启用'} placement={'bottom'}>
+                            <Tooltip title={'发布'} placement={'bottom'}>
                                 <Popconfirm
-                                    title={'确定要启用此用户吗?'}
+                                    title={'确定要重新发布?'}
                                     okText={'是'}
                                     cancelText={'否'}
-                                    onConfirm={(e) => this.handleOnDel('on', record.id)}
+                                    // onConfirm={(e) => this.handleOnDel('on', record.id)}
                                 >
                                     <Button style={{ marginRight: '5px' }}><Icon type='check-circle-o' style={{ color: '#4CAF50' }} /></Button>
                                 </Popconfirm>
@@ -89,10 +75,10 @@ class UserManageTab extends React.Component {
                         actionDel =
                             <Tooltip title={'禁用'} placement={'bottom'}>
                                 <Popconfirm
-                                    title={'确定要禁用此用户吗?'}
+                                    title={'确定要禁用此信息吗?'}
                                     okText={'是'}
                                     cancelText={'否'}
-                                    onConfirm={(e) => this.handleOnDel('off', record.id)}
+                                    // onConfirm={(e) => this.handleOnDel('off', record.id)}
                                 >
                                     <Button style={{ marginRight: '5px' }} type={'danger'}><Icon type='minus-circle-o' /></Button>
                                 </Popconfirm>
@@ -104,16 +90,6 @@ class UserManageTab extends React.Component {
                                 <Button style={{ marginRight: '5px' }} onClick={(e) => this.handleLinkToDetail(e, 'edit', record.id)}><Icon type={'edit'} /></Button>
                             </Tooltip>
                             {actionDel}
-                            <Tooltip title={'重置密码'} placement={'bottom'} >
-                                <Popconfirm
-                                    title={'确定要重置此用户的密码?'}
-                                    okText={'是'}
-                                    cancelText={'否'}
-                                    onConfirm={(e) => this.resetPassword(record)}
-                                >
-                                    <Button type={'danger'}><Icon type="key" /></Button>
-                                </Popconfirm>
-                            </Tooltip>
                         </div>
                     )
                 }
@@ -127,9 +103,9 @@ class UserManageTab extends React.Component {
     }
 
 
-    componentWillMount() {
-        this.getListInfo('')
-    }
+    // componentWillMount() {
+    //     this.getListInfo('')
+    // }
 
     /**
      * 管理员重置用户密码为012345678
@@ -153,55 +129,52 @@ class UserManageTab extends React.Component {
             console.log(err)
         })
     }
-
-
-
     /**
      * 禁用或启用用户
      */
-    handleOnDel = (flag, id) => {
-        let url = ''
-        let successMsg = ''
-        let failedMsg = ''
-        if (flag === 'on') {
-            url = `/v1/sysuser/${id}/0`
-            successMsg = '启用成功'
-            failedMsg = '启用失败'
-        } else if (flag === 'off') {
-            url = `/v1/sysuser/${id}/1`
-            successMsg = '禁用成功'
-            failedMsg = '禁用失败'
-        }
-        request(url, {
-            method: 'GET',
-            // credentials: 'omit'
-        }).then((res) => {
-            if (res.message === '成功') {
-                message.success(successMsg)
-                this.getListInfo(this.state.searchContent)
-            } else {
-                message.error(failedMsg)
-            }
-        }).catch((err) => {
-            console.log(err)
-        })
-    }
+    // handleOnDel = (flag, id) => {
+    //     let url = ''
+    //     let successMsg = ''
+    //     let failedMsg = ''
+    //     if (flag === 'on') {
+    //         url = `/v1/sysuser/${id}/0`
+    //         successMsg = '启用成功'
+    //         failedMsg = '启用失败'
+    //     } else if (flag === 'off') {
+    //         url = `/v1/sysuser/${id}/1`
+    //         successMsg = '禁用成功'
+    //         failedMsg = '禁用失败'
+    //     }
+    //     request(url, {
+    //         method: 'GET',
+    //         // credentials: 'omit'
+    //     }).then((res) => {
+    //         if (res.message === '成功') {
+    //             message.success(successMsg)
+    //             this.getListInfo(this.state.searchContent)
+    //         } else {
+    //             message.error(failedMsg)
+    //         }
+    //     }).catch((err) => {
+    //         console.log(err)
+    //     })
+    // }
 
     /**
      *   跳转到编辑或添加页面
      */
-    handleLinkToDetail = (e, flag, id) => {
-        e.stopPropagation()
-        this.linkToChange(`/setting/user-update/${flag}/${id}`)
-    };
+    // handleLinkToDetail = (e, flag, id) => {
+    //     e.stopPropagation()
+    //     this.linkToChange(`/setting/user-update/${flag}/${id}`)
+    // };
 
     /***
      *   路径跳转
      */
-    linkToChange = url => {
-        const { history } = this.props
-        history.push(url)
-    };
+    // linkToChange = url => {
+    //     const { history } = this.props
+    //     history.push(url)
+    // };
 
     /**
      * 将信息填入表格
@@ -227,45 +200,50 @@ class UserManageTab extends React.Component {
     /**
      *  回车或点击搜索符号时触发搜索事件
      */
-    handleOnSearch = (value) => {
-        this.setState({
-            current: 1,
-            searchContent: value
-        }, () => {
-            this.getListInfo(value)
-        })
-    }
-
+    // handleOnSearch = (value) => {
+    //     this.setState({
+    //         current: 1,
+    //         searchContent: value
+    //     }, () => {
+    //         this.getListInfo(value)
+    //     })
+    // }
+   /** 
+    * 获取楼盘信息
+    * */ 
+   getBuilding=()=>{
+       
+   }
     /**
      * 获取用户信息
      */
-    getListInfo = (value) => {
-        let url = ''
-        console.log("value",value)
-        if (value.toString().length === 0) {
-            url = '/v1/sysuser?pageNo=' + this.state.current + '&pageSize=' + this.state.pageSize
-        } else {
-            url = '/v1/sysuser?realName=' + value + '&pageNo=' + this.state.current + '&pageSize=' + this.state.pageSize
-        }
-        const data = request(url, {
-            method: 'GET',
-            // credentials: 'omit'
-        })
-        data.then((res) => {
-            if (res.message === '成功') {
-                this.addToTable(res.data)
-                this.setState({
-                    searchContent: value,
-                })
-            } else {
-                this.setState({
-                    data: []
-                })
-            }
-        }).catch((err) => {
-            console.log(err)
-        })
-    }
+    // getListInfo = (value) => {
+    //     let url = ''
+    //     console.log("value",value)
+    //     if (value.toString().length === 0) {
+    //         url = '/v1/sysuser?pageNo=' + this.state.current + '&pageSize=' + this.state.pageSize
+    //     } else {
+    //         url = '/v1/sysuser?realName=' + value + '&pageNo=' + this.state.current + '&pageSize=' + this.state.pageSize
+    //     }
+    //     const data = request(url, {
+    //         method: 'GET',
+    //         // credentials: 'omit'
+    //     })
+    //     data.then((res) => {
+    //         if (res.message === '成功') {
+    //             this.addToTable(res.data)
+    //             this.setState({
+    //                 searchContent: value,
+    //             })
+    //         } else {
+    //             this.setState({
+    //                 data: []
+    //             })
+    //         }
+    //     }).catch((err) => {
+    //         console.log(err)
+    //     })
+    // }
 
 
 
@@ -286,12 +264,9 @@ class UserManageTab extends React.Component {
         const { getFieldDecorator } = this.props.form
         return (
             <TableLayout
-                title={'管理员'}
-                renderTitleSide={() => (
-                    <Button type='primary' ghost icon='plus' style={{ border: 0, fontWeight: 'bold' }} onClick={(e) => { this.handleLinkToDetail(e, 'add', null) }}><span style={{ fontSize: 16, fontFamily: '微软雅黑' }}>创建新用户</span></Button>
-                )}
+                title={'楼盘信息管理'}
             >
-                <Form>
+                {/* <Form>
                     <Row style={{ display: 'flex', flexDirection: 'row-reverse' }}>
                         <Col>
                             <Form.Item>
@@ -306,7 +281,7 @@ class UserManageTab extends React.Component {
                             </Form.Item>
                         </Col>
                     </Row>
-                </Form>
+                </Form> */}
                 <Table
                     size={'middle'}
                     columns={this.state.columns}
@@ -327,4 +302,4 @@ class UserManageTab extends React.Component {
     }
 }
 
-export default Form.create()(UserManageTab);
+export default Form.create()(BuildingList);

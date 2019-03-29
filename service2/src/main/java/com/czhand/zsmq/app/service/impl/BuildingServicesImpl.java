@@ -10,6 +10,10 @@ import com.czhand.zsmq.infra.exception.CommonException;
 import com.czhand.zsmq.infra.mapper.BuildingMapper;
 import com.czhand.zsmq.infra.mapper.RBStyleMapper;
 import com.czhand.zsmq.infra.utils.convertor.ConvertHelper;
+import com.czhand.zsmq.infra.utils.convertor.ConvertPageHelper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,16 @@ public class BuildingServicesImpl implements BuildingServices {
     RBStyleMapper rbStyleMapper;
 
     private final static Logger logger = LoggerFactory.getLogger(BuildingServicesImpl.class);
+
+    @Override
+    public PageInfo<BuildingDTO> selectAllByPage(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        Page<Building> buildingPage=null;
+        buildingPage=(Page)buildingMapper.selectAllByPage();
+        Page<BuildingDTO> buildingDTOPage=ConvertPageHelper.convertPage(buildingPage,BuildingDTO.class);
+        PageInfo<BuildingDTO> pageInfo=new PageInfo<>(buildingDTOPage);
+        return pageInfo;
+    }
 
     /**
      * 根据位置查询所有楼盘信息

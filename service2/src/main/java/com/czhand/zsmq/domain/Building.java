@@ -43,7 +43,11 @@ public class Building implements Serializable {
      * 区
      */
     private String area;
-
+    /**
+     * 是否删除
+     */
+    @Column(name = "is_del")
+    private Integer isdel;
     /**
      * 预定价格
      */
@@ -291,6 +295,14 @@ public class Building implements Serializable {
      */
     public Date getOpeningTime() {
         return openingTime;
+    }
+
+    public Integer getIsdel() {
+        return isdel;
+    }
+
+    public void setIsdel(Integer isdel) {
+        this.isdel = isdel;
     }
 
     /**

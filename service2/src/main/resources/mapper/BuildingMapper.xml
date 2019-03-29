@@ -14,7 +14,7 @@
     <result column="estimate_price" jdbcType="DECIMAL" property="estimatePrice" />
     <result column="opening_time" jdbcType="TIMESTAMP" property="openingTime" />
     <result column="delivery_time" jdbcType="TIMESTAMP" property="deliveryTime" />
-    <!--<result column="house_style" jdbcType="VARCHAR" property="houseStyle" />-->
+    <result column="isdel" jdbcType="INTEGER" property="isdel" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="developer" jdbcType="VARCHAR" property="developer" />
     <result column="floor_number" jdbcType="INTEGER" property="floorNumber" />
@@ -53,5 +53,9 @@
   <select id="lastInsertBuildingId" resultType="java.lang.Long">
     select MAX(id)
     from building
+  </select>
+  <select id="selectAllByPage" resultMap="BaseResultMap">
+    select b.*
+    from building b
   </select>
 </mapper>

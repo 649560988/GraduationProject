@@ -26,6 +26,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	 */
 	List<SysUser> selectByRealName(String realName);
 
+	List<SysUser> selectAllUser();
 	/**
 	 * 禁用、启用用户
 	 *

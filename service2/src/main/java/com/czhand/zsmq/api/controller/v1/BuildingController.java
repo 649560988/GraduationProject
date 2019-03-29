@@ -6,8 +6,11 @@ import com.czhand.zsmq.infra.exception.CommonException;
 import com.czhand.zsmq.infra.utils.ArgsUtils;
 import com.czhand.zsmq.infra.utils.web.ResponseUtils;
 import com.czhand.zsmq.infra.utils.web.dto.Data;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -92,5 +95,24 @@ public class BuildingController {
      BuildingDTO result=buildingServices.createBuilding( buildingDTO,Uid);
      return ResponseUtils.res(result,message);
  }
+ /**
+  * 分页查询楼盘信息
+  * */
+ @ApiOperation("分页查询楼盘信息")
+    @GetMapping("selectAllByPage")
+    public ResponseEntity<Data<PageInfo<BuildingDTO>>> selectAllByPage(
+         @RequestParam(required = true, name = "pageNo") @ApiParam(value = "分页查询中的参数pageNo",example = "1") int pageNo,
+         @RequestParam(required = true, name = "pageSize") @ApiParam(value = "分页查询中的参数pageSize",example = "10") int pageSize
+ ){
+     PageInfo<BuildingDTO> buildingDTOPageInfo=null;
+     String message="成功";
+     try {
+         buildingDTOPageInfo=buildingServices.selectAllByPage(pageNo, pageSize);
+     }catch (Exception e){
+         message = "失败";
+     }
+     return ResponseUtils.res(buildingDTOPageInfo, message);
+ }
+
 }
 

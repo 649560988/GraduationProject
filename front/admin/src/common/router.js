@@ -78,9 +78,11 @@ export const getRouterData = app => {
     '/setting/menus': {
       component: dynamicWrapper(app, [], () => import('../routes/HsMenuManagement/HsMenuManagement'))
     },
-    // weimeng add
+    '/building-list':{
+      component: dynamicWrapper(app, [], () => import('../routes/Building/BuildingList'))
+    },
     '/home': {
-      component: dynamicWrapper(app, [], () => import('../routes/Dashboard/Myhome'))
+      component: dynamicWrapper(app, [], () => import('../routes/Dashboard/home'))
     },
     '/building-detail/:id':{
       component: dynamicWrapper(app,[],() => import("../routes/Building/BuildingDetail"))
@@ -91,6 +93,10 @@ export const getRouterData = app => {
     '/renthouse':{
       component: dynamicWrapper(app,[],() => import('../routes/RentHouse/RentHouse'))
     },
+    '/setting/housestyle':{
+      component:dynamicWrapper(app,[],() => import('../routes/HouseStyle/HouseStyle'))
+    }
+    ,
     '/renthouse-detail/:id':{
       component:dynamicWrapper(app,[],() => import('../routes/RentHouse/RentHouseDetail'))
     }

@@ -2,6 +2,7 @@ package com.czhand.zsmq.app.service;
 
 import com.czhand.zsmq.api.dto.BuildingDTO;
 import com.czhand.zsmq.infra.exception.CommonException;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ public interface BuildingServices {
     List<BuildingDTO> queryAllBuilding()throws CommonException;;
     List<BuildingDTO> queryAllBuildingByArea(String province,String city,String area )throws CommonException;;
     BuildingDTO createBuilding(BuildingDTO buildingDTO, Long Uid)throws CommonException;
-
+    PageInfo<BuildingDTO> selectAllByPage(int pageNo, int pageSize);
 }

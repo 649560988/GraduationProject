@@ -26,21 +26,40 @@ class RoleManageList extends Component {
       name:''
     }
   }
+      /**
+     * 将信息填入表格
+     */
+    addToTable = (data) => {
+      let dataSource = []
+      console.log(data)
+      data.list.map((item, index) => {
+        item.order = index + 1
+        let record = item
+        dataSource.push(record)
+      })
+      this.setState({
+          data: dataSource,
+          current: data.pageNum,
+          total: data.total
+      })
+  }
 
   fetch = () => {
-    request(`/v1/sysrole/selectallrole?pageNo=${this.state.pagination.current}&pageSize=${this.state.pagination.pageSize}`,{
-      method:'GET',
-      credentials:'omit',
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      }),
-      data:{
-        isDel:this.state.isDel,
-        name:this.state.name
+   request('/v1/sysrole/pagerole?pageNo='+this.state.pagination.current+'&pageSize='+this.state.pagination.pageSize,{
+      method: 'GET',
+      // credentials:'omit',
+      // headers: new Headers({
+      //   'Content-Type': 'application/json'
+      // }),
+      // data:{
+      //   isDel:this.state.isDel,
+      //   name:this.state.name
+      // }
+    }).then((res)=>{
+      if(res.message === '成功'){
+        this.addToTable(res.data)
       }
-    }).then(res => this.setState({
-      data:res.data
-    }))
+    })
     .catch(error=>console.error(error))
   }
 
@@ -250,6 +269,21 @@ class RoleManageList extends Component {
       >
         {this.renderSearchForm()}
         {this.renderRoleTable()}
+        {/* <Table
+                    size={'middle'}
+                    columns={this.state.columns}
+                    dataSource={this.state.data}
+                    rowKey={'id'}
+                    pagination={{
+                        pageSize: this.state.pageSize,
+                        current: this.state.current,
+                        onChange: this.handlePageChange,
+                        total: this.state.total,
+                        showQuickJumper: true,
+                        showSizeChanger: true,
+                        onShowSizeChange: this.handlePageChange
+                    }}
+                /> */}
       </TableLayout>
 
     )

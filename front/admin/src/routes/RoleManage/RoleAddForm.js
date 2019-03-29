@@ -28,17 +28,18 @@ class MenuAddForm extends Component{
   }
 
   getAllMenuTree = () => {
-    request(`http://localhost:8080/v1/sysMenu/queryAll`,{
-      method:'POST',
-      credentials:'omit',
-      headers: new Headers({
-        'Content-Type': 'application/json;charset=utf-8'
-      }),
-      body:{
-        "language":"zh_CN",
-	      "parentId":"0"
-      }
+    request('/v1/sysMenu/queryList',{
+      method:'GET',
+      // credentials:'omit',
+      // headers: new Headers({
+      //   'Content-Type': 'application/json;charset=utf-8'
+      // }),
+      // body:{
+      //   "language":"zh_CN",
+	    //   "parentId":"0"
+      // }
     }).then((res)=>{
+      console.log("u温无毒",res.data)
       const treeMenu = []
       res.data.menuList.map(item=>{
         treeMenu.push(item)

@@ -17,8 +17,7 @@
         <result column="update_by" jdbcType="BIGINT" property="updateBy" />
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
         <collection property="sysRoles" ofType="com.czhand.zsmq.domain.SysRole">
-            <result property="id" column="role_id" />
-            <result property="name" column="role_name" />
+            <result property="name" column="name" />
         </collection>
     </resultMap>
 
@@ -27,7 +26,11 @@
     where real_name
     like concat('%',#{realName},'%')
   </select>
-
+    <select id="selectAllUser" resultMap="BaseResultMap">
+      select su.*,sr.name
+    from sys_user su,sys_role sr,sys_user_role sur
+    where sur.role_id=sr.id and sur.user_id=su.id
+    </select>
     <update id="stopOrStart" parameterType="com.czhand.zsmq.domain.SysMenu">
         update sys_user
         set is_del=#{isDel},
