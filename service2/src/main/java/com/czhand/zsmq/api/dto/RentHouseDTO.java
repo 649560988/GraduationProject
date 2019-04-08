@@ -2,6 +2,7 @@ package com.czhand.zsmq.api.dto;
 
 //import com.czhand.zsmq.domain.HouseStyle;
 import com.czhand.zsmq.domain.Picture;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.CreatedDate;
@@ -140,13 +141,25 @@ public class RentHouseDTO {
      */
     @ApiModelProperty("创建时间 ")
     @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createdTime;
+    @ApiModelProperty("创建这名称")
+    private  String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     /**
      * 更新时间
      */
     @ApiModelProperty("更新时间 ")
     @LastModifiedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updatedTime;
 
     /**

@@ -4,9 +4,11 @@ package com.czhand.zsmq.app.service.impl;
 import com.czhand.zsmq.api.dto.SysMenuDTO;
 import com.czhand.zsmq.app.service.SysMenuService;
 import com.czhand.zsmq.domain.SysMenu;
+import com.czhand.zsmq.domain.SysMenuRole;
 import com.czhand.zsmq.domain.core.CurrentUser;
 import com.czhand.zsmq.infra.exception.CommonException;
 import com.czhand.zsmq.infra.mapper.SysMenuMapper;
+import com.czhand.zsmq.infra.mapper.SysMenuRoleMapper;
 import com.czhand.zsmq.infra.utils.convertor.ConvertHelper;
 import com.czhand.zsmq.infra.utils.security.CurrentUserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,8 @@ import java.util.List;
 public class SysMenuServiceImpl implements SysMenuService {
 	@Autowired
 	private SysMenuMapper sysMenuMapper;
-
-
+	@Autowired
+    private SysMenuRoleMapper sysMenuRoleMapper;
 	/**
 	 * 添加菜单
 	 *
@@ -44,12 +46,22 @@ public class SysMenuServiceImpl implements SysMenuService {
 		sysMenuDTO.setCreationDate(new Date());
 		sysMenuDTO.setUpdateDate(new Date());
 		sysMenuDTO.setIsDel(0);
-
 		SysMenu sysMenu=ConvertHelper.convert(sysMenuDTO,SysMenu.class);
 		int result = sysMenuMapper.insert(sysMenu);
 		if (result != 1) {
 			throw new CommonException("插入失败");
 		}
+		Long id=sysMenu.getId();
+        SysMenuRole sysMenuRole=new SysMenuRole();
+        sysMenuRole.setRoleId(1L);
+        sysMenuRole.setCreationBy(1L);
+        sysMenuRole.setMenuId(id);
+        sysMenuRole.setCreationDate(new Date());
+        sysMenuRole.setVersion(1L);
+        int result2=sysMenuRoleMapper.insert(sysMenuRole);
+        if(result2 !=1){
+            throw new CommonException("插入失败");
+        }
 		return ConvertHelper.convert(sysMenuMapper.selectByPrimaryKey(sysMenu.getId()),SysMenuDTO.class);
 	}
 

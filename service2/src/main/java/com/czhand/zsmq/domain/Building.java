@@ -1,5 +1,6 @@
 package com.czhand.zsmq.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -118,6 +119,17 @@ public class Building implements Serializable {
     @Column(name = "anagement_price")
     private BigDecimal anagementPrice;
 
+    @Transient()
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     /**
      * 物业公司
      */
@@ -134,14 +146,14 @@ public class Building implements Serializable {
      * 创建时间
      */
     @Column(name = "CREATED_TIME")
-    @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createdTime;
 
     /**
      * 更新时间
      */
     @Column(name = "UPDATED_TIME")
-    @LastModifiedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updatedTime;
 
     /**

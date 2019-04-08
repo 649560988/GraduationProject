@@ -6,7 +6,8 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="userName" jdbcType="VARCHAR" property="userName"></result>
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="city" jdbcType="VARCHAR" property="city" />
@@ -55,7 +56,8 @@
     from building
   </select>
   <select id="selectAllByPage" resultMap="BaseResultMap">
-    select b.*
-    from building b
+    select b.*,su.real_name as userName
+    from building b,sys_user su
+    where b.user_id=su.id
   </select>
 </mapper>

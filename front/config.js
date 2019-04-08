@@ -4,8 +4,8 @@ const config = {
   titlename: 'RentAndSell房屋出租出售信息发布系统', // 项目页面的title名称
   favicon: 'favicon.ico', //项目页面的icon图片名称
   cookieServer: '', //子域名token共享
- //server: 'http://api.zsmq.console.retailsolution.cn',
-  server: 'http://localhost:8080',
+ // server: 'http://api.zsmq.console.retailsolution.cn',
+ server: 'http://localhost:8080',
 
   companyname: '上海汉得信息技术股份有限公司'
 }

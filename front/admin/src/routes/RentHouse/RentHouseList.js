@@ -1,9 +1,10 @@
+
 import React from 'react'
 import TableLayout from '../../layouts/TableLayout'
 import { Button, Table, Form, Icon, Tag, Col, Row, Input, Select, message, Tooltip, Popconfirm } from 'antd'
 import request from '../../utils/request'
 
-class BuildingList extends React.Component {
+class RentHouseList extends React.Component {
 
     constructor(props) {
         super(props)
@@ -17,17 +18,38 @@ class BuildingList extends React.Component {
                 title: '序号',
                 dataIndex: 'order',
                 align: 'center',
-                width: '10%',
+                width: '8%',
             }, {
-                title: '楼盘名称',
-                dataIndex: 'name',
+                title: '小区名称',
+                dataIndex: 'communityName',
                 align: 'center',
                 width: '15%',
-            }, {
+            },
+            {
+                title: '楼栋号',
+                dataIndex: 'buildingNumber',
+                align: 'center',
+                width: '8%',
+            },
+            {
+                title: '单元号',
+                dataIndex: 'unit',
+                align: 'center',
+                width: '8%',
+            }
+            ,
+            {
+                title: '房间号',
+                dataIndex: 'houseNumbers',
+                align: 'center',
+                width: '8%',
+            }
+            ,
+            {
                 title: '发布人姓名',
                 dataIndex: 'userName',
                 align: 'center',
-                width: '15%',
+                width: '10%',
             }, {
                 title: '发布时间',
                 dataIndex: 'createdTime',
@@ -37,8 +59,8 @@ class BuildingList extends React.Component {
                     return <span title={text}>{text}</span>
                 }
             }, {
-                title: '是否删除',
-                dataIndex: 'isdel',
+                title: '是否封禁',
+                dataIndex: 'isRent',
                 align: 'center',
                 width: '10%',
                 render: (text, record) => {
@@ -187,7 +209,7 @@ class BuildingList extends React.Component {
     * 获取楼盘信息
     * */ 
    getBuilding=()=>{
-       let url= '/v1/wyw/building/selectAllByPage?pageNo='+this.state.current+'&pageSize=' + this.state.pageSize
+       let url= '/v1/wyw/renthouse/selectAllByPage?pageNo='+this.state.current+'&pageSize=' + this.state.pageSize
        request(url,{
            method: 'GET'
        }).then((res)=>{
@@ -246,7 +268,7 @@ class BuildingList extends React.Component {
         const { getFieldDecorator } = this.props.form
         return (
             <TableLayout
-                title={'楼盘信息管理'}
+                title={'出租屋信息管理'}
             >
                 {/* <Form>
                     <Row style={{ display: 'flex', flexDirection: 'row-reverse' }}>
@@ -284,4 +306,4 @@ class BuildingList extends React.Component {
     }
 }
 
-export default Form.create()(BuildingList);
+export default Form.create()(RentHouseList);

@@ -1,5 +1,6 @@
 package com.czhand.zsmq.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -136,6 +137,7 @@ public class RentHouse implements Serializable {
      */
     @Column(name = "CREATED_TIME")
     @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createdTime;
 
     /**
@@ -143,7 +145,18 @@ public class RentHouse implements Serializable {
      */
     @Column(name = "UPDATED_TIME")
     @LastModifiedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updatedTime;
+    @Transient
+    private  String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     /**
      * 是否出租 0出租1未租

@@ -73,14 +73,33 @@ export const getRouterData = app => {
   const routerConfig = {
     '/': {
       component: dynamicWrapper(app, ['user', 'login', 'menu'], () => import('../layouts/BasicLayout'))
-    },
+    }
+    // '/':{
+    //   component: dynamicWrapper(app,[],() => import('../routes/Building/Building'))
+    // }
+    ,
     // yang add
     '/setting/menus': {
       component: dynamicWrapper(app, [], () => import('../routes/HsMenuManagement/HsMenuManagement'))
     },
-    '/building-list':{
+    '/business/building-list':{
       component: dynamicWrapper(app, [], () => import('../routes/Building/BuildingList'))
     },
+    '/business/rent-house-list':{
+      component: dynamicWrapper(app,[],()=> import('../routes/RentHouse/RentHouseList'))
+    }
+    ,
+    '/edit-html':{
+      component: dynamicWrapper(app,[],()=> import('../routes/TextEdit/EditorConvertToHTML'))
+    },
+    '/html-show':{
+      component:dynamicWrapper(app,[],()=> import('../routes/TextEdit/HtmlShow'))
+    }
+    ,
+    '/myhome':{
+      component: dynamicWrapper(app,[],() => import('../routes/Dashboard/Myhome'))
+    }
+    ,
     '/home': {
       component: dynamicWrapper(app, [], () => import('../routes/Dashboard/home'))
     },
@@ -93,7 +112,7 @@ export const getRouterData = app => {
     '/renthouse':{
       component: dynamicWrapper(app,[],() => import('../routes/RentHouse/RentHouse'))
     },
-    '/setting/housestyle':{
+    '/business/housestyle':{
       component:dynamicWrapper(app,[],() => import('../routes/HouseStyle/HouseStyle'))
     }
     ,

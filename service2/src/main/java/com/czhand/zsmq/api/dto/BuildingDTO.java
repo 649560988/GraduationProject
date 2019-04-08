@@ -2,6 +2,7 @@ package com.czhand.zsmq.api.dto;
 
 import com.czhand.zsmq.domain.HouseStyle;
 import com.czhand.zsmq.domain.Picture;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,7 +26,7 @@ public class BuildingDTO implements  Serializable{
          * 发布人id
          */
         @ApiModelProperty("发布人id")
-        private String userId;
+        private Long userId;
 
         /**
          * 楼盘名称
@@ -128,13 +129,25 @@ public class BuildingDTO implements  Serializable{
          * 创建时间
          */
         @ApiModelProperty("创建时间")
+        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
         @CreatedDate
         private Date createdTime;
+        @ApiModelProperty("创建人姓名")
+        private String userName;
+
+        public String getUserName() {
+                return userName;
+        }
+
+        public void setUserName(String userName) {
+                this.userName = userName;
+        }
 
         /**
          * 更新时间
          */
         @ApiModelProperty("更新时间")
+        @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
         @LastModifiedDate
         private Date updatedTime;
         /**
@@ -183,7 +196,7 @@ public class BuildingDTO implements  Serializable{
          *
          * @return user_id - 发布人id
          */
-        public String getUserId() {
+        public Long getUserId() {
             return userId;
         }
 
@@ -192,7 +205,7 @@ public class BuildingDTO implements  Serializable{
          *
          * @param userId 发布人id
          */
-        public void setUserId(String userId) {
+        public void setUserId(Long userId) {
             this.userId = userId;
         }
 

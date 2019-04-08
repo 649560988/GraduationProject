@@ -123,10 +123,9 @@ class UserManageTab extends React.Component {
             pageSize: 10,
             current: 1,
             total: 0,
+            order:1,
         }
     }
-
-
     componentWillMount() {
         this.getListInfo('')
     }
@@ -202,7 +201,6 @@ class UserManageTab extends React.Component {
         const { history } = this.props
         history.push(url)
     };
-
     /**
      * 将信息填入表格
      */
@@ -210,8 +208,8 @@ class UserManageTab extends React.Component {
         let dataSource = []
         data.list.map((item, index) => {
           item.sysRoles.map((mitem)=>{
-              if(mitem.name=='admin'){
-                item.order = index + 1
+              if(mitem.name=='common_user'||mitem.name=='building_user'){
+                item.order = this.state.order++;
                 let record = item
                 dataSource.push(record)
               }
@@ -223,7 +221,6 @@ class UserManageTab extends React.Component {
             total: data.total
         })
     }
-
     /**
      *  回车或点击搜索符号时触发搜索事件
      */
@@ -235,7 +232,6 @@ class UserManageTab extends React.Component {
             this.getListInfo(value)
         })
     }
-
     /**
      * 获取用户信息
      */
@@ -266,9 +262,6 @@ class UserManageTab extends React.Component {
             console.log(err)
         })
     }
-
-
-
     /**
      *  处理页面跳转
      */
@@ -280,13 +273,11 @@ class UserManageTab extends React.Component {
             this.getListInfo(this.state.searchContent)
         })
     }
-
-
     render() {
         const { getFieldDecorator } = this.props.form
         return (
             <TableLayout
-                title={'管理员'}
+                title={'用户'}
                 renderTitleSide={() => (
                     <Button type='primary' ghost icon='plus' style={{ border: 0, fontWeight: 'bold' }} onClick={(e) => { this.handleLinkToDetail(e, 'add', null) }}><span style={{ fontSize: 16, fontFamily: '微软雅黑' }}>创建新用户</span></Button>
                 )}

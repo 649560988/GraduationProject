@@ -230,29 +230,7 @@ class GlobalHeader extends PureComponent {
         </div>
         <div
         className={styles.right} >
-      <Menu  onClick={this.handClick} selectedKeys={[this.state.cuttentItem]} mode='horizontal' >
-       <Menu.Item>
-    <a href= " http://localhost:9090/#/home">首页</a>
-      </Menu.Item>
-      <Menu.Item>
-       <a href= " http://localhost:9090/#/building">新房</a>
-      </Menu.Item>
-      <Menu.Item>
-  <a href="">二手房</a>
-      </Menu.Item>
-      <Menu.Item>
-  <a href= " http://localhost:9090/#/renthouse">租房</a>
-     </Menu.Item>
-     <Menu.Item>
- <a href="">写字楼</a>
-     </Menu.Item>
-     <Menu.Item>
-    <a href="">楼讯</a>
-     </Menu.Item>
-     <Menu.Item>
-  <a href="">问答</a>
-     </Menu.Item>
-         </Menu> 
+     
      </div>
       </div>
     );

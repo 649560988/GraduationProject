@@ -7,6 +7,7 @@
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="userName" jdbcType="VARCHAR" property="userName"></result>
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="area" jdbcType="VARCHAR" property="area" />
@@ -54,8 +55,9 @@
     from rent_house
   </select>
   <select id="selectAllByPage" resultMap="BaseResultMap">
-    select *
-    from rent_house
+    select rh.*,su.real_name as userName
+    from rent_house rh,sys_user su
+    where rh.user_id=su.id
   </select>
   <update id="stopOrStart" parameterType="com.czhand.zsmq.domain.RentHouse">
     update rent_house

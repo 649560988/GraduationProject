@@ -55,7 +55,7 @@ class RentHouse extends Component{
             render(){
             const { Meta } = Card;
               return (
-               <Fragment>
+               <div style={{marginLeft:'5%',marginTop:'20px'}}>
                 <Menu  onClick={this.handClick} selectedKeys={[this.state.cuttentItem]} mode='horizontal' >
                 <Menu.Item>
                 首页
@@ -93,7 +93,7 @@ class RentHouse extends Component{
                     }
                   />
                   
-                  </Fragment>
+                  </div>
         )
     }
 }
