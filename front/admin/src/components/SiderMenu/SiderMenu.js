@@ -5,7 +5,7 @@ import { Link } from 'dva/router'
 import { FormattedMessage } from 'react-intl'
 import styles from './index.less'
 import { urlToList } from '../_utils/pathTools'
-
+import request from '../../utils/request'
 const { Sider } = Layout
 const { SubMenu } = Menu
 
@@ -55,7 +55,9 @@ export default class SiderMenu extends PureComponent {
     super(props)
     this.flatMenuKeys = getFlatMenuKeys(props.menuData)
     this.state = {
-      openKeys: this.getDefaultCollapsedSubMenus(props)
+      openKeys: this.getDefaultCollapsedSubMenus(props),
+      id:'',
+      name:''
     }
   }
 
@@ -67,7 +69,9 @@ export default class SiderMenu extends PureComponent {
       })
     }
   }
-
+  componentWillMount(){
+    this.getCurrentUser()
+  }
   componentDidUpdate () {
     this.flatMenuKeys = getFlatMenuKeys(this.props.menuData)
   }
@@ -202,7 +206,23 @@ export default class SiderMenu extends PureComponent {
       return `/${path || ''}`.replace(/\/+/g, '/')
     }
   };
-
+ //获得当前用户
+ getCurrentUser = () => {
+  let url = '/v1/sysUserDomin/getAuth'
+  request(url, {
+      method: 'GET'
+  }).then((res) => {
+      if (res.message === '成功') {
+          this.setState({
+              name: res.data.userName,
+              id:res.data.id
+          })
+          console.log(this.state.name)
+      } else {
+          console.log(err)
+      }
+  }).catch(() => {})
+}
   // permission to check
   checkPermissionItem = (authority, ItemDom) => {
     const { Authorized } = this.props
@@ -241,45 +261,53 @@ export default class SiderMenu extends PureComponent {
       selectedKeys = [openKeys[openKeys.length - 1]]
     }
     return (
-      <Sider
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        breakpoint='lg'
-        onCollapse={onCollapse}
-        width={256}
-        className={styles.sider}
-        style={{ height: '100%', overflowY: 'auto' }}
-      >
-        <div className={styles.logo} key='logo'>
-          <Link to='/'>
-
-            <img src={logo} alt='logo' />
-
-            {/*
-              @author heineiuo: 由于logo隐藏掉了，所以当收起菜单的时候，要预留一个空间
-            */}
-            {/* <div style={{ display: 'inline-block', width: 32 }}></div> */}
-            <h1>{process.env.titlename}</h1>
-            {/* <FormattedMessage
-              tagName='h1'
-              id='ocms.code.ocms'
-            /> */}
-          </Link>
-        </div>
-        <Menu
-          key='Menu'
-          theme='light'
-          mode='inline'
-          {...menuProps}
-          onOpenChange={this.handleOpenChange}
-          selectedKeys={selectedKeys}
-          style={{ padding: '16px 0', width: '100%' }}
-          // style={{width: 256}}
+      <div>
+        {
+          this.state.name=='admin'?
+          <Sider
+          trigger={null}
+          collapsible
+          collapsed={collapsed}
+          breakpoint='lg'
+          onCollapse={onCollapse}
+          width={256}
+          className={styles.sider}
+          style={{ height: '100%', overflowY: 'auto' }}
         >
-          {this.getNavMenuItems(menuData)}
-        </Menu>
-      </Sider>
+          <div className={styles.logo} key='logo'>
+            <Link to='/'>
+  
+              <img src={logo} alt='logo' />
+  
+              {/*
+                @author heineiuo: 由于logo隐藏掉了，所以当收起菜单的时候，要预留一个空间
+              */}
+              {/* <div style={{ display: 'inline-block', width: 32 }}></div> */}
+              <h1>{process.env.titlename}</h1>
+              {/* <FormattedMessage
+                tagName='h1'
+                id='ocms.code.ocms'
+              /> */}
+            </Link>
+          </div>
+          <Menu
+            key='Menu'
+            theme='light'
+            mode='inline'
+            {...menuProps}
+            onOpenChange={this.handleOpenChange}
+            selectedKeys={selectedKeys}
+            style={{ padding: '16px 0', width: '100%' }}
+            // style={{width: 256}}
+          >
+            {this.getNavMenuItems(menuData)}
+          </Menu>
+        </Sider>
+        :
+        <p></p>
+        }
+     
+      </div>
     )
   }
 }

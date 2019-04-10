@@ -237,10 +237,11 @@ class UserManageTab extends React.Component {
      */
     getListInfo = (value) => {
         let url = ''
-        console.log("value",value)
+        
         if (value.toString().length === 0) {
             url = '/v1/sysuser?pageNo=' + this.state.current + '&pageSize=' + this.state.pageSize
         } else {
+            console.log("value",value)
             url = '/v1/sysuser?realName=' + value + '&pageNo=' + this.state.current + '&pageSize=' + this.state.pageSize
         }
         const data = request(url, {
@@ -249,6 +250,7 @@ class UserManageTab extends React.Component {
         })
         data.then((res) => {
             if (res.message === '成功') {
+                console.log("message",res.data)
                 this.addToTable(res.data)
                 this.setState({
                     searchContent: value,

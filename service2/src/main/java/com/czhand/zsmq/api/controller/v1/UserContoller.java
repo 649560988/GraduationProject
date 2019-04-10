@@ -3,6 +3,7 @@ package com.czhand.zsmq.api.controller.v1;
 import com.czhand.zsmq.api.controller.v1.validator.UserValidator;
 import com.czhand.zsmq.api.dto.SysUserDTO;
 import com.czhand.zsmq.app.service.EntBaseService;
+import com.czhand.zsmq.app.service.UserEntService;
 import com.czhand.zsmq.infra.exception.CommonException;
 import com.czhand.zsmq.infra.utils.ArgsUtils;
 import com.czhand.zsmq.infra.utils.web.ResponseUtils;
@@ -30,6 +31,8 @@ public class UserContoller {
 
 	@Autowired
 	private EntBaseService entBaseService;
+	@Autowired
+	private UserEntService userEntService;
 
 //, @PathVariable("organizationalCode")@ApiParam(value = "组织机构代码") String organizationalCode
 
@@ -54,8 +57,8 @@ public class UserContoller {
         SysUserDTO result = null;
 		String message = "Register success";
 		try {
-//            result =  userEntService.addEntUser(sysUserDTO,entBaseDTO.getId());
-//			result =  userEntService.addEntUser(sysUserDTO);
+//          result =  userEntService.addEntUser(sysUserDTO,entBaseDTO.getId());
+			result =  userEntService.addEntUser(sysUserDTO);
 			if (result == null) {
 				message = "Register fail";
 			}

@@ -51,7 +51,8 @@ class BuildingDetail extends Component{
 			value: '',
 			comments: [],
 			submitting: false,
-			type:1
+			type:1,
+			usercomment:''
 		}
 	}
 	componentWillMount(){
@@ -72,6 +73,17 @@ class BuildingDetail extends Component{
 			}
 		})
 	}
+	 //时间转换
+// 	 timestampToTime = (timestamp) => {
+// 		var date = new Date(timestamp); //timestamp 为10位需*1000，timestamp 为13位的话不需乘1000
+// 		var Y = date.getFullYear() + '-';
+// 		var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+// 		var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+// 		var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+// 		var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+// 		var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
+// 		return Y + M + D + h + m + s;
+// }
 	//发表评论
 	postComment=()=>{
 		let url=`/v1/wyw/comment/insertcomment/${this.state.Uid}/${this.state.Bid}/${this.state.type}/${this.state.value}`
@@ -207,7 +219,29 @@ class BuildingDetail extends Component{
 			  </div>
 			</div>
 			<div>
-		< div > {this.state.comments.length > 0 && < CommentList comments = {this.state.comments}/>}</div>
+
+			/**
+			显示评论信息
+			 */
+				<div>
+				<List className = "comment-list"
+                    header = {`${this.state.usercomment.length} 条评论`}
+                    itemLayout = "horizontal"
+                    dataSource = {
+                        this.state.usercomment
+                    }
+                    renderItem = {
+                        (item, index) => ( 
+                            <Comment 
+                                // author = {item.username}
+                                avatar = {this.state.avatar }
+                                // content = {item.context}
+                                // datetime = {this.timestampToTime(item.comment_time)}
+                            />)
+                    }
+                    />
+				</div>
+		<div > {this.state.comments.length > 0 && < CommentList comments = {this.state.comments}/>}</div>
         <Comment
           avatar={(
             <Avatar

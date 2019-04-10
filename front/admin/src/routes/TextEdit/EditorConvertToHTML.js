@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
-import { Row, Col ,Divider} from 'antd';
+import { Row, Col ,Divider,Form,Button,Modal} from 'antd';
 import htmlToDraft from 'html-to-draftjs';
 import mystyles from '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
@@ -12,11 +12,12 @@ class EditorConvertToHTML extends Component {
     super(props)
     this.state={
       editorState: EditorState.createEmpty(),
-      editContent:''
+      editContent:'',
+      data:'',
+      visible: false,
+      confirmLoading: false,
+      inputValue: '',
     }
-  }
-  state = {
-    
   }
 
   onEditorStateChange= (editorState) => {
@@ -28,13 +29,48 @@ class EditorConvertToHTML extends Component {
     });
   };
   handClick=(editorState)=>{
-    console.log('输入的内容：',draftToHtml(convertToRaw(editorState.getCurrentContent())))
+    this.setState({
+      visible: true,
+    });
   }
+  handleOk = () => {
+    let data={};
+  
+    data.editContent=this.state.editContent;
+    data.title=this.state.inputValue;
+    this.setState({
+      confirmLoading: true,
+      data
+    });
+    console.log('data:',this.state.data)
+    setTimeout(() => {
+      this.setState({
+        visible: false,
+        confirmLoading: false,
+      });
+    }, 2000);
+  }
+
+  handleCancel = () => {
+    console.log('Clicked cancel button');
+    this.setState({
+      visible: false,
+    });
+  }
+  handInputChange(e){
+    const value=e.target.value;
+    console.log('title',value)
+    this.setState( () => {
+        return {
+            inputValue:value
+        }
+    })
+}
   render() {
     const { editorState } = this.state;
     return (
       <div style={{marginLeft:'5px',padding:'20px',overflowY:'auto',flex:'1px'}}>
-        <Row>
+    <Row>
       <Col span={12}>
       <Editor
          toolbar={{
@@ -69,10 +105,18 @@ class EditorConvertToHTML extends Component {
           disabled
           value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
         /> */}
-        <button onClick={()=>this.handClick(editorState)}>提交</button>
+        <Button type="primary" htmlType="submit" style={{marginLeft:'25%',marginTop:'20px'}} onClick={()=>this.handClick(editorState)}>提交</Button>
+        <Modal
+          title="Title"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          confirmLoading={this.state.confirmLoading}
+          onCancel={this.handleCancel}
+        >
+          <label>请输入</label><input value={this.state.inputValue} onChange={this.handInputChange.bind(this)}/>
+        </Modal>
       </div>
     );
   }
 }
 export default EditorConvertToHTML;
-// EditorConvertToHTML

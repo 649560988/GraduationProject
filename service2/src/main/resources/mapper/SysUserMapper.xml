@@ -46,7 +46,7 @@
         select * from sys_user
         where is_del=0
         and telephone=#{telephone}
-        and id!=#{id}
+        and id =#{id}
     </select>
 
     <select id="selectOldPwdById" parameterType="com.czhand.zsmq.domain.SysUser" resultType="com.czhand.zsmq.domain.SysUser">

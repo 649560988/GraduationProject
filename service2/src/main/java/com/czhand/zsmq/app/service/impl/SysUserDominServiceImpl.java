@@ -92,7 +92,7 @@ public class SysUserDominServiceImpl implements SysUserDominService {
 	@Override
 	public SysUserDTO confirmPhone(SysUserDTO sysUserDTO) throws Exception {
 		SysUser sysUser = ConvertHelper.convert(sysUserDTO, SysUser.class);
-		SysUser sysUserOrigin = new SysUser();
+		SysUser sysUserOrigin ;
 		sysUserOrigin = sysUserMapper.selectPhoneById(sysUser);
 		//验证手机号成功
 		if (sysUserOrigin == null) {

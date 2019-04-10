@@ -44,9 +44,7 @@ import TextArea from 'antd/lib/input/TextArea';
     getPersonalInfoById = () => {
       request('/v1/sysUserDomin/getAuth', {
           method: 'GET',
-          // credentials: 'omit'
       }).then((res) => {
-          // console.log(res)
           if (res.message === '成功') {
             this.setState({
               Uid:res.data.id
