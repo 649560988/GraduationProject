@@ -13,7 +13,6 @@ class EditorConvertToHTML extends Component {
     this.state={
       editorState: EditorState.createEmpty(),
       editContent:'',
-      data:'',
       visible: false,
       confirmLoading: false,
       inputValue: '',
@@ -34,15 +33,10 @@ class EditorConvertToHTML extends Component {
     });
   }
   handleOk = () => {
-    let data={};
-  
-    data.editContent=this.state.editContent;
-    data.title=this.state.inputValue;
     this.setState({
       confirmLoading: true,
-      data
     });
-    console.log('data:',this.state.data)
+    this.CreateArticle()
     setTimeout(() => {
       this.setState({
         visible: false,
@@ -57,6 +51,9 @@ class EditorConvertToHTML extends Component {
       visible: false,
     });
   }
+  CreateArticle=()=>{
+
+  }
   handInputChange(e){
     const value=e.target.value;
     console.log('title',value)
@@ -66,11 +63,19 @@ class EditorConvertToHTML extends Component {
         }
     })
 }
+onSubmit=()=>{
+
+}
   render() {
     const { editorState } = this.state;
     return (
       <div style={{marginLeft:'5px',padding:'20px',overflowY:'auto',flex:'1px'}}>
-    <Row>
+      <Form onSubmit={this.onSubmit}>
+      <Form.Item>
+        {getFieldDecorator('content',
+        )
+        }
+      <Row>
       <Col span={12}>
       <Editor
          toolbar={{
@@ -100,6 +105,9 @@ class EditorConvertToHTML extends Component {
       <div dangerouslySetInnerHTML={{__html:this.state.editContent}}></div>
       </Col>
     </Row>
+      </Form.Item>
+      </Form>
+    
        
         {/* <textarea style={{marginBottom:'1px',width:'80%',height:'20%'}}
           disabled

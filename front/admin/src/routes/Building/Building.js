@@ -3,6 +3,7 @@ import { Card, Icon, Avatar, Menu , List} from 'antd';
 import request from '../../utils/request'
 import Address from '../Address/Address';
 import Ellipsis from 'components/Ellipsis';
+import MyMenu from '../Menu/MyMenu';
 class Building extends Component {
     componentWillMount(){
         this.getBuildingList()
@@ -56,6 +57,7 @@ class Building extends Component {
     const { Meta } = Card;
         return (
             <Fragment>
+              <MyMenu></MyMenu>
          <Menu  onClick={this.handClick} selectedKeys={[this.state.cuttentItem]} mode='horizontal' >
          <Menu.Item>
             首页

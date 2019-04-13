@@ -5,6 +5,7 @@ import request from '../../utils/request'
 import Ellipsis from 'components/Ellipsis';
 import Address from '../Address/Address'
 import { number } from 'prop-types';
+import MyMenu from '../Menu/MyMenu';
 const { Footer, Content } = Layout
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
@@ -84,7 +85,8 @@ handclick=(aa)=>{
       const { Meta } = Card;
     return (
       <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
-    <Carousel autoplay>
+      <MyMenu></MyMenu>
+    {/* <Carousel autoplay>
      <div><h3>1</h3></div>
      <div><h3>2</h3></div>
      <div><h3>3</h3></div>
@@ -128,7 +130,7 @@ handclick=(aa)=>{
       <a href="">问答</a>
      </Menu.Item>
     </Menu> 
-    </div>
+    </div> */}
     <div style={{marginLeft:'10%'}}>
     <h1>热门楼盘</h1>
         <List

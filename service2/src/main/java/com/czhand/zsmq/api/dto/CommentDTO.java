@@ -1,5 +1,6 @@
 package com.czhand.zsmq.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.CreatedDate;
@@ -27,8 +28,39 @@ public class CommentDTO {
     private Integer type;
 
     /**
+     * 评论人姓名
+     */
+    @ApiModelProperty("userName")
+    private String userName;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Long getBelongId() {
+        return belongId;
+    }
+
+    public void setBelongId(Long belongId) {
+        this.belongId = belongId;
+    }
+
+    /**
      * 所属id 楼盘或出租屋id
      */
+
     @ApiModelProperty("belong_id")
     private Long belongId;
     /**
@@ -48,6 +80,8 @@ public class CommentDTO {
      */
     @ApiModelProperty("创建时间")
     @CreatedDate
+    // @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createdTime;
 
     /**
@@ -55,6 +89,7 @@ public class CommentDTO {
      */
     @ApiModelProperty("更新时间")
     @LastModifiedDate
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updatedTime;
 
     /**

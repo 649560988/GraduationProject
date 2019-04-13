@@ -1,11 +1,11 @@
 import React,{Component} from 'react'
-import {Layout,Carousel, Row, Col,Divider,Tabs,Icon,Tag,
-    Avatar,Form,Button, Comment,List,  Input,  InputNumber,
-    Radio 
+import {Carousel, Row, Col,Divider,Tabs,Icon,message,
+    Avatar,Form,Button, Comment,List,  Input,   Drawer,
   } from 'antd';
   import moment from 'moment';
 import request from '../../utils/request';
 import styles from './style.css'
+import MyMenu from '../Menu/MyMenu';
 
 const TextArea = Input.TextArea;
 const CommentList = ({
@@ -13,7 +13,6 @@ const CommentList = ({
    }) => (
    <List 
        dataSource = {comments}
-       header = {`我的${comments.length} 条评论`}
        itemLayout = "horizontal"
        renderItem = {props => 
        <Comment {...props}/>}
@@ -50,6 +49,9 @@ class RentHouseDetail extends Component{
           contenet:[
             {name:'database',zh_name:'洗衣机'},{name:'credit-card',zh_name:'电视'},{name:'idcard',zh_name:'空调'}
         ],
+        usercomment:'',
+        Uname:'',
+        visible:false
 		}
     }
     componentWillMount(){
@@ -70,6 +72,17 @@ class RentHouseDetail extends Component{
 			}
 		})
   }
+  //举报栏目
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+  showDrawer = () => {
+    this.setState({
+      visible: true,
+    });
+  };
   //发表评论
 	postComment=()=>{
 		let url=`/v1/wyw/comment/insertcomment/${this.state.Uid}/${this.state.Bid}/${this.state.type}/${this.state.value}`
@@ -77,17 +90,20 @@ class RentHouseDetail extends Component{
 			method: 'GET',
 	}).then((res) => {
 			if (res.message === '添加成功') {
-				console.log('添加成功')
+        message.success("评论成功")
+        this.getCurrentCommit()
 			} else {
 				console.log('获取当前登录人信息失败');
 			}
 	}).catch((err) => {
 			console.log(err)
 	})
-	}
+  }
+  
 	 callback=(key)=> {
 		console.log(key);
-	  }
+    }
+    
 	  getCurrentUser = () => {
 		let url = '/v1/sysUserDomin/getAuth'
 		request(url, {
@@ -101,6 +117,20 @@ class RentHouseDetail extends Component{
 				console.log(err)
 			}
 		}).catch(() => {})
+}
+//获取评论
+getCurrentCommit=()=>{
+  let url=`/v1/wyw/comment/selectcommentlist/${this.state.type}/${this.state.Rid}`
+  request(url,{
+    method:'GET'
+  }).then((res)=>{
+    if(res.message=='成功'){
+      console.log('评论',res.data)
+      this.setState({
+        usercomment:res.data
+      })
+    }
+  })
 }
 
 	handleSubmit = () => {
@@ -135,7 +165,8 @@ class RentHouseDetail extends Component{
 	  }
     render(){
         return(
-            <div style={{ padding: 20, overflowY: 'auto', flex: 1,marginLeft:'30px',marginRight:'90px' }}>
+            <div style={{ padding: 20, overflowY: 'auto', flex: 1,marginLeft:'30px',marginRight:'5px' }}>
+            <MyMenu></MyMenu>
 			<img className={styles.mimg} src="http://localhost:80/3.jpg"></img>
             <strong><h1 style={{marginLeft:'30px',marginTop:'5px'}}>{this.state.rentHouse.houseDescription}</h1></strong> 
             <Row>
@@ -205,6 +236,22 @@ class RentHouseDetail extends Component{
            </div>
             </div>
             <span ><h1 style={{background:'red',width:'60%',marginLeft:'20%',marginTop:'10px'}}><Icon type="mobile" />电话{this.state.rentHouse.contactInformation}</h1></span>
+           <div>
+            <Button type="primary" onClick={this.showDrawer}>
+          Open
+         </Button>
+         <Drawer
+          title="举报r"
+          placement="right"
+          closable={false}
+          onClose={this.onClose}
+          visible={this.state.visible}
+         width='30%'
+        >
+          <p>请勿恶意举报</p>
+         
+        </Drawer>
+        </div>
             </Col>
            </Row>
            <div style={{marginTop:'10px'}}>
@@ -246,6 +293,24 @@ class RentHouseDetail extends Component{
                })
            }
            	<div>
+             <div>
+				<List className = "comment-list"
+                    header = {`${this.state.usercomment.length} 条评论`}
+                    itemLayout = "horizontal"
+                    dataSource = {
+                        this.state.usercomment
+                    }
+                    renderItem = {
+                        (item, index) => ( 
+                            <Comment 
+                                author = {item.userName}
+                                avatar= "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                content = {item.content}
+                                datetime = {item.createdTime}
+                            />)
+                    }
+                    />
+				</div>
 		< div > {this.state.comments.length > 0 && < CommentList comments = {this.state.comments}/>}</div>
         <Comment
           avatar={(

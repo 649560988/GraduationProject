@@ -15,6 +15,7 @@ import {
 } from 'antd';
 import request from '../../utils/request'
 import TextArea from 'antd/lib/input/TextArea';
+import MyMenu from '../Menu/MyMenu';
 class BuildingCreate extends Component {
   constructor(props) {
     super(props)
@@ -111,6 +112,7 @@ class BuildingCreate extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log('表单数据',values)
         let houseStyles =[]
         values.houseStyleIds.map((item) =>{
           this.state.styles.some((role,index) =>{
@@ -307,6 +309,7 @@ render() {
    
     return ( 
       <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+      <MyMenu></MyMenu>
       <Form  onSubmit = {this.handleSubmit.bind(this)} >
       <Form.Item  {...formItemLayout} label = {'楼盘名称'} > 
       {getFieldDecorator('name', {

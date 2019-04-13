@@ -19,15 +19,21 @@ import java.util.List;
  */
 @Service
 public class CommentServicelmpl implements CommentService {
-    @Override
-    public List<CommentDTO> selectCommentList() {
-        return null;
-    }
-    /**
-     * 添加评论
-     * */
+   /**
+   *@Description  查寻当前记录下的评论
+   *@Param [type,Bid]
+   *@Return List<CommentDTO>
+   *@Author wyw
+   *@Date 2019/4/11
+   *@Time 10:40
+   */
     @Autowired
     private CommentMapper commentMapper;
+    @Override
+    public List<CommentDTO> selectCommentList(Integer type,long Bid) {
+        List<Comment> comment=commentMapper.selectCommentList(type,Bid);
+        return ConvertHelper.convertList(comment,CommentDTO.class);
+    }
     @Override
     public CommentDTO insertComment(long Uid,long Bid,Integer type,String comment) throws CommonException {
         Class<?> aClass=null;

@@ -3,6 +3,7 @@ import { Card, Icon, Avatar, Menu , List} from 'antd';
 import request from '../../utils/request'
 import Address from '../Address/Address';
 import Ellipsis from 'components/Ellipsis';
+import MyMenu from '../Menu/MyMenu';
 class RentHouse extends Component{
   constructor(props){
     super(props);
@@ -55,7 +56,8 @@ class RentHouse extends Component{
             render(){
             const { Meta } = Card;
               return (
-               <div style={{marginLeft:'5%',marginTop:'20px'}}>
+               <div style={{marginLeft:'5%',marginTop:'20px', overflowY: 'auto', flex: 1,}}>
+               <MyMenu></MyMenu>
                 <Menu  onClick={this.handClick} selectedKeys={[this.state.cuttentItem]} mode='horizontal' >
                 <Menu.Item>
                 首页

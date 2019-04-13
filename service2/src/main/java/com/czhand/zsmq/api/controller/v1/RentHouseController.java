@@ -118,7 +118,7 @@ public class RentHouseController {
      * @return 状态是否更新成功
      */
     @ApiOperation("禁用、启用用户")
-    @GetMapping("/{id}/{isdel}")
+    @GetMapping("/stopOrStart/{id}/{isdel}")
     public ResponseEntity<Data<Integer>> stopOrStart(@PathVariable("id") @ApiParam(value = "要禁用对象的ID",example = "1") Long id,
                                                      @PathVariable("isdel") @ApiParam(value = "是否禁用，禁用为1，启用为0",example = "1") int isdel) {
         if (ArgsUtils.checkArgsNull(id, isdel)) {

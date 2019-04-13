@@ -10,15 +10,15 @@ import {Layout,Carousel, Row, Col,Divider,Tabs,
     Button,
     Comment,
     List,
-    Input} from 'antd'
+    Input,message} from 'antd'
 import styles from './style.css'
+import MyMenu from '../Menu/MyMenu';
  const TextArea = Input.TextArea;
  const CommentList = ({
         comments
     }) => (
     <List 
         dataSource = {comments}
-        header = {`我的${comments.length} 条评论`}
         itemLayout = "horizontal"
         renderItem = {props => 
         <Comment {...props}/>}
@@ -52,12 +52,14 @@ class BuildingDetail extends Component{
 			comments: [],
 			submitting: false,
 			type:1,
-			usercomment:''
+			usercomment:'',
+			Uname:''
 		}
 	}
 	componentWillMount(){
 		this.getCurrentUser()
 		this.getCurrentBuilding()
+		this.getCurrentCommit()
 	}
 	//获取当前楼盘信息
 	getCurrentBuilding=()=>{
@@ -70,6 +72,20 @@ class BuildingDetail extends Component{
 				building:res.data,
 				pictures:res.data.srcs
 			})
+			}
+		})
+	}
+	//获取当前的评论
+	getCurrentCommit=()=>{
+		let url=`/v1/wyw/comment/selectcommentlist/${this.state.type}/${this.state.Bid}`
+		request(url,{
+			method:'GET'
+		}).then((res)=>{
+			if(res.message=='成功'){
+				console.log('评论',res.data)
+				this.setState({
+					usercomment:res.data
+				})
 			}
 		})
 	}
@@ -91,7 +107,8 @@ class BuildingDetail extends Component{
 			method: 'GET',
 	}).then((res) => {
 			if (res.message === '添加成功') {
-				console.log('添加成功')
+				message.success("评论成功")
+				this.getCurrentCommit()
 			} else {
 				console.log('获取当前登录人信息失败');
 			}
@@ -109,8 +126,10 @@ class BuildingDetail extends Component{
 			method: 'GET'
 		}).then((res) => {
 			if (res.message === '成功') {
+				console.log('获取当前用户',res.data)
 				this.setState({
-					Uid:res.data.id
+					Uid:res.data.id,
+					Uname:res.data.userName
 				})
 			} else {
 				console.log(err)
@@ -133,7 +152,7 @@ class BuildingDetail extends Component{
 			value: '',
 			comments: [
 			  {
-				author: 'Han Solo',
+				author: <p>{this.state.Uname}</p>,
 				avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
 				content: <p>{this.state.value}</p>,
 				datetime: moment().fromNow(),
@@ -151,7 +170,8 @@ class BuildingDetail extends Component{
     render(){
 		// const { comments, submitting, value } = this.state;
         return(
-			<div style={{ padding: 20, overflowY: 'auto', flex: 1,marginLeft:'30px',marginRight:'90px' }}>
+			<div style={{ padding: 20, overflowY: 'auto', flex: 1,marginLeft:'30px',marginRight:'5px' }}>
+			<MyMenu></MyMenu>
 			<img className={styles.mimg} src="http://localhost:80/3.jpg"></img>
 			<div>
 			<Row>
@@ -219,10 +239,6 @@ class BuildingDetail extends Component{
 			  </div>
 			</div>
 			<div>
-
-			/**
-			显示评论信息
-			 */
 				<div>
 				<List className = "comment-list"
                     header = {`${this.state.usercomment.length} 条评论`}
@@ -233,10 +249,10 @@ class BuildingDetail extends Component{
                     renderItem = {
                         (item, index) => ( 
                             <Comment 
-                                // author = {item.username}
-                                avatar = {this.state.avatar }
-                                // content = {item.context}
-                                // datetime = {this.timestampToTime(item.comment_time)}
+                                author = {item.userName}
+                                avatar= "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                content = {item.content}
+                                datetime = {item.createdTime}
                             />)
                     }
                     />

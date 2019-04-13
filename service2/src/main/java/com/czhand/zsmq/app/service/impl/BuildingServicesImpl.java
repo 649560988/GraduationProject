@@ -4,6 +4,7 @@ import com.czhand.zsmq.api.dto.BuildingDTO;
 import com.czhand.zsmq.api.dto.RBStyleDto;
 import com.czhand.zsmq.app.service.BuildingServices;
 import com.czhand.zsmq.domain.Building;
+import com.czhand.zsmq.domain.Comment;
 import com.czhand.zsmq.domain.HouseStyle;
 import com.czhand.zsmq.domain.RBStyle;
 import com.czhand.zsmq.infra.exception.CommonException;
@@ -35,8 +36,7 @@ public class BuildingServicesImpl implements BuildingServices {
     @Override
     public PageInfo<BuildingDTO> selectAllByPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        Page<Building> buildingPage=null;
-        buildingPage=(Page)buildingMapper.selectAllByPage();
+        Page<Building> buildingPage=buildingPage=(Page)buildingMapper.selectAllByPage();
         Page<BuildingDTO> buildingDTOPage=ConvertPageHelper.convertPage(buildingPage,BuildingDTO.class);
         PageInfo<BuildingDTO> pageInfo=new PageInfo<>(buildingDTOPage);
         return pageInfo;
@@ -111,6 +111,38 @@ public class BuildingServicesImpl implements BuildingServices {
             }
         }
         return true;
+    }
+    /**
+    *@Description  启用或者关闭楼盘信息
+    *@Param [Long id, Integer isdel]
+    *@Return Integer
+    *@Author wyw
+    *@Date 2019/4/11
+    *@Time 11:06
+    */
+    @Override
+    public Integer stopOrStart(Long id, Integer isdel) throws CommonException {
+        Class<?> aClass=null;
+        Building building=null;
+        try {
+            aClass=Class.forName("com.czhand.zsmq.domain.Building");
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        try {
+            building=(Building) aClass.newInstance();
+        }catch (InstantiationException e){
+            e.printStackTrace();
+        }catch (IllegalAccessException e){
+            e.printStackTrace();
+        }
+        building.setId(id);
+        building.setIsdel(isdel);
+        int result=buildingMapper.stopOrStart(building);
+        if (result !=1){
+            throw new CommonException("操作失败");
+        }
+        return result;
     }
 }
 

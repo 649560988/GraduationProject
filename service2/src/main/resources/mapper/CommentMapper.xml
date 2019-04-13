@@ -13,9 +13,12 @@
     <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
     <result column="great" jdbcType="INTEGER" property="great" />
     <result column="bad" jdbcType="INTEGER" property="bad" />
+    <result column="userName" jdbcType="VARCHAR" property="userName"/>
   </resultMap>
   <select id="selectCommentList" resultMap="BaseResultMap">
-   <!--  select * from comment
-    where -->
+     select c.*,su.user_name as userName
+     from  comment c,sys_user su
+    where c.type=#{type} and c.belong_id=#{Bid} and
+    c.user_id=su.id
   </select>
 </mapper>

@@ -59,26 +59,29 @@ class BuildingList extends React.Component {
                 width: '30%',
                 render: (text, record) => {
                     let actionDel = '';
-                    if (record.isDel) {
+                    console.log('确定要重新发布',text)
+                    if (record.isdel) {
+                        console.log('确定要重新发布',record.isdel)
                         actionDel =
                             <Tooltip title={'发布'} placement={'bottom'}>
                                 <Popconfirm
                                     title={'确定要重新发布?'}
                                     okText={'是'}
                                     cancelText={'否'}
-                                    // onConfirm={(e) => this.handleOnDel('on', record.id)}
+                                    onConfirm={(e) => this.handleOnDel('on', record.id)}
                                 >
                                     <Button style={{ marginRight: '5px' }}><Icon type='check-circle-o' style={{ color: '#4CAF50' }} /></Button>
                                 </Popconfirm>
                             </Tooltip>
-                    } else if (!record.isDel) {
+                    } else if (!record.isdel) {
+                        console.log('确定要禁用此信息吗',!record.isdel)
                         actionDel =
                             <Tooltip title={'禁用'} placement={'bottom'}>
                                 <Popconfirm
                                     title={'确定要禁用此信息吗?'}
                                     okText={'是'}
                                     cancelText={'否'}
-                                    // onConfirm={(e) => this.handleOnDel('off', record.id)}
+                                    onConfirm={(e) => this.handleOnDel('off', record.id)}
                                 >
                                     <Button style={{ marginRight: '5px' }} type={'danger'}><Icon type='minus-circle-o' /></Button>
                                 </Popconfirm>
@@ -109,33 +112,33 @@ class BuildingList extends React.Component {
     /**
      * 禁用或启用用户
      */
-    // handleOnDel = (flag, id) => {
-    //     let url = ''
-    //     let successMsg = ''
-    //     let failedMsg = ''
-    //     if (flag === 'on') {
-    //         url = `/v1/sysuser/${id}/0`
-    //         successMsg = '启用成功'
-    //         failedMsg = '启用失败'
-    //     } else if (flag === 'off') {
-    //         url = `/v1/sysuser/${id}/1`
-    //         successMsg = '禁用成功'
-    //         failedMsg = '禁用失败'
-    //     }
-    //     request(url, {
-    //         method: 'GET',
-    //         // credentials: 'omit'
-    //     }).then((res) => {
-    //         if (res.message === '成功') {
-    //             message.success(successMsg)
-    //             this.getListInfo(this.state.searchContent)
-    //         } else {
-    //             message.error(failedMsg)
-    //         }
-    //     }).catch((err) => {
-    //         console.log(err)
-    //     })
-    // }
+    handleOnDel = (flag, id) => {
+        let url = ''
+        let successMsg = ''
+        let failedMsg = ''
+        if (flag === 'on') {
+            url = `/v1/wyw/building/stopOrStart/${id}/0`
+            successMsg = '启用成功'
+            failedMsg = '启用失败'
+        } else if (flag === 'off') {
+            url = `/v1/wyw/building/stopOrStart/${id}/1`
+            successMsg = '禁用成功'
+            failedMsg = '禁用失败'
+        }
+        request(url, {
+            method: 'GET',
+            // credentials: 'omit'
+        }).then((res) => {
+            if (res.message === '成功') {
+                message.success(successMsg)
+                this.getBuilding()
+            } else {
+                message.error(failedMsg)
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
     /**
      *   跳转到编辑或添加页面
@@ -158,7 +161,7 @@ class BuildingList extends React.Component {
      */
     addToTable = (data) => {
         let dataSource = []
-        console.log(data)
+        console.log('dataSource',data.list)
         data.list.map((item, index) => {
         item.order=index+1
         let record=item;

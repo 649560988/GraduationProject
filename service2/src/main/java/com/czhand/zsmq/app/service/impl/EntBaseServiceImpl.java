@@ -26,6 +26,7 @@ import java.util.List;
 @Service
 public class EntBaseServiceImpl implements EntBaseService {
 
+
     @Autowired
     private EntBaseMapper entBaseMapper;
 

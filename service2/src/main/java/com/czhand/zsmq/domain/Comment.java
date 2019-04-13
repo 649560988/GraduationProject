@@ -28,6 +28,16 @@ public class Comment implements Serializable {
      */
     @Column(name="type")
     private Integer type;
+    @Transient
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     /**
      * 所属id 楼盘或出租屋id

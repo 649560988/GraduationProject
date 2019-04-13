@@ -15,7 +15,7 @@
     <result column="estimate_price" jdbcType="DECIMAL" property="estimatePrice" />
     <result column="opening_time" jdbcType="TIMESTAMP" property="openingTime" />
     <result column="delivery_time" jdbcType="TIMESTAMP" property="deliveryTime" />
-    <result column="isdel" jdbcType="INTEGER" property="isdel" />
+    <result column="is_del" jdbcType="INTEGER" property="isdel" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="developer" jdbcType="VARCHAR" property="developer" />
     <result column="floor_number" jdbcType="INTEGER" property="floorNumber" />
@@ -44,7 +44,7 @@
   <select id="queryAllBuilding" resultMap="BaseResultMap">
     select b.*, p.*
     from building b ,picture p
-    where p.type='1' and  p.belong_id= b.id
+    where p.type='1' and  p.belong_id= b.id and b.is_del='0'
   </select>
   <select id="queryAllBuildingByArea" resultMap="BaseResultMap">
         select b.*, p.*
@@ -60,4 +60,9 @@
     from building b,sys_user su
     where b.user_id=su.id
   </select>
+  <update id="stopOrStart" parameterType="com.czhand.zsmq.domain.Building">
+    update building
+    set is_del=#{isdel}
+    where id=#{id}
+  </update>
 </mapper>

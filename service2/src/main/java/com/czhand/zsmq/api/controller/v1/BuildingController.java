@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.plugin2.liveconnect.ArgumentHelper;
 
 import java.util.HashSet;
 import java.util.List;
@@ -114,6 +115,26 @@ public class BuildingController {
      }
      return ResponseUtils.res(buildingDTOPageInfo, message);
  }
-
+ /**
+ *@Description  启用或者停止
+ *@Param [id,isdel]
+ *@Return Integer
+ *@Author wyw
+ *@Date 2019/4/11
+ *@Time 10:55
+ */
+ @ApiOperation("启用或者停止")
+ @GetMapping("/stopOrStart/{id}/{isdel}")
+ public ResponseEntity<Data<Integer>> stopOrStart(@PathVariable("id") Long id,@PathVariable("isdel") Integer isdel){
+     if(ArgsUtils.checkArgsNull(id)){
+         throw  new CommonException("参数为空");
+     }
+     if(ArgsUtils.checkArgsNull(isdel)){
+         throw new CommonException("参数为空");
+     }
+     Integer result=buildingServices.stopOrStart(id,isdel);
+     String message="成功";
+     return ResponseUtils.res(result,message);
+    }
 }
 

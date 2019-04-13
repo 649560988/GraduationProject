@@ -22,4 +22,5 @@ public interface BuildingServices {
     List<BuildingDTO> queryAllBuildingByArea(String province,String city,String area )throws CommonException;;
     BuildingDTO createBuilding(BuildingDTO buildingDTO, Long Uid)throws CommonException;
     PageInfo<BuildingDTO> selectAllByPage(int pageNo, int pageSize);
+    Integer stopOrStart(Long id,Integer isdel)throws CommonException;
 }

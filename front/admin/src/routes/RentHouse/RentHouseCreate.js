@@ -17,6 +17,7 @@ import React, {
   } from 'antd';
   import request from '../../utils/request'
 import TextArea from 'antd/lib/input/TextArea';
+import MyMenu from '../Menu/MyMenu';
   const CheckableTag = Tag.CheckableTag;
   const tagsFromServer = ['Movies', 'Books', 'Music', 'Sports'];
   class RentHouseCreate extends Component {
@@ -316,6 +317,7 @@ import TextArea from 'antd/lib/input/TextArea';
      
       return ( 
         <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+        <MyMenu></MyMenu>
         <Form  onSubmit = {this.handleSubmit.bind(this)} style={{marginTop:'10px'}}>
         <Form.Item  {...formItemLayout} label = {'小区名称'} > 
         {getFieldDecorator('communityName', {

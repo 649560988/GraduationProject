@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+import java.util.List;
+
 /**
  * @autor wyw
  * @data 2019/3/19 11:45
@@ -52,5 +55,20 @@ public class CommentController {
        String message="添加成功";
        return ResponseUtils.res(commentDTO,message);
     }
-
+    /**
+     * 查询当前页面的评论
+     * */
+    @ApiOperation("查询当前页面的评论")
+    @GetMapping("/selectcommentlist/{type}/{Bid}")
+    public ResponseEntity<Data<List<CommentDTO>>> selectCommentList(@PathVariable("type") Integer type,@PathVariable("Bid") Long Bid){
+        if(ArgsUtils.checkArgsNull(type)){
+            throw new CommonException("参数为空");
+        }
+        if (ArgsUtils.checkArgsNull(Bid)){
+            throw new CommonException("参数为空");
+        }
+        List<CommentDTO> commentDTO=commentService.selectCommentList(type,Bid);
+        String message="成功";
+        return ResponseUtils.res(commentDTO,message);
+    }
 }

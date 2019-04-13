@@ -54,17 +54,6 @@ public class UserEntServiceImpl implements UserEntService {
         if (result != 1 && sysUser.getId() == null) {
             throw new CommonException("创建用户失败");
         }
-
-//        UserEnt userEnt = new UserEnt();
-//        userEnt.setUserId(sysUser.getId());
-//        userEnt.setVersion(1L);
-//        userEnt.setCreationDate(new Date());
-//        userEnt.setUpdateDate(new Date());
-//
-//        if(userEntMapper.insertSelective(userEnt)!=1){
-//            throw new CommonException("创建用户失败");
-//        }
-
         SysUserDTO sysUserDTOResult = ConvertHelper.convert(sysUserMapper.selectByPrimaryKey(sysUser.getId()), SysUserDTO.class);
 
 

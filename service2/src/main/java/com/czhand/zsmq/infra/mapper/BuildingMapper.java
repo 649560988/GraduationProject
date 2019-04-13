@@ -13,4 +13,5 @@ public interface BuildingMapper extends BaseMapper<Building> {
   List<Building> queryAllBuildingByArea(String province,String city,String area);
   long lastInsertBuildingId();
   List<Building> selectAllByPage();
+  Integer stopOrStart(Building building);
  }
