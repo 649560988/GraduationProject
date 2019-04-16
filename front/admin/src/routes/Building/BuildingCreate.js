@@ -11,11 +11,13 @@ import {
   Upload,
   Modal,
   DatePicker,
-  message
+  message,
+  Cascader
 } from 'antd';
 import request from '../../utils/request'
 import TextArea from 'antd/lib/input/TextArea';
 import MyMenu from '../Menu/MyMenu';
+import Data from '../../City'
 class BuildingCreate extends Component {
   constructor(props) {
     super(props)
@@ -123,6 +125,12 @@ class BuildingCreate extends Component {
           })
         })
         values.houseStyles=houseStyles
+        let province=values.address[0]
+        let city=values.address[1]
+        let area=values.address[2]
+        values.province=province
+        values.city=city
+        values.area=area
         console.log('Received values of form: ', values);
         this.createBuilding(values)
 
@@ -311,6 +319,19 @@ render() {
       <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
       <MyMenu></MyMenu>
       <Form  onSubmit = {this.handleSubmit.bind(this)} >
+      <Form.Item  {...formItemLayout} label = {'小区地址'} > 
+        {getFieldDecorator('address', {
+            rules: [{
+              required: true,
+              message: '小区地址!'
+            }],
+          })(
+            <Cascader style={{width: 300 }}  matchInputWidth options={Data.diagnoseReport} onChange={this.onChange} placeholder="Please select" 
+            />
+            )
+          } 
+          </Form.Item> 
+
       <Form.Item  {...formItemLayout} label = {'楼盘名称'} > 
       {getFieldDecorator('name', {
           rules: [{

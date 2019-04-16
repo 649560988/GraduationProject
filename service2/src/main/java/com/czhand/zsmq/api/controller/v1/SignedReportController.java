@@ -37,13 +37,18 @@ public class SignedReportController {
     *@Time 22:24
     */
     @ApiOperation("增加举报内容")
-    @PostMapping("/InsertSignedReport")
-    public ResponseEntity<Data<Integer>>InsertSignedReport(@RequestBody SingerReportDTO singerReportDTO){
+    @PostMapping("/InsertSignedReport/{againstId}/{informerId}/{type}/{info_id}")
+    public ResponseEntity<Data<Integer>>InsertSignedReport(@RequestBody SingerReportDTO singerReportDTO,
+                                                           @PathVariable("againstId") Long againstId,
+                                                           @PathVariable("informerId") Long informerId,
+                                                           @PathVariable("type") Integer type,
+                                                           @PathVariable("info_id") Long info_id
+                                                           ){
         if(ArgsUtils.checkArgsNull(singerReportDTO)){
             throw new CommonException("参数为空");
         }
         String message="成功";
-        Integer result=signedReportService.InsertSignedReport(singerReportDTO);
+        Integer result=signedReportService.InsertSignedReport(singerReportDTO,againstId,informerId,type,info_id);
         return ResponseUtils.res(result,message);
     }
     /**

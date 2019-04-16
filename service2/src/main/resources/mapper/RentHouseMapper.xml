@@ -41,9 +41,9 @@
     where p.type='0' and  p.belong_id= r.id and r.is_rent= '0'
   </select>
   <select id="selectOneAndPicture" resultMap="BaseResultMap" >
-    select r.*, p.*
-    from rent_house r ,picture p
-    where r.id=#{id} and p.type='0' and  p.belong_id= r.id
+    select r.*, p.*,su.user_name as userName
+    from rent_house r ,picture p,sys_user su
+    where r.id=#{id} and p.type='0' and  p.belong_id= r.id and r.user_id=su.id
   </select>
   <select id="queryAllRentHouseByArea" resultMap="BaseResultMap">
     select r.*,p.*

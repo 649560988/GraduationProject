@@ -5,12 +5,10 @@ import request from '../../utils/request';
 import {Layout,Carousel, Row, Col,Divider,Tabs,
     Avatar,
     Form,
-    InputNumber,
-    Radio,
     Button,
     Comment,
     List,
-    Input,message} from 'antd'
+    Input,message, Drawer,Select,Icon} from 'antd'
 import styles from './style.css'
 import MyMenu from '../Menu/MyMenu';
  const TextArea = Input.TextArea;
@@ -53,13 +51,44 @@ class BuildingDetail extends Component{
 			submitting: false,
 			type:1,
 			usercomment:'',
-			Uname:''
+			Uname:'',
+			submitting: false,
+			visible:false
 		}
 	}
 	componentWillMount(){
 		this.getCurrentUser()
 		this.getCurrentBuilding()
 		this.getCurrentCommit()
+	}
+	onClose = () => {
+    // this.myHandleSubmit()
+    this.setState({
+      visible: false,
+    });
+  };
+  showDrawer = () => {
+    this.setState({
+      visible: true,
+    });
+	};
+	myHandleSubmit=(e)=>{
+		this.onClose()
+		e.preventDefault();
+		this.props.form.validateFieldsAndScroll((err, values) => {
+				console.log('Received values of form: ', values);
+				if(!err){
+					let url=`/v1/wyw/signedreport/InsertSignedReport/${this.state.building.userId}/${this.state.Uid}/${this.state.type}/${this.state.Bid}`
+					request(url,{
+						method:'POST',
+						body: values
+					}).then((res)=>{
+						if(res.message=='成功'){
+							message.success('举报成功')
+						}
+					})
+				}
+		});
 	}
 	//获取当前楼盘信息
 	getCurrentBuilding=()=>{
@@ -89,17 +118,7 @@ class BuildingDetail extends Component{
 			}
 		})
 	}
-	 //时间转换
-// 	 timestampToTime = (timestamp) => {
-// 		var date = new Date(timestamp); //timestamp 为10位需*1000，timestamp 为13位的话不需乘1000
-// 		var Y = date.getFullYear() + '-';
-// 		var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-// 		var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
-// 		var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
-// 		var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
-// 		var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
-// 		return Y + M + D + h + m + s;
-// }
+
 	//发表评论
 	postComment=()=>{
 		let url=`/v1/wyw/comment/insertcomment/${this.state.Uid}/${this.state.Bid}/${this.state.type}/${this.state.value}`
@@ -168,6 +187,9 @@ class BuildingDetail extends Component{
 		});
 	  }
     render(){
+			const {
+        getFieldDecorator
+      } = this.props.form;
 		// const { comments, submitting, value } = this.state;
         return(
 			<div style={{ padding: 20, overflowY: 'auto', flex: 1,marginLeft:'30px',marginRight:'5px' }}>
@@ -228,6 +250,87 @@ class BuildingDetail extends Component{
 			</table>
 			</div>
              </div>
+						 <div>
+            <Button type="primary" onClick={this.showDrawer}>
+          Open
+         </Button>
+         <Drawer
+          title="举报r"
+          placement="right"
+          closable={false}
+          onClose={this.onClose}
+          visible={this.state.visible}
+         width='30%'
+        >
+          <p>请勿恶意举报</p>
+          <Form onSubmit={this.myHandleSubmit.bind(this)}>
+          <Form.Item label = {'被举报人'}>
+            {getFieldDecorator('againstUsername', {
+              initialValue: this.state.building.userName,
+              rules: [
+                {
+                  required: true,
+                }
+              ]
+            })(<Input size='large'  disabled='disabled' />)}
+          </Form.Item>
+          <Form.Item  label={'举报人'}>
+                        {getFieldDecorator('informerUsername', {
+                            initialValue: this.state.Uname,
+                            rules: [{
+                                required: true, message: '请输入用户名'
+                            }]
+                        })(
+                            <Input placeholder={'请输入用户名'} disabled='disabled' />
+                        )}
+                    </Form.Item>
+      
+          <Form.Item label={'举报类型'}>
+            {getFieldDecorator('violationType', {
+              rules: [
+                {
+                  required: true,
+                  message: '请输入用户名！'
+                }
+              ]
+            })(
+            <Select>
+              <Select.Option value="信息错误">
+              信息错误
+              </Select.Option>
+              <Select.Option value="暴力倾向">
+              暴力倾向
+                </Select.Option>
+                <Select.Option  value="烟雨误会">
+                烟雨误会
+                </Select.Option>
+            </Select>
+            )}
+          </Form.Item>
+      
+        
+     
+          <Form.Item label={'举报描述'}>
+            {getFieldDecorator('violationContent', {
+              rules: [
+                {
+                  required: true,
+                  message: '请输入举报描述！'
+                }
+              ]
+            })(<TextArea prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+            placeholder="请输入举报描述" />)}
+          </Form.Item>
+          <Form.Item >
+          <Button type = "primary"
+          htmlType = "submit" >
+          Log in
+          </Button> 
+          
+          </Form.Item> 
+          </Form>
+        </Drawer>
+        </div>
 			 </Col>
             </Row>
 			<div>
@@ -279,4 +382,4 @@ class BuildingDetail extends Component{
         )
     }
 }
-export default BuildingDetail
+export default Form.create()(BuildingDetail);

@@ -36,10 +36,10 @@
   </resultMap>
 
   <select id="selectOneAndPicture" resultMap="BaseResultMap" >
-    select b.*, p.src,h.name as hName,h.Id as hId, p.id as pId
-    from building b ,picture p,house_style h ,r_b_style r
+    select b.*, p.src,h.name as hName,h.Id as hId, p.id as pId,su.user_name as userName
+    from building b ,picture p,house_style h ,r_b_style r,sys_user su
     where b.id=#{id} and p.type='1' and  p.belong_id= b.id and b.id=r.belong_id and r.type='1'
-    and r.house_style_id=h.Id
+    and r.house_style_id=h.Id and su.id=b.user_id
   </select>
   <select id="queryAllBuilding" resultMap="BaseResultMap">
     select b.*, p.*

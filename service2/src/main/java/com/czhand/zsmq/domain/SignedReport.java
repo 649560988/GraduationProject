@@ -39,7 +39,11 @@ public class SignedReport implements Serializable {
      */
     @Column(name = "against_id")
     private Long againstId;
-
+    /**
+     * 被举报类别
+     */
+    @Column(name = "type")
+    private Integer type;
     /**
      * 被举报用户名
      */
@@ -50,7 +54,7 @@ public class SignedReport implements Serializable {
      * 被举报信息id
      */
     @Column(name = "info_id")
-    private String infoId;
+    private Long infoId;
 
     /**
      * 举报类型
@@ -85,6 +89,14 @@ public class SignedReport implements Serializable {
     private Date updatedTime;
 
     private static final long serialVersionUID = 1L;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 
     /**
      * 获取主键id
@@ -199,7 +211,7 @@ public class SignedReport implements Serializable {
      *
      * @return info_id - 被举报信息id
      */
-    public String getInfoId() {
+    public Long getInfoId() {
         return infoId;
     }
 
@@ -208,7 +220,7 @@ public class SignedReport implements Serializable {
      *
      * @param infoId 被举报信息id
      */
-    public void setInfoId(String infoId) {
+    public void setInfoId(Long infoId) {
         this.infoId = infoId;
     }
 

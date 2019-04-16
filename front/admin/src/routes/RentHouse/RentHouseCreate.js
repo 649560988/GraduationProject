@@ -10,7 +10,7 @@ import React, {
     Select,
     Upload,
     Modal,
-    DatePicker,
+    Cascader,
     message,
     Tag,
     InputNumber
@@ -18,6 +18,7 @@ import React, {
   import request from '../../utils/request'
 import TextArea from 'antd/lib/input/TextArea';
 import MyMenu from '../Menu/MyMenu';
+import Data from '../../City'
   const CheckableTag = Tag.CheckableTag;
   const tagsFromServer = ['Movies', 'Books', 'Music', 'Sports'];
   class RentHouseCreate extends Component {
@@ -32,7 +33,7 @@ import MyMenu from '../Menu/MyMenu';
         type:0,
         selectedTags: [],
         optionHouseStyle:[],
-        houseStyles:[]
+        houseStyles:[],
       }
       this.getAuthorization().then((result)=>{
         this.setState({authorization:result})
@@ -62,14 +63,14 @@ import MyMenu from '../Menu/MyMenu';
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
         if (!err) {
-          // const values={
-          //   ...fieldsValue,
-          //   'openingTime':fieldsValue['date-picker'].format('YYYY-MM-DD'),
-          // }
-          console.log('Received values of form: ', values);
+          let province=values.address[0]
+          let city=values.address[1]
+          let area=values.address[2]
+          values.province=province
+          values.city=city
+          values.area=area
           this.createRentHouse(values)
           this.postUserID(this.state.Uid)
-  
         }
       });
     }
@@ -93,7 +94,7 @@ import MyMenu from '../Menu/MyMenu';
   }
 
   /**
-   * 将所有的角色信息进行筛选留下角色的id和name的json数据保存在state里的数组roles中
+   * 将所有房屋类型进行筛选留下的id和name的json数据保存在state里的数组roles中
    */
   filterAllHouseStyle = (data) => {
       let houseStyles = []
@@ -276,6 +277,11 @@ import MyMenu from '../Menu/MyMenu';
     console.log('You are interested in: ', nextSelectedTags);
     this.setState({ selectedTags: nextSelectedTags });
   }
+  onChange=(value) => {
+    this.setState({
+      address:value
+    })
+  }
   render() {
     const { selectedTags } = this.state.selectedTags;
     const formItemLayout = {
@@ -314,11 +320,24 @@ import MyMenu from '../Menu/MyMenu';
       const {
         getFieldDecorator
       } = this.props.form;
-     
       return ( 
         <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
         <MyMenu></MyMenu>
         <Form  onSubmit = {this.handleSubmit.bind(this)} style={{marginTop:'10px'}}>
+
+        <Form.Item  {...formItemLayout} label = {'小区地址'} > 
+        {getFieldDecorator('address', {
+            rules: [{
+              required: true,
+              message: '小区地址!'
+            }],
+          })(
+            <Cascader style={{width: 300 }}  matchInputWidth options={Data.diagnoseReport} onChange={this.onChange} placeholder="Please select" 
+            />
+            )
+          } 
+          </Form.Item> 
+
         <Form.Item  {...formItemLayout} label = {'小区名称'} > 
         {getFieldDecorator('communityName', {
             rules: [{
@@ -330,7 +349,8 @@ import MyMenu from '../Menu/MyMenu';
              placeholder="请输入小区名称" />
             )
           } 
-          </Form.Item> <Form.Item label = {'楼栋号'} {...formItemLayout}  > 
+          </Form.Item> 
+          <Form.Item label = {'楼栋号'} {...formItemLayout}  > 
           {getFieldDecorator('buildingNumber', {
               rules: [{
                 required: true,
@@ -397,7 +417,7 @@ import MyMenu from '../Menu/MyMenu';
                   }]
               })(
                 <Select
-                placeholder={'请选择户型'}
+                placeholder={'请选择朝向'}
             >
                 <Option value="东">东</Option>
                 <Option value="南">南</Option>

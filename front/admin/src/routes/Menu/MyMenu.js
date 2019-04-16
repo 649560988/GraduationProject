@@ -26,7 +26,7 @@ class MyMenu extends Component{
           <a href= "http://localhost:9090/#/building "><span style={{fontSize:'15px'}}><strong>热门楼盘</strong></span></a>
           </Menu.Item>
            <Menu.Item>
-          <a href= " "><span style={{fontSize:'15px'}}><strong>楼讯</strong></span></a>
+          <a href= "http://localhost:9090/#/html-show"><span style={{fontSize:'15px'}}><strong>楼讯</strong></span></a>
           </Menu.Item>
           <Menu.Item>
           <a href= " "><span style={{fontSize:'15px'}}><strong>问答</strong></span></a>

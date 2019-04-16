@@ -1,13 +1,11 @@
 import React, {Component, Fragment} from 'react';
-import { Card, Icon, Avatar, Menu , List} from 'antd';
+import { Card, Cascader, Button, Menu , List} from 'antd';
 import request from '../../utils/request'
 import Address from '../Address/Address';
 import Ellipsis from 'components/Ellipsis';
 import MyMenu from '../Menu/MyMenu';
+import Data from '../../City'
 class Building extends Component {
-    componentWillMount(){
-        this.getBuildingList()
-    }
     constructor(props){
         super(props);
         this.state={
@@ -32,9 +30,6 @@ class Building extends Component {
         })
       }
     getBuildingList(province,city,area){
-       province='江苏省'
-       city='常州市'
-       area='天宁区'
       let url =`/v1/wyw/building/selectBy/${province}/${city}/${area}`
       request(url,{
           method: 'GET'
@@ -53,6 +48,22 @@ class Building extends Component {
       )
       .catch(error=>console.error(error))
     }
+    onChange=(value) => {
+      this.setState({
+        address:value
+      })
+    }
+    onClick=() =>{
+   
+      if(this.state.address==''){
+        message.success('请输入')
+      }else{
+        let province=this.state.address[0]
+        let city=this.state.address[1]
+        let area=this.state.address[2]
+        this.getBuildingList(province,city,area)
+      }
+    }
     render(){
     const { Meta } = Card;
         return (
@@ -69,7 +80,11 @@ class Building extends Component {
           <a href="">问答</a>
          </Menu.Item>
          </Menu> 
-         <Address></Address>
+         <div >
+             <Cascader style={{width: 300 }}  matchInputWidth options={Data.diagnoseReport} onChange={this.onChange} placeholder="Please select" 
+             />
+               <Button type="primary" onClick={this.onClick}>Primary</Button>
+            </div>
          <List
             grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
             dataSource={this.state.buildingList}
@@ -77,7 +92,7 @@ class Building extends Component {
                 <List.Item key={mitem.id} onClick={() => this.getCurrentBuildingItem(mitem)}>
                 <div onClick={this.buildingClick} >
                   <Card hoverable style={{ width: 300 }} 
-                  cover={<img alt=""  size="large" src={`http://localhost:80/${mime.srcs[0]}`} style={{height:200 
+                  cover={<img alt=""  size="large" src={`http://localhost:80/${mitem.srcs[0]}`} style={{height:200 
                     ,width:300}} href='/setting/user-update/${flag}/${id}'/>}
                   >
                     <Card.Meta

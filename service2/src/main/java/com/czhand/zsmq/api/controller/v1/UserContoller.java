@@ -29,8 +29,8 @@ public class UserContoller {
 	private UserValidator userValidator;
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	private EntBaseService entBaseService;
+//	@Autowired
+//	private EntBaseService entBaseService;
 	@Autowired
 	private UserEntService userEntService;
 

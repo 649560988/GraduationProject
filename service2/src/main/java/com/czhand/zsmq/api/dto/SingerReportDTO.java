@@ -22,6 +22,20 @@ public class SingerReportDTO {
     private Long informerId;
 
     /**
+     * 被举报类别
+     */
+    @ApiModelProperty("被举报类别")
+    private Integer type;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    /**
      * 举报用户名
      */
     @ApiModelProperty("举报用户名")
@@ -49,7 +63,7 @@ public class SingerReportDTO {
      * 被举报信息id
      */
     @ApiModelProperty("被举报信息id")
-    private String infoId;
+    private Long infoId;
 
     /**
      * 举报类型
@@ -197,7 +211,7 @@ public class SingerReportDTO {
      *
      * @return info_id - 被举报信息id
      */
-    public String getInfoId() {
+    public Long getInfoId() {
         return infoId;
     }
 
@@ -206,7 +220,7 @@ public class SingerReportDTO {
      *
      * @param infoId 被举报信息id
      */
-    public void setInfoId(String infoId) {
+    public void setInfoId(Long infoId) {
         this.infoId = infoId;
     }
 

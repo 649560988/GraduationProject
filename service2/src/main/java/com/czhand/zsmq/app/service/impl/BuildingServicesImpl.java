@@ -58,9 +58,7 @@ public class BuildingServicesImpl implements BuildingServices {
     public BuildingDTO createBuilding(BuildingDTO buildingDTO, Long Uid) throws CommonException {
         Building building = ConvertHelper.convert(buildingDTO, Building.class);
         building.setUserId(Uid);
-        building.setProvince("江苏省");
-        building.setCity("常州市");
-        building.setArea("天宁区");
+        building.setIsdel(0);
         building.setCreatedTime(new Date());
         building.setUpdatedTime(new Date());
         int result = buildingMapper.insert(building);

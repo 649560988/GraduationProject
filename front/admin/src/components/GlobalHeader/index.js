@@ -211,6 +211,9 @@ class GlobalHeader extends PureComponent {
                     <Menu.Item key="personal">
                       <Icon type="user" />基本信息
                           </Menu.Item>
+                          <Menu.Item >
+                          <a href= " http://localhost:9090/#/renthouse-create"><span style={{fontSize:'15px'}}><strong>成为房东</strong></span></a>
+                          </Menu.Item>
                     <Menu.Item key="change-password">
                       <Icon type="key" />密码修改
                         </Menu.Item>

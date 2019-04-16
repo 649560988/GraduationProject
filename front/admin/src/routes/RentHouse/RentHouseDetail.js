@@ -1,12 +1,11 @@
 import React,{Component} from 'react'
 import {Carousel, Row, Col,Divider,Tabs,Icon,message,
-    Avatar,Form,Button, Comment,List,  Input,   Drawer,
+    Avatar,Form,Button, Comment,List,  Input,   Drawer,Select
   } from 'antd';
   import moment from 'moment';
 import request from '../../utils/request';
 import styles from './style.css'
 import MyMenu from '../Menu/MyMenu';
-
 const TextArea = Input.TextArea;
 const CommentList = ({
        comments
@@ -38,20 +37,21 @@ class RentHouseDetail extends Component{
     constructor(props){
         super(props)
         this.state={
-          rentHouse:'',
+          rentHouse:{},
           pictures:[],
           Rid:this.props.match.params.id,
 		      Uid:'',
 		      value: '',
 		      comments: [],
 		      submitting: false,
-          type:0,
+          type: 0,
+          user:'',
           contenet:[
             {name:'database',zh_name:'洗衣机'},{name:'credit-card',zh_name:'电视'},{name:'idcard',zh_name:'空调'}
         ],
         usercomment:'',
         Uname:'',
-        visible:false
+        visible:false,
 		}
     }
     componentWillMount(){
@@ -68,12 +68,17 @@ class RentHouseDetail extends Component{
 			this.setState({
 				rentHouse:res.data,
 				pictures:res.data.srcs
-			})
+      })
+    console.log("获取当前出租屋信息",this.state.rentHouse)
+
 			}
 		})
   }
+  componentDidMount(){
+  }
   //举报栏目
   onClose = () => {
+    // this.myHandleSubmit()
     this.setState({
       visible: false,
     });
@@ -85,7 +90,7 @@ class RentHouseDetail extends Component{
   };
   //发表评论
 	postComment=()=>{
-		let url=`/v1/wyw/comment/insertcomment/${this.state.Uid}/${this.state.Bid}/${this.state.type}/${this.state.value}`
+		let url=`/v1/wyw/comment/insertcomment/${this.state.Uid}/${this.state.Rid}/${this.state.type}/${this.state.value}`
 		request(url, {
 			method: 'GET',
 	}).then((res) => {
@@ -103,15 +108,17 @@ class RentHouseDetail extends Component{
 	 callback=(key)=> {
 		console.log(key);
     }
-    
+    //获取当前人登陆信息
 	  getCurrentUser = () => {
 		let url = '/v1/sysUserDomin/getAuth'
 		request(url, {
 			method: 'GET'
 		}).then((res) => {
 			if (res.message === '成功') {
+        console.log("getCurrentUser",res.data)
 				this.setState({
-					Uid:res.data.id
+          Uid:res.data.id,
+          user:res.data
 				})
 			} else {
 				console.log(err)
@@ -162,8 +169,29 @@ getCurrentCommit=()=>{
 		this.setState({
 		  value: e.target.value,
 		});
-	  }
+    }
+    myHandleSubmit=(e)=>{
+      this.onClose()
+      e.preventDefault();
+      this.props.form.validateFieldsAndScroll((err, values) => {
+          console.log('Received values of form: ', values);
+          if(!err){
+            let url=`/v1/wyw/signedreport/InsertSignedReport/${this.state.rentHouse.userId}/${this.state.Uid}/${this.state.type}/${this.state.Rid}`
+            request(url,{
+              method:'POST',
+              body: values
+            }).then((res)=>{
+              if(res.message=='成功'){
+                message.success('举报成功')
+              }
+            })
+          }
+      });
+    }
     render(){
+      const {
+        getFieldDecorator
+      } = this.props.form;
         return(
             <div style={{ padding: 20, overflowY: 'auto', flex: 1,marginLeft:'30px',marginRight:'5px' }}>
             <MyMenu></MyMenu>
@@ -249,7 +277,72 @@ getCurrentCommit=()=>{
          width='30%'
         >
           <p>请勿恶意举报</p>
-         
+          <Form onSubmit={this.myHandleSubmit.bind(this)}>
+          <Form.Item label = {'被举报人'}>
+            {getFieldDecorator('againstUsername', {
+              initialValue: this.state.rentHouse.userName,
+              rules: [
+                {
+                  required: true,
+                }
+              ]
+            })(<Input size='large'  disabled='disabled' />)}
+          </Form.Item>
+          <Form.Item  label={'举报人'}>
+                        {getFieldDecorator('informerUsername', {
+                            initialValue: this.state.user.userName,
+                            rules: [{
+                                required: true, message: '请输入用户名'
+                            }]
+                        })(
+                            <Input placeholder={'请输入用户名'} disabled='disabled' />
+                        )}
+                    </Form.Item>
+      
+          <Form.Item label={'举报类型'}>
+            {getFieldDecorator('violationType', {
+              rules: [
+                {
+                  required: true,
+                  message: '请输入用户名！'
+                }
+              ]
+            })(
+            <Select>
+              <Select.Option value="信息错误">
+              信息错误
+              </Select.Option>
+              <Select.Option value="暴力倾向">
+              暴力倾向
+                </Select.Option>
+                <Select.Option  value="烟雨误会">
+                烟雨误会
+                </Select.Option>
+            </Select>
+            )}
+          </Form.Item>
+      
+        
+     
+          <Form.Item label={'举报描述'}>
+            {getFieldDecorator('violationContent', {
+              rules: [
+                {
+                  required: true,
+                  message: '请输入用户名！'
+                }
+              ]
+            })(<TextArea prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+            placeholder="请输入举报描述" />)}
+          </Form.Item>
+          <Form.Item >
+          <Button type = "primary"
+          htmlType = "submit" >
+          Log in
+          </Button> 
+          
+          </Form.Item> 
+          </Form>
         </Drawer>
         </div>
             </Col>
@@ -333,4 +426,4 @@ getCurrentCommit=()=>{
         )
     }
 }
-export default RentHouseDetail
+export default Form.create()(RentHouseDetail);

@@ -88,7 +88,7 @@ public class SysUser implements Serializable {
      * 企业基础信息DTO
      */
     @Transient
-    private EntBase entBase;
+//    private EntBase entBase;
 
     public List<SysRole> getSysRoles() {
         return sysRoles;
@@ -98,13 +98,13 @@ public class SysUser implements Serializable {
         this.sysRoles = sysRoles;
     }
 
-    public EntBase getEntBase() {
-        return entBase;
-    }
-
-    public void setEntBase(EntBase entBase) {
-        this.entBase = entBase;
-    }
+//    public EntBase getEntBase() {
+//        return entBase;
+//    }
+//
+//    public void setEntBase(EntBase entBase) {
+//        this.entBase = entBase;
+//    }
 
     /**
      * 获取主键id 主键id

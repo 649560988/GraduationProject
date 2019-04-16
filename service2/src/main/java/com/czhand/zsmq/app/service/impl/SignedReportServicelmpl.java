@@ -33,11 +33,15 @@ public class SignedReportServicelmpl implements SignedReportService {
     *@Time 10:07
     */
     @Override
-    public Integer InsertSignedReport(SingerReportDTO singerReportDTO) throws CommonException {
+    public Integer InsertSignedReport(SingerReportDTO singerReportDTO,Long againstId,Long informerId,Integer type,Long info_id) throws CommonException {
         SignedReport signedReport=ConvertHelper.convert(singerReportDTO,SignedReport.class);
         signedReport.setUpdatedTime(new Date());
         signedReport.setCreatedTime(new Date());
-        signedReport.setIsResolve(1);
+        signedReport.setAgainstId(againstId);
+        signedReport.setInformerId(informerId);
+        signedReport.setType(type);
+        signedReport.setInfoId(info_id);
+        signedReport.setIsResolve(0);
         Integer result=signedReportMapper.insert(signedReport);
         if (result != 1) {
             throw new CommonException("插入失败");

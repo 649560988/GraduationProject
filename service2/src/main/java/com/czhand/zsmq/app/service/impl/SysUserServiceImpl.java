@@ -3,12 +3,12 @@ package com.czhand.zsmq.app.service.impl;
 import com.czhand.zsmq.api.dto.SysRoleDTO;
 import com.czhand.zsmq.api.dto.SysUserDTO;
 import com.czhand.zsmq.api.dto.ent.EntBaseDTO;
-import com.czhand.zsmq.domain.EntBase;
+//import com.czhand.zsmq.domain.EntBase;
 import com.czhand.zsmq.domain.SysRole;
 import com.czhand.zsmq.domain.SysUser;
 import com.czhand.zsmq.domain.SysUserRole;
 import com.czhand.zsmq.infra.exception.CommonException;
-import com.czhand.zsmq.infra.mapper.EntBaseMapper;
+//import com.czhand.zsmq.infra.mapper.EntBaseMapper;
 import com.czhand.zsmq.infra.mapper.SysUserMapper;
 import com.czhand.zsmq.infra.mapper.SysUserRoleMapper;
 import com.czhand.zsmq.infra.utils.convertor.ConvertHelper;
@@ -46,8 +46,8 @@ public class SysUserServiceImpl implements SysUserService {
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
 
-    @Autowired
-    private EntBaseMapper entBaseMapper;
+//    @Autowired
+//    private EntBaseMapper entBaseMapper;
 
     /**
      * 获取 userId
@@ -235,12 +235,12 @@ public class SysUserServiceImpl implements SysUserService {
     public List<SysUserDTO> selectAllUsers() {
         List<SysUser> sysUserList = userMapper.selectAll();
         List<SysUserDTO> sysUserDTOList= ConvertHelper.convertList(sysUserList,SysUserDTO.class);
-        for (SysUserDTO sysUserDTO :sysUserDTOList) {
-            EntBase entBase= entBaseMapper.querryEntBaseByUId(sysUserDTO.getId());
-            if (entBase!=null){
-                sysUserDTO.setEntBaseDTO(ConvertHelper.convert(entBase,EntBaseDTO.class));
-            }
-        }
+//        for (SysUserDTO sysUserDTO :sysUserDTOList) {
+//            EntBase entBase= entBaseMapper.querryEntBaseByUId(sysUserDTO.getId());
+//            if (entBase!=null){
+//                sysUserDTO.setEntBaseDTO(ConvertHelper.convert(entBase,EntBaseDTO.class));
+//            }
+//        }
         return sysUserDTOList;
     }
 }

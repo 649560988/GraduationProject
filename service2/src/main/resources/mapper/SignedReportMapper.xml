@@ -11,12 +11,13 @@
     <result column="informer_phone" jdbcType="VARCHAR" property="informerPhone" />
     <result column="against_id" jdbcType="BIGINT" property="againstId" />
     <result column="against_username" jdbcType="VARCHAR" property="againstUsername" />
-    <result column="info_id" jdbcType="VARCHAR" property="infoId" />
+    <result column="info_id" jdbcType="BIGINT" property="infoId" />
     <result column="violation_type" jdbcType="VARCHAR" property="violationType" />
     <result column="violation_content" jdbcType="VARCHAR" property="violationContent" />
     <result column="is_resolve" jdbcType="INTEGER" property="isResolve" />
     <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="type" jdbcType="INTEGER" property="type" />
   </resultMap>
   <select id="selectAllByPage" resultMap="BaseResultMap">
     select *
