@@ -78,5 +78,10 @@
     <select id="isTel" parameterType="java.lang.String" resultMap="BaseResultMap">
         select * from sys_user where telephone=#{isTel}
     </select>
-
+    <select id="selectAuth" resultMap="BaseResultMap">
+        select su.*,sr.name
+        from sys_role sr,sys_user_role sur,sys_user su
+        where su.id=#{id} and sur.user_id=su.id
+				and sr.id=sur.role_id
+    </select>
 </mapper>

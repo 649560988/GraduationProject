@@ -1,11 +1,31 @@
 import React, {Component,Fragment} from 'react';
 import {  Menu,  Carousel } from 'antd'
+import request from '../../utils/request'
 class MyMenu extends Component{
     constructor(props){
       super(props);
       this.state={
          
       }
+  }
+  componentWillMount(){
+    this.getCurrentUser()
+  }
+  getCurrentUser  (){
+    console.log('进入函数')
+    let url = '/v1/sysUserDomin/getAuth'
+   request(url, {
+        method: 'GET'
+    }).then((res) => {
+        if (res.message === '成功') {
+          console.log('MyMenu',res.data)
+        } 
+        else 
+        {
+        }
+    }).catch(() => {
+      console.log('出错')
+    })
   }
   render(){
       return(
@@ -26,7 +46,7 @@ class MyMenu extends Component{
           <a href= "http://localhost:9090/#/building "><span style={{fontSize:'15px'}}><strong>热门楼盘</strong></span></a>
           </Menu.Item>
            <Menu.Item>
-          <a href= "http://localhost:9090/#/html-show"><span style={{fontSize:'15px'}}><strong>楼讯</strong></span></a>
+          <a href= "http://localhost:9090/#/article"><span style={{fontSize:'15px'}}><strong>楼讯</strong></span></a>
           </Menu.Item>
           <Menu.Item>
           <a href= " "><span style={{fontSize:'15px'}}><strong>问答</strong></span></a>
@@ -35,9 +55,6 @@ class MyMenu extends Component{
          <Menu.SubMenu title={<span style={{fontSize:'15px',color:'white'}}><strong>租房</strong></span>}>
          <Menu.Item>
          <a href= " http://localhost:9090/#/renthouse"><span style={{fontSize:'15px'}}><strong>推荐好屋</strong></span></a>
-         </Menu.Item>
-         <Menu.Item>
-         <a href= " "><span style={{fontSize:'15px'}}><strong>地图找房</strong></span></a>
          </Menu.Item>
          <Menu.Item>
          <a href= " "><span style={{fontSize:'15px'}}><strong>品牌公寓</strong></span></a>
@@ -51,7 +68,7 @@ class MyMenu extends Component{
          <a href="">写字楼</a>
          </Menu.Item>
          <Menu.Item>
-         <a href="http://localhost:9090/#/html-show">楼讯</a>
+         <a href="http://localhost:9090/#/article">楼讯</a>
          </Menu.Item>
          <Menu.Item>
           <a href="">问答</a>

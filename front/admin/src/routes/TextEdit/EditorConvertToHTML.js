@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
-import { Row, Col ,Divider,Form,Button,Modal} from 'antd';
+import { Row, Col ,Divider,Button,Modal,message} from 'antd';
 import request from '../../utils/request'
 import htmlToDraft from 'html-to-draftjs';
 import mystyles from '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -53,13 +53,13 @@ class EditorConvertToHTML extends Component {
   }
   handleOk = () => {
    let data={
-    name:'',
-    Content:'',
+    title:'',
+    content:'',
     userId:'',
     userName:'',
   }
-  data.Content=this.state.editContent
-  data.name=this.state.inputValue
+  data.content=this.state.editContent
+  data.title=this.state.inputValue
   data.userId=this.state.user.id
   data.userName=this.state.user.realName
     this.setState({
@@ -81,7 +81,15 @@ class EditorConvertToHTML extends Component {
     });
   }
   CreateArticle=(data)=>{
-console.log("接收到的·data",data)
+    let url='/v1/wyw/article/createArticle'
+    request(url,{
+      method: 'POST',
+      body: data
+    }).then((res)=>{
+      if(res.message=='添加成功'){
+        message.success('添加成功')
+      }
+    })
   }
   handInputChange(e){
     const value=e.target.value;

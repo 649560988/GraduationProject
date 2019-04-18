@@ -146,7 +146,6 @@ public class SysUserDominController {
 			 result = userDominService.selectAuth();
 		} catch (Exception e) {
 			message = "失败";
-
 		}
 		return ResponseUtils.res(result, message);
 	}

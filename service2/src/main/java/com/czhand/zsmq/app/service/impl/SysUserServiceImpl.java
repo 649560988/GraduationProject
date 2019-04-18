@@ -243,4 +243,16 @@ public class SysUserServiceImpl implements SysUserService {
 //        }
         return sysUserDTOList;
     }
+
+    @Override
+    public Integer addRole(Long id) {
+        SysUserRole sysUserRole=new SysUserRole();
+        sysUserRole.setUserId(id);
+        sysUserRole.setRoleId(4l);
+        sysUserRole.setCreationBy(1l);
+        sysUserRole.setUpdateDate(new Date());
+        sysUserRole.setVersion(1l);
+        Integer result =sysUserRoleMapper.insert(sysUserRole);
+        return result;
+    }
 }

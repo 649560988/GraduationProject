@@ -4,6 +4,7 @@ import com.czhand.zsmq.api.dto.SysUserDTO;
 import com.czhand.zsmq.domain.SysRole;
 import com.czhand.zsmq.domain.SysUser;
 import com.czhand.zsmq.infra.utils.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
@@ -83,4 +84,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	 */
 	SysUser isTel(String tel);
 	Integer insertByRegister(SysUser sysUser);
+	SysUser selectAuth(@Param("id") Long id);
+
 }

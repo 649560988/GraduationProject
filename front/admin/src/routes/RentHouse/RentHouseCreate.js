@@ -13,7 +13,8 @@ import React, {
     Cascader,
     message,
     Tag,
-    InputNumber
+    InputNumber,
+   
   } from 'antd';
   import request from '../../utils/request'
 import TextArea from 'antd/lib/input/TextArea';
@@ -49,7 +50,7 @@ import Data from '../../City'
       }).then((res) => {
           if (res.message === '成功') {
             this.setState({
-              Uid:res.data.id
+              Uid:res.data.id,
             })
           } else {
               message.error('获取当前登录人信息失败');

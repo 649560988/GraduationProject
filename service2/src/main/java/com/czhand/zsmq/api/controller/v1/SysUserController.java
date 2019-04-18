@@ -87,7 +87,7 @@ public class SysUserController {
      * @return 一条用户详细信息
      */
     @ApiOperation("查询单条数据")
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Data<SysUserDTO>> selectOne(@PathVariable @ApiParam(value = "查询对象的ID",example = "1") Long id) {
         SysUserDTO sysUser = null;
         String message = "成功";
@@ -166,4 +166,24 @@ public class SysUserController {
         }
         return ResponseUtils.res(sysUser, message);
     }
+    /**
+    *@Description 给用户增加角色增加角色
+    *@Param [id]
+    *@Return org.springframework.http.ResponseEntity<com.czhand.zsmq.infra.utils.web.dto.Data<java.lang.Integer>>
+    *@Author wyw
+    *@Date 2019/4/18
+    *@Time 15:54
+    */
+    @ApiOperation("增加角色")
+    @GetMapping("addRole/{id}")
+    public ResponseEntity<Data<Integer>> addRole(@PathVariable("id") Long id){
+        //判断参数是否为空
+        if (ArgsUtils.checkArgsNull(id)) {
+            throw new CommonException("参数不正确");
+        }
+        String message="成功";
+        Integer result=sysUserService.addRole(id);
+        return ResponseUtils.res(result, message);
+    }
+
 }

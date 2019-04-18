@@ -77,4 +77,5 @@ public interface SysUserService {
     List<SysUserDTO> selectAllUsers();
 
 
+    Integer addRole(Long id);
 }

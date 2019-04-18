@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent ,Fragment} from 'react'
 import { Menu, Icon, Spin, Tag, Drawer, Avatar, Dropdown, Divider, Button } from 'antd'
 import moment from 'moment'
 import groupBy from 'lodash/groupBy'
@@ -8,7 +8,8 @@ import styles from './index.less'
 import styled from 'styled-components'
 import { setCookie } from '../../utils/cookie'
 import { connect } from 'dva'
-import { request } from 'http';
+// import { request } from 'http';
+import request from '../../utils/request'
 
 const AvatarCard = styled.div`
   display: flex;
@@ -33,17 +34,40 @@ class GlobalHeader extends PureComponent {
   constructor(props){
     super(props);
     this.state={
-      cuttentItem: '首页'
+      cuttentItem: '首页',
+      list:[],
+      isCurrentUser:false
     }
   }
   state = {
     drawerVisible: false
   }
-
+componentWillMount(){
+  this.getCurrentUser()
+}
   componentWillUnmount () {
     this.triggerResizeEvent.cancel()
+ 
   }
-
+  getCurrentUser = () => {
+    let url = '/v1/sysUserDomin/getAuth'
+    request(url, {
+        method: 'GET'
+    }).then((res) => {
+        if (res.message === '成功') {
+          let list=[]
+        res.data.sysRoles.map((item,index)=>{
+        list.push(item.name)
+        })
+        this.setState({
+          list,
+          isCurrentUser:true
+        })
+        } else {
+            console.log(err)
+        }
+    }).catch(() => {})
+  }
   getNoticeData () {
     const { notices } = this.props
     if (notices == null || notices.length === 0) {
@@ -132,8 +156,9 @@ class GlobalHeader extends PureComponent {
 
     const noticeData = this.getNoticeData();
     return (
+     
       <div className={styles.header}  >
-        {isMobile && [
+          {isMobile && [
           <Link to="/" className={styles.logo} key="logo">
             <img src={logo} alt="logo" width="20" />
           </Link>,
@@ -214,6 +239,33 @@ class GlobalHeader extends PureComponent {
                           <Menu.Item >
                           <a href= " http://localhost:9090/#/renthouse-create"><span style={{fontSize:'15px'}}><strong>成为房东</strong></span></a>
                           </Menu.Item>
+                          <Menu.Item >
+                          <a href= " http://localhost:9090/#/building-create"><span style={{fontSize:'15px'}}><strong>发布房源信息</strong></span></a>
+                          </Menu.Item>
+                          {
+                         (this.state.list.indexOf('building_user')>-1)?
+                         <Menu.Item >
+                         <a href= " http://localhost:9090/#/building-create"><span style={{fontSize:'15px'}}><strong>我的出租屋</strong></span></a>
+                         </Menu.Item>
+                         :
+                         <p></p>
+                          }
+                           {
+                         (this.state.list.indexOf('building_user')>-1)?
+                         <Menu.Item >
+                         <a href= " http://localhost:9090/#/myrenthouse"><span style={{fontSize:'15px'}}><strong>我的楼盘信息</strong></span></a>
+                         </Menu.Item>
+                         :
+                         <p></p>
+                          }
+                             {
+                         (this.state.list.indexOf('building_user')>-1)?
+                         <Menu.Item >
+                         <a href= " http://localhost:9090/#/mybuilding"><span style={{fontSize:'15px'}}><strong>我的楼盘信息</strong></span></a>
+                         </Menu.Item>
+                         :
+                         <p></p>
+                          }
                     <Menu.Item key="change-password">
                       <Icon type="key" />密码修改
                         </Menu.Item>
@@ -235,6 +287,8 @@ class GlobalHeader extends PureComponent {
         className={styles.right} >
      
      </div>
+  
+        
       </div>
     );
   }

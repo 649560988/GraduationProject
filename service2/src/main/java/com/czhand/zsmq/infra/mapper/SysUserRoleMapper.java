@@ -34,4 +34,5 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * @return SysRole集合
      */
     List<SysRole> selectRole(Long userId);
+    Integer addRole(Long id);
 }

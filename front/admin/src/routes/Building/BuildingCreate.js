@@ -29,7 +29,8 @@ class BuildingCreate extends Component {
       Uid: '',
       type:1,
       optionHouseStyle:[],
-      styles:[]
+      styles:[],
+      roleList:[]
     
     }
     this.getAuthorization().then((result)=>{
@@ -99,8 +100,13 @@ class BuildingCreate extends Component {
     }).then((res) => {
         // console.log(res)
         if (res.message === '成功') {
+          let list=[]
+          res.data.sysRoles.map((item,index)=>{
+          list.push(item.name)
+          })
           this.setState({
-            Uid:res.data.id
+            roleList:list,
+            Uid:res.data.id,
           })
         } else {
             message.error('获取当前登录人信息失败');
@@ -133,9 +139,18 @@ class BuildingCreate extends Component {
         values.area=area
         console.log('Received values of form: ', values);
         this.createBuilding(values)
-
+        this.addRole()
       }
     });
+  }
+  addRole=()=>{
+    if(this.state.roleList.indexOf('building_user')>-1){
+      let url=`/v1/sysuser/addRole/${this.state.Uid}`
+      request(url,{
+        method:'GET'
+      })
+    }
+  
   }
   getAuthorization = async function  () {
     try {
@@ -193,7 +208,7 @@ createBuilding = (values) => {
     method: 'POST',
     body: values
   }).then((res) => {
-    if (res.message === '创建成功') {
+    if (res.message === '添加成功') {
       // message.success('创建成功')
       console.log("创建成功")
       // this.linkToChange('/setting/users')

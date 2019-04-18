@@ -57,7 +57,7 @@ export default class SiderMenu extends PureComponent {
     this.state = {
       openKeys: this.getDefaultCollapsedSubMenus(props),
       id:'',
-      name:''
+      name:[]
     }
   }
 
@@ -213,11 +213,14 @@ export default class SiderMenu extends PureComponent {
       method: 'GET'
   }).then((res) => {
       if (res.message === '成功') {
-          this.setState({
-              name: res.data.userName,
-              id:res.data.id
-          })
-          console.log(this.state.name)
+        let list=[]
+      res.data.sysRoles.map((item,index)=>{
+      list.push(item.name)
+      })
+      this.setState({
+        id:res.data.id,
+        name:list
+    })
       } else {
           console.log(err)
       }
@@ -263,7 +266,8 @@ export default class SiderMenu extends PureComponent {
     return (
       <div>
         {
-          this.state.name=='admin'?
+
+          (this.state.name.indexOf('admin')>-1)?
           <Sider
           trigger={null}
           collapsible

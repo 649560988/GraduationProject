@@ -217,7 +217,7 @@ public class SysUserDominServiceImpl implements SysUserDominService {
 			throw new CommonException("匿名用户！");
 		}
 
-		SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
+		SysUser sysUser = sysUserMapper.selectAuth(userId);
 
 		if (sysUser == null) {
 			throw new CommonException("没有在数据库查到该用户");

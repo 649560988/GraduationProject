@@ -3,12 +3,12 @@ import { Icon, Layout, Menu, Card, Avatar, List, Carousel, Button,Popover } from
 import GlobalFooter from '../../components/GlobalFooter'
 import request from '../../utils/request'
 import Ellipsis from 'components/Ellipsis';
-import Address from '../Address/Address'
-import { number } from 'prop-types';
 import MyMenu from '../Menu/MyMenu';
+import BaseLayout from '../../layouts/BasicLayout'
 const { Footer, Content } = Layout
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
+// const { Content, Header } = Layout
 export default class Welcome extends React.Component {
   constructor(props){
     super(props);
@@ -16,13 +16,37 @@ export default class Welcome extends React.Component {
       buildingList: [],
       rentHouseList:[],
       data: {},
-      src:'0ae66068-146e-4984-ba80-b0419141c1f6.jpg'
+      src:'0ae66068-146e-4984-ba80-b0419141c1f6.jpg',
     }
   }
   componentDidMount(){
     this. getBuildingList()
     this.getRentHouseList()
+    // this.getCurrentUser()
 }
+
+/** 
+ * 
+ * 
+ * 
+ */
+
+// handleNoticeVisibleChange = visible => {
+//   const { dispatch } = this.props
+//   if (visible) {
+//     dispatch({
+//       type: 'global/fetchNotices'
+//     })
+//   }
+// };
+
+/** 
+ * 
+ * 
+ * 
+ */
+
+
 handclick=(aa)=>{
   // alert("111")
   console.log(aa.id)
@@ -38,28 +62,29 @@ handclick=(aa)=>{
     history.push(url)
   };
   //获取所有楼盘
-  getBuildingList=()=>{
-    let url = '/v1/wyw/building/selectAll'
-    request(url,{
-      method: 'GET'
-    }).then((res) => {
-      if(res.message === '查询成功'){
-        let children = []
-        for(let i of res.data){
-          let src=[]
-          children.push(i);
+ //获取所有楼盘
+ getBuildingList=()=>{
+  let url = '/v1/wyw/building/selectAll'
+  request(url,{
+    method: 'GET'
+  }).then((res) => {
+    if(res.message === '查询成功'){
+      let children = []
+      for(let i of res.data){
+        let src=[]
+        children.push(i);
 
-        }
-       this.setState({
-       buildingList: children,
-       });
-       console.log(this.state.buildingList)
-
-      }else{
-        console.log("用户信息获取失败")
       }
-    })
-  }
+     this.setState({
+     buildingList: children,
+     });
+     console.log(this.state.buildingList)
+
+    }else{
+      console.log("用户信息获取失败")
+    }
+  })
+}
   //获取所有出租房
   getRentHouseList=()=>{
     let url= '/v1/wyw/renthouse/selectAll'
@@ -80,57 +105,44 @@ handclick=(aa)=>{
   }
 
     // const imgStyle
-   
+    // getCurrentUser = () => {
+    //   let url = '/v1/sysUserDomin/getAuth'
+    //   request(url, {
+    //       method: 'GET'
+    //   }).then((res) => {
+    //       if (res.message === '成功') {
+    //         let list=[]
+    //       res.data.sysRoles.map((item,index)=>{
+    //       list.push(item.name)
+    //       })
+    //       this.setState({
+    //         list
+    //       })
+    //       } else {
+    //           console.log(err)
+    //       }
+    //   }).catch(() => {})
+    // }
     render () {
       const { Meta } = Card;
     return (
       <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+      {/* <BaseLayout></BaseLayout> */}
+       {/* <Header style={{ padding: 0 }}>
+            <GlobalHeader
+              logo={logo}
+              currentUser={currentUser}
+              fetchingNotices={fetchingNotices}
+              notices={notices}
+              collapsed={collapsed}
+              isMobile={mb}
+              onNoticeClear={this.handleNoticeClear}
+              onCollapse={this.handleMenuCollapse}
+              onMenuClick={this.handleMenuClick}
+              onNoticeVisibleChange={this.handleNoticeVisibleChange}
+            />
+          </Header> */}
       <MyMenu></MyMenu>
-    {/* <Carousel autoplay>
-     <div><h3>1</h3></div>
-     <div><h3>2</h3></div>
-     <div><h3>3</h3></div>
-      <div><h3>4</h3></div>
-    </Carousel>
-    <div style={{backgroundColor:'black',width:'100%',borderWidth:'2px',borderStyle:'solid',}}>
-    <Menu  theme='dark' mode='horizontal' style={{marginLeft:'10%'}} >
-       <Menu.Item>
-    <a href= " http://localhost:9090/#/myhome"><span style={{fontSize:'15px',color:'white'}}><strong>首页</strong></span></a>
-      </Menu.Item>
-      <Menu.SubMenu title={<span style={{fontSize:'15px',color:'white'}}><strong>新房</strong></span>}>
-       <Menu.Item>
-      <a href= " "><span style={{fontSize:'15px'}}><strong>楼讯</strong></span></a>
-      </Menu.Item>
-      <Menu.Item>
-      <a href= " "><span style={{fontSize:'15px'}}><strong>问答</strong></span></a>
-      </Menu.Item>
-      </Menu.SubMenu>
-     <Menu.SubMenu title={<span style={{fontSize:'15px',color:'white'}}><strong>租房</strong></span>}>
-     <Menu.Item>
-     <a href= " http://localhost:9090/#/renthouse"><span style={{fontSize:'15px'}}><strong>首页</strong></span></a>
-     </Menu.Item>
-     <Menu.Item>
-     <a href= " "><span style={{fontSize:'15px'}}><strong>地图找房</strong></span></a>
-     </Menu.Item>
-     <Menu.Item>
-     <a href= " "><span style={{fontSize:'15px'}}><strong>品牌公寓</strong></span></a>
-     </Menu.Item>
-     </Menu.SubMenu>
-      <Menu.Item>
-      <a href=""><span style={{fontSize:'15px',color:'white'}}><strong>二手房</strong></span></a>
-      </Menu.Item>
-    
-     <Menu.Item>
-     <a href="">写字楼</a>
-     </Menu.Item>
-     <Menu.Item>
-     <a href="http://localhost:9090/#/edit-html">楼讯</a>
-     </Menu.Item>
-     <Menu.Item>
-      <a href="">问答</a>
-     </Menu.Item>
-    </Menu> 
-    </div> */}
     <div style={{marginLeft:'10%'}}>
     <h1>热门楼盘</h1>
         <List
