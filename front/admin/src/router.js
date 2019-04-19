@@ -5,7 +5,6 @@ import { getRouterData } from './common/router'
 import Authorized from './utils/Authorized'
 import { getQueryPath } from './utils/utils'
 import Fullscreen from './components/Fullscreen'
-import request from './utils/request'
 // import { Fragment } from 'react';
 const { ConnectedRouter } = routerRedux
 const { AuthorizedRoute } = Authorized

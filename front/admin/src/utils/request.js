@@ -94,6 +94,7 @@ export default async function request (url, options) {
       credentials: 'omit'
     }
     const newOptions = { ...defaultOptions, ...options }
+    console.log('request options',options)
     newOptions.method = newOptions.method.toUpperCase()
     const Authorization = await getAuthorization()
     if (Authorization) {
@@ -124,7 +125,9 @@ export default async function request (url, options) {
       }
     }
     url = process.env.server + url
+    console.log('0000000000000000000000000000',url,newOptions)
     let res = await fetch(url, newOptions)
+    console.log('1111111111111111111111111',res)
     res = await checkStatus(res)
 
     if (newOptions.method === 'DELETE' || res.status === 204) {
@@ -132,7 +135,9 @@ export default async function request (url, options) {
     }
     return await res.json()
   } catch (e) {
+    console.log('request e.nam',e.name)
     const { dispatch } = store
+    console.log('request dispatch',dispatch)
     const status = e.name
     if (status === 401) {
       dispatch({

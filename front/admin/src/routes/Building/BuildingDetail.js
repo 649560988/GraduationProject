@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from 'react'
-import Building from './Building';
 import moment from 'moment';
 import request from '../../utils/request';
 import {Layout,Carousel, Row, Col,Divider,Tabs,
@@ -42,7 +41,6 @@ class BuildingDetail extends Component{
     constructor(props){
         super(props)
         this.state={
-			building:'',
 			pictures:[],
 			Bid:this.props.match.params.id,
 			Uid:'',
@@ -53,12 +51,15 @@ class BuildingDetail extends Component{
 			usercomment:'',
 			Uname:'',
 			submitting: false,
-			visible:false
+			visible:false,
+			rentHouseAdmin:'',
+			building:{},
+			houseStyles:[]
 		}
 	}
 	componentWillMount(){
-		this.getCurrentUser()
 		this.getCurrentBuilding()
+		this.getCurrentUser()
 		this.getCurrentCommit()
 	}
 	onClose = () => {
@@ -72,6 +73,23 @@ class BuildingDetail extends Component{
       visible: true,
     });
 	};
+	getAdmin=(id)=>{
+		let url=`/v1/sysuser/${id}`
+		console.log('获取当前id',id);
+		request(url, {
+			method: 'GET',
+	}).then((res) => {
+			if (res.message === '成功') {
+				this.setState({
+					rentHouseAdmin:res.data
+				})
+			} else {
+				console.log('获取当前登录人信息失败');
+			}
+	}).catch((err) => {
+			console.log(err)
+	})
+	}
 	myHandleSubmit=(e)=>{
 		this.onClose()
 		e.preventDefault();
@@ -97,9 +115,12 @@ class BuildingDetail extends Component{
 			method: "GET"
 		}).then((res)=>{
 			if(res.message=='查询成功'){
+				console.log('当前楼盘信息',res.data)
+				this.getAdmin(res.data.userId)
 			this.setState({
-				building:res.data,
-				pictures:res.data.srcs
+				building: res.data,
+				pictures: res.data.srcs,
+				houseStyles: res.data.houseStyles
 			})
 			}
 		})
@@ -212,17 +233,27 @@ class BuildingDetail extends Component{
 			  </div>
 			 </Col>
              <Col span={12} >
-			 <h1 style={{textAlign:'center',marginTop:'5px'}}>{this.state.building.name}</h1>
+						 <Row>
+              <Col span={12}>
+              <div style={{marginLeft:'30%',marginTop:'10px'}}><img style={{width:'30%',height:'30%'}} src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/></div></Col>
+              <Col span={12}>
+              <div style={{marginTop:'5px'}}>
+              <h2>接待人员 {this.state.rentHouseAdmin.userName}  </h2>
+              <p>注册时间 {this.state.rentHouseAdmin.creationDate}</p>
+              </div>
+              </Col>
+            </Row>
+			 <h1 style={{marginTop:'5px'}}>楼盘名称：{this.state.building.name}</h1>
+			 <span> <h3>    地址：{this.state.building.province} {this.state.building.city}  {this.state.building.area}</h3></span>
 			 <Divider />
-			 <b  style={{fontSize:'250%',lineHeight:'30%',color:'red',marginLeft:'30px'}}>{this.state.building.id}</b>
+			 {/* <b  style={{fontSize:'250%',lineHeight:'30%',color:'red',marginLeft:'30px'}}>{this.state.building.id}</b> */}
 	          <div style={{marginTop:'8px',marginLeft:'20px'}}>
-
 			<div style={{display:'inline-block',width:'30%'}}>
             <table style={{height:'60px',borderColor:'red',borderLeftStyle:'solid',borderWidth:'2px',marginRight:'10px'}}>
 			<tr><td valign="top"></td></tr>
 			<div style={{marginLeft:'10px'}}>
-			<h1>Link</h1>
-			 <h1>Link</h1>
+			<h1>开发商</h1>
+			 <h1>{this.state.building.developer}</h1>
 			</div>
 			</table>
 			</div>
@@ -230,8 +261,8 @@ class BuildingDetail extends Component{
 			<table style={{height:'60px',borderColor:'red',borderLeftStyle:'solid',borderWidth:'2px'}}>
 			<tr><td valign="top"></td></tr>
 			<div style={{marginLeft:'10px'}}>
-			<h1>Link</h1>
-			 <h1>Link</h1>
+			<h1>物业公司</h1>
+			 <h1>{this.state.building.anagementCompany}</h1>
 			</div>
 			</table>
 			</div>
@@ -239,8 +270,8 @@ class BuildingDetail extends Component{
 			<table style={{height:'60px',borderColor:'red',borderLeftStyle:'solid',borderWidth:'2px'}}>
 			<tr><td valign="top"></td></tr>
 			<div style={{marginLeft:'10px'}}>
-			<h1>Link</h1>
-			 <h1>Link</h1>
+			<h1>开盘时间</h1>
+			 <h1>{this.state.building.openingTime}</h1>
 			</div>
 			</table>
 			</div>
@@ -330,13 +361,40 @@ class BuildingDetail extends Component{
           </Form.Item> 
           </Form>
         </Drawer>
+				<div style={{marginLeft:'40%',marginTop:'5%'}}><h3> 编号：{this.state.building.id}    发布时间：{this.state.building.createdTime}</h3></div>
         </div>
 			 </Col>
             </Row>
+						
 			<div>
 			<Tabs defaultActiveKey="1" onChange={this.callback} >
             <Tabs.TabPane tab="Tab 1" key="1">Content of Tab Pane 1</Tabs.TabPane>
-             <Tabs.TabPane tab="Tab 2" key="2">Content of Tab Pane 2</Tabs.TabPane>
+             <Tabs.TabPane tab="户型图" key="2">
+						 {
+							 this.state.houseStyles.map((item,index)=>{
+								if(item.id==1){
+									return <div key={index}><h3></h3>一室一厅 <img alt=""   size="large" src={`http://localhost:80/111.jpg`} style={{height:'100%' 
+											,width:'100%'}}/></div>
+									}
+									 if(item.id==2){
+										return  <div key={index}><h3></h3>二室一厅 <img alt=""   size="large" src={`http://localhost:80/211.jpg`} style={{height:'100%' 
+										,width:'100%'}}/></div>
+									} 
+									if(item.id==3){
+										return  <div key={index}><h3></h3>三室一厅 <img alt=""   size="large" src={`http://localhost:80/311.jpg`} style={{height:'100%' 
+										,width:'100%'}}/></div>
+									} 
+									if(item.id==4){
+										return <div key={index}><h3></h3>三室二厅 <img alt=""   size="large" src={`http://localhost:80/121.jpg`} style={{height:'100%' 
+										,width:'100%'}}/></div>
+									}
+									 if(item.id==5){
+										return  <div key={index}><h3></h3>一室一厅 <img alt=""   size="large" src={`http://localhost:80/111.jpg`} style={{height:'100%' 
+										,width:'100%'}}/></div>
+									}
+							 })
+						 }
+						 </Tabs.TabPane>
             <Tabs.TabPane tab="Tab 3" key="3">Content of Tab Pane 3</Tabs.TabPane>
             </Tabs>,	
 			  </div>

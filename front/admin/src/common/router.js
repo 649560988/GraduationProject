@@ -74,11 +74,7 @@ export const getRouterData = app => {
     '/': {
       component: dynamicWrapper(app, ['user', 'login', 'menu'], () => import('../layouts/BasicLayout'))
     }
-    // '/':{
-    //   component: dynamicWrapper(app,[],() => import('../routes/Building/Building'))
-    // }
     ,
-    // yang add
     '/setting/menus': {
       component: dynamicWrapper(app, [], () => import('../routes/HsMenuManagement/HsMenuManagement'))
     },
@@ -117,12 +113,14 @@ export const getRouterData = app => {
     }, '/myarticle':{
       component: dynamicWrapper(app,[],()=> import('../routes/TextEdit/MyArticle'))
     },
-    '/article-list':{
+    '/business/article-list':{
       component: dynamicWrapper(app,[],()=> import('../routes/TextEdit/ArticleList'))
     }
     ,
     '/business/housestyle':{
       component:dynamicWrapper(app,[],() => import('../routes/HouseStyle/HouseStyle'))
+    },'/searchbuing':{
+      component:dynamicWrapper(app,[],() => import('../routes/Building/SearchBuilding'))
     }
     ,
     '/renthouse-detail/:id':{
@@ -439,7 +437,10 @@ export const getRouterData = app => {
      */
     '/setting/users': {
       component: dynamicWrapper(app,[],() => import ('../routes/UserManage/UserManageTab'))
+    },'/setting/adminManger': {
+      component: dynamicWrapper(app,[],() => import ('../routes/UserManage/AdminManager'))
     },
+    
     '/setting/user-update/:flag/:id': {
       component: dynamicWrapper(app,[],() => import ('../routes/UserManage/UserUpdate'))
     },

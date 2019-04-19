@@ -71,13 +71,11 @@ handclick=(aa)=>{
     if(res.message === '查询成功'){
       let children = []
       for(let i of res.data){
-        let src=[]
         children.push(i);
-
       }
      this.setState({
      buildingList: children,
-     });
+     })
      console.log(this.state.buildingList)
 
     }else{

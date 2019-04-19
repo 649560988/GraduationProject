@@ -144,7 +144,7 @@ class BuildingCreate extends Component {
     });
   }
   addRole=()=>{
-    if(this.state.roleList.indexOf('building_user')>-1){
+    if(this.state.roleList.indexOf('building_user')==-1){
       let url=`/v1/sysuser/addRole/${this.state.Uid}`
       request(url,{
         method:'GET'

@@ -52,14 +52,14 @@ class RentHouseDetail extends Component{
         usercomment:'',
         Uname:'',
         visible:false,
-        houseStyleList:[1,2,3,4,5],
+        houseStyleList:[1],
         rentHouseAdmin:''
 		}
     }
     componentWillMount(){
     this.getCurrentUser()
     this.getCurrentRentHouse()
-    this.getAdmin()
+    // 
   }
   //获取当前出租屋信息
   getCurrentRentHouse=()=>{
@@ -73,7 +73,8 @@ class RentHouseDetail extends Component{
 				pictures:res.data.srcs
       })
     console.log("获取当前出租屋信息",this.state.rentHouse)
-
+    console.log("获取当前出租屋信息",)
+    this.getAdmin(this.state.rentHouse.userId)
 			}
 		})
   }
@@ -111,13 +112,13 @@ class RentHouseDetail extends Component{
 	 callback=(key)=> {
 		console.log(key);
     }
-    getAdmin=()=>{
-      let url=`/v1/sysuser/${this.state.rentHouse.userId}`
+    getAdmin=(id)=>{
+      let url=`/v1/sysuser/${id}`
       request(url, {
         method: 'GET',
     }).then((res) => {
-        if (res.message === '添加成功') {
-          console.log('获取当前记录信息',this.state.rentHouseAdmin);
+        if (res.message === '成功') {
+          console.log('获取当前记录信息',res.data);
           this.setState({
             rentHouseAdmin:res.data
           })
@@ -209,14 +210,6 @@ getCurrentCommit=()=>{
       });
     }
     render(){
-      let mypicture=null;
-      if(this.state.houseStyle=='1'){
-        mypicture=<div><img alt=""   size="large" src={`http://localhost:80/111.jpg`} style={{height:'100%' 
-        ,width:'100%'}}/></div>
-      }else{
-        mypicture=<div><img alt=""   size="large" src={`http://localhost:80/111.jpg`} style={{height:'100%' 
-        ,width:'100%'}}/></div>
-      }
       const {
         getFieldDecorator
       } = this.props.form;
@@ -249,16 +242,20 @@ getCurrentCommit=()=>{
                 if(this.state.rentHouse.houseStyle==1){
                 return <div><h3></h3>一室一厅 <img alt=""   size="large" src={`http://localhost:80/111.jpg`} style={{height:'100%' 
                     ,width:'100%'}}/></div>
-                }else if(this.state.rentHouse.houseStyle==2){
+                }
+                 if(this.state.rentHouse.houseStyle==2){
                   return  <div><h3></h3>二室一厅 <img alt=""   size="large" src={`http://localhost:80/211.jpg`} style={{height:'100%' 
                   ,width:'100%'}}/></div>
-                }else if(this.state.rentHouse.houseStyle==3){
+                } 
+                if(this.state.rentHouse.houseStyle==3){
                   return  <div><h3></h3>三室一厅 <img alt=""   size="large" src={`http://localhost:80/311.jpg`} style={{height:'100%' 
                   ,width:'100%'}}/></div>
-                }else if(this.state.rentHouse.houseStyle==4){
+                } 
+                if(this.state.rentHouse.houseStyle==4){
                   return <div><h3></h3>三室二厅 <img alt=""   size="large" src={`http://localhost:80/121.jpg`} style={{height:'100%' 
                   ,width:'100%'}}/></div>
-                }else if(this.state.rentHouse.houseStyle==5){
+                }
+                 if(this.state.rentHouse.houseStyle==5){
                   return  <div><h3></h3>一室一厅 <img alt=""   size="large" src={`http://localhost:80/111.jpg`} style={{height:'100%' 
                   ,width:'100%'}}/></div>
                 }
@@ -271,11 +268,21 @@ getCurrentCommit=()=>{
             </Tabs>
             </Col>
             <Col span={8} >
-            <div style={{marginLeft:'20%',marginTop:'20px'}}>
-            <b  style={{fontSize:'250%',lineHeight:'30%',color:'red',marginLeft:'30px'}}>{this.state.rentHouse.id}</b>
-            <h3>小区名：{this.state.rentHouse.communityName}</h3>
-            <span> <h3>地址：{this.state.rentHouse.province} {this.state.rentHouse.city}  {this.state.rentHouse.area}</h3></span>
+            <Row>
+              <Col span={12}>
+              <div style={{marginLeft:'20%',marginTop:'10px'}}><img style={{width:'50%',height:'50%'}} src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/></div></Col>
+              <Col span={12}>
+              <div style={{marginTop:'30%'}}>
+              <h2>房东： {this.state.rentHouseAdmin.userName}  </h2>
+              <p>注册时间 {this.state.rentHouseAdmin.creationDate}</p>
+              </div>
+              </Col>
+            </Row>
+            <div >
             </div>
+            <h3></h3>
+            <span> <h3> 小区名：{this.state.rentHouse.communityName}    地址：{this.state.rentHouse.province} {this.state.rentHouse.city}  {this.state.rentHouse.area}</h3></span>
+            
             <Divider />  
           <div style={{marginTop:'8px',marginLeft:'20px'}}>
            <div style={{display:'inline-block',width:'30%'}}>
@@ -420,7 +427,7 @@ getCurrentCommit=()=>{
            </Row>
            </div>
            <Divider /> 
-           <h1 style={{ marginTop:'15px'}}>房源概况：</h1>
+           <h1 style={{ marginTop:'15px'}}>房源概况：{this.state.rentHouse.houseDescription}</h1>
            {/* <div>
            <Tag {...this.props} checked={this.state.checked} onChange={this.handleChange}>111</Tag>
   </div> */}
@@ -439,6 +446,7 @@ getCurrentCommit=()=>{
            }
            	<div>
              <div>
+             <h1>评论</h1>
 				<List className = "comment-list"
                     header = {`${this.state.usercomment.length} 条评论`}
                     itemLayout = "horizontal"

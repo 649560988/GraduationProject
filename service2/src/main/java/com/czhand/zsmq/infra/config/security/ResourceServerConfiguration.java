@@ -46,6 +46,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/user/register").permitAll()
                 .antMatchers("/v1/wyw/**").permitAll()
                 .antMatchers("/v1/sysUserDomin/getAuth").permitAll()
+                .antMatchers("/v1/sysuser/**").permitAll()
+
                 .anyRequest().authenticated()
                 .and().httpBasic();
 //                .and().formLogin();
