@@ -107,6 +107,8 @@ export const getRouterData = app => {
     },
     '/renthouse':{
       component: dynamicWrapper(app,[],() => import('../routes/RentHouse/RentHouse'))
+    }, '/seaech-renthouse':{
+      component: dynamicWrapper(app,[],() => import('../routes/RentHouse/SearchRentHouse'))
     },
     '/article':{
       component: dynamicWrapper(app,[],()=> import('../routes/TextEdit/Article'))

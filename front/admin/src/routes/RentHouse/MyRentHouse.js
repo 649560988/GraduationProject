@@ -1,7 +1,7 @@
 
 import React from 'react'
 import TableLayout from '../../layouts/TableLayout'
-import { Button, Table, Form, Icon, Tag, Col, Row, Input, Select, message, Tooltip, Popconfirm } from 'antd'
+import { Button, Table, Form, Icon, Tag, message, Tooltip, Popconfirm } from 'antd'
 import request from '../../utils/request'
 
 class MyRentHouse extends React.Component {
@@ -59,7 +59,23 @@ class MyRentHouse extends React.Component {
                     return <span title={text}>{text}</span>
                 }
             }, {
-                title: '是否封禁',
+                title: '类别',
+                dataIndex: 'type',
+                align: 'center',
+                width: '10%',
+                render: (text, record) => {
+                    let tag;
+                    if (text === 0) {
+                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, marginLeft: 'auto', marginRight: 'auto' }} color={'#4CAF50'}>普通住房</Tag>
+                    } else if (text === 1) {
+                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, color: 'black', marginLeft: 'auto', marginRight: 'auto' }} color={'#E9E9E9'}>公寓</Tag>
+                    }
+                    return (
+                        tag
+                    )
+                }
+            },  {
+                title: '是否租赁',
                 dataIndex: 'isRent',
                 align: 'center',
                 width: '10%',
@@ -81,23 +97,11 @@ class MyRentHouse extends React.Component {
                 width: '30%',
                 render: (text, record) => {
                     let actionDel = '';
-                    if (record.isRent) {
+                    if (!record.isRent) {
                         actionDel =
-                            <Tooltip title={'发布'} placement={'bottom'}>
+                            <Tooltip title={'租赁'} placement={'bottom'}>
                                 <Popconfirm
-                                    title={'确定要重新发布?'}
-                                    okText={'是'}
-                                    cancelText={'否'}
-                                    onConfirm={(e) => this.handleOnDel('on', record.id)}
-                                >
-                                    <Button style={{ marginRight: '5px' }}><Icon type='check-circle-o' style={{ color: '#4CAF50' }} /></Button>
-                                </Popconfirm>
-                            </Tooltip>
-                    } else if (!record.isRent) {
-                        actionDel =
-                            <Tooltip title={'禁用'} placement={'bottom'}>
-                                <Popconfirm
-                                    title={'确定要禁用此信息吗?'}
+                                    title={'确定此房屋已租赁?更改后将无法撤销'}
                                     okText={'是'}
                                     cancelText={'否'}
                                     onConfirm={(e) => this.handleOnDel('off', record.id)}
@@ -274,9 +278,6 @@ class MyRentHouse extends React.Component {
     //         console.log(err)
     //     })
     // }
-
-
-
     /**
      *  处理页面跳转
      */

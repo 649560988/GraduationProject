@@ -283,7 +283,7 @@ class BuildingDetail extends Component{
              </div>
 						 <div>
             <Button type="primary" onClick={this.showDrawer}>
-          Open
+          举报
          </Button>
          <Drawer
           title="举报r"

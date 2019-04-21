@@ -23,7 +23,11 @@ public class RentHouse implements Serializable {
      */
     @Column(name = "user_id")
     private Long userId;
-
+    /**
+     * 房屋类型
+     */
+    @Column(name = "type")
+    private Integer type;
     /**
      * 省
      */
@@ -577,5 +581,13 @@ public class RentHouse implements Serializable {
      */
     public void setIsRent(Integer isRent) {
         this.isRent = isRent;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

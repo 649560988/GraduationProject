@@ -24,6 +24,11 @@ public class RentHouseDTO {
      */
     @ApiModelProperty("发布人id ")
     private Long userId;
+    /**
+     * 房屋列别
+     */
+    @ApiModelProperty("发布人id ")
+    private Integer type;
 
     /**
      * 省
@@ -588,5 +593,13 @@ public class RentHouseDTO {
      */
     public void setIsRent(Integer isRent) {
         this.isRent = isRent;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

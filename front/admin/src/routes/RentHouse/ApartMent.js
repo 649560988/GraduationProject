@@ -9,21 +9,19 @@ const { Footer, Content } = Layout
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 // const { Content, Header } = Layout
-export default class Welcome extends React.Component {
+export default class RentHouse extends React.Component {
   constructor(props){
     super(props);
     this.state={
       buildingList: [],
       rentHouseList:[],
       data: {},
+      type:'1',
       src:'0ae66068-146e-4984-ba80-b0419141c1f6.jpg',
-      rentHouseType:'0'
     }
   }
   componentDidMount(){
-    this. getBuildingList()
     this.getRentHouseList()
-    // this.getCurrentUser()
 }
 
 /** 
@@ -62,31 +60,9 @@ handclick=(aa)=>{
     const { history } = this.props
     history.push(url)
   };
-  //获取所有楼盘
- //获取所有楼盘
- getBuildingList=()=>{
-  let url = '/v1/wyw/building/selectAll'
-  request(url,{
-    method: 'GET'
-  }).then((res) => {
-    if(res.message === '查询成功'){
-      let children = []
-      for(let i of res.data){
-        children.push(i);
-      }
-     this.setState({
-     buildingList: children,
-     })
-     console.log(this.state.buildingList)
-
-    }else{
-      console.log("用户信息获取失败")
-    }
-  })
-}
   //获取所有出租房
   getRentHouseList=()=>{
-    let url= `/v1/wyw/renthouse/selectAll/${this.state.rentHouseType}`
+    let url= `/v1/wyw/renthouse/selectAll/${this.state.type}`
     request(url,{
       method: 'GET'
     }).then((res)=>{
@@ -143,31 +119,6 @@ handclick=(aa)=>{
           </Header> */}
       <MyMenu></MyMenu>
     <div style={{marginLeft:'10%'}}>
-    <h1>热门楼盘</h1>
-        <List
-            rowKey="id"
-            grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
-            dataSource={this.state.buildingList}
-            renderItem={item => (
-                <List.Item key={item.id} onClick={() => this.getCurrentBuildingItem(item)} >
-                  <Card hoverable style={{ width: 300 }} 
-                  cover={<img alt=""   size="large" src={`http://localhost:80/${item.srcs[0].src}`} style={{height:200 
-                    ,width:300}}/>}
-                  >
-                    <Card.Meta
-                      title={<a href="">{item.name}&nbsp;{item.city}</a>} 
-                      description={
-                        <Ellipsis  lines={2}>
-                          {item.description}
-                          <Button onClick={this.handclick} >oo</Button>
-                        </Ellipsis>
-                      }
-                    />
-                  </Card>
-                </List.Item>
-              ) 
-            }
-          />
           <h1 >推荐好屋</h1>
            <List
             rowKey="id"
@@ -229,3 +180,4 @@ handclick=(aa)=>{
     )
   }
 }
+export default RentHouse ;

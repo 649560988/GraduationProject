@@ -39,10 +39,11 @@ public class RentHouseServicelmpl implements RentHouseService {
      * 创建出租房
      * */
     @Override
-    public RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO,long Uid) {
+    public RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO,long Uid,Integer type) {
         RentHouse rentHouse=ConvertHelper.convert(rentHouseDTO,RentHouse.class);
         rentHouse.setUserId(Uid);
         rentHouse.setIsRent(0);
+        rentHouse.setType(type);
         rentHouse.setCreatedTime(new Date());
         rentHouse.setUpdatedTime(new Date());
         int result=rentHouseMapper.insert(rentHouse);
@@ -62,8 +63,8 @@ public class RentHouseServicelmpl implements RentHouseService {
      * 查询所有出租房信息
      * */
     @Override
-    public List<RentHouseDTO> queryAllRentHouse() {
-        List<RentHouse> buildings=rentHouseMapper.queryAllRentHouse();
+    public List<RentHouseDTO> queryAllRentHouse(Integer type) {
+        List<RentHouse> buildings=rentHouseMapper.queryAllRentHouse(type);
         return ConvertHelper.convertList(buildings,RentHouseDTO.class);
     }
     /**

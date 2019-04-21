@@ -14,6 +14,7 @@ import React, {
     message,
     Tag,
     InputNumber,
+    Tabs 
    
   } from 'antd';
   import request from '../../utils/request'
@@ -31,7 +32,8 @@ import Data from '../../City'
         fileList: [],
         authorization: '',
         Uid: '',
-        type:0,
+        rentHouseType:0,
+        apartmentType:1,
         selectedTags: [],
         optionHouseStyle:[],
         houseStyles:[],
@@ -59,7 +61,10 @@ import Data from '../../City'
           console.log(err)
       })
   }
-  
+  /**
+   * 
+   * 创建普通住房
+   */
     handleSubmit = (e) => {
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
@@ -71,11 +76,29 @@ import Data from '../../City'
           values.city=city
           values.area=area
           this.createRentHouse(values)
-          this.postUserID(this.state.Uid)
+          // this.postUserID(this.state.Uid)
         }
       });
     }
-
+    /**
+     * 创建公寓
+     */
+    handleSubmitApartMent = (e) => {
+      e.preventDefault();
+      this.props.form.validateFields((err, values) => {
+        if (!err) {
+          let province=values.address[0]
+          let city=values.address[1]
+          let area=values.address[2]
+          values.province=province
+          values.city=city
+          values.area=area
+          this.createApartment(values)
+          // this.postUserID(this.state.Uid)
+        }
+      });
+    }
+    
   /**
      * 获取所有房屋类型
      */
@@ -176,9 +199,13 @@ import Data from '../../City'
         previewImage: file.url || file.thumbUrl,
       });
     }
+    /**
+   * 
+   * 创建普通住房
+   */
     createRentHouse = (values) => {
     console.log('data:', values)
-    request(`/v1/wyw/renthouse/createRentHouse/${this.state.Uid}`, {
+    request(`/v1/wyw/renthouse/createRentHouse/${this.state.Uid}/${this.state.rentHouseType}`, {
       method: 'POST',
       body: values
     }).then((res) => {
@@ -192,7 +219,26 @@ import Data from '../../City'
       console.log(err)
     })
   }
-  
+  /**
+   * 
+   * 创建公寓
+   */
+  createApartment = (values) => {
+    console.log('data:', values)
+    request(`/v1/wyw/renthouse/createRentHouse/${this.state.Uid}/${this.state.apartmentType}`, {
+      method: 'POST',
+      body: values
+    }).then((res) => {
+      if (res.message === '添加成功') {
+        // this.linkToChange('/setting/users')
+      } else {
+        // message.error(res.message)
+        console.log("创建失败")
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
       /***
      *   路径跳转
      */
@@ -206,7 +252,6 @@ import Data from '../../City'
     this.setState({
       fileList
     })
-  
   }
   onRemove=(file) =>{
     // this.setState(preState => ({
@@ -324,8 +369,10 @@ import Data from '../../City'
       return ( 
         <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
         <MyMenu></MyMenu>
+        <Tabs defaultActiveKey="1">
+      {/* 创建出租屋的标签页 */}
+        <Tabs.TabPane tab='出租屋' key="1">
         <Form  onSubmit = {this.handleSubmit.bind(this)} style={{marginTop:'10px'}}>
-
         <Form.Item  {...formItemLayout} label = {'小区地址'} > 
         {getFieldDecorator('address', {
             rules: [{
@@ -622,10 +669,319 @@ import Data from '../../City'
              <Form.Item {...tailFormItemLayout}>
             <Button type = "primary"
             htmlType = "submit" >
-            Log in
+            发布
             </Button> 
             </Form.Item> 
             </Form> 
+        </Tabs.TabPane>
+
+         {/* 创建公寓的标签页 */}
+        <Tabs.TabPane tab='公寓' key="2">
+
+        <Form  onSubmit = {this.handleSubmitApartMent.bind(this)} style={{marginTop:'10px'}}>
+        <Form.Item  {...formItemLayout} label = {'小区地址'} > 
+        {getFieldDecorator('address', {
+            rules: [{
+              required: true,
+              message: '小区地址!'
+            }],
+          })(
+            <Cascader style={{width: 300 }}  matchInputWidth options={Data.diagnoseReport} onChange={this.onChange} placeholder="Please select" 
+            />
+            )
+          } 
+          </Form.Item> 
+
+        <Form.Item  {...formItemLayout} label = {'小区名称'} > 
+        {getFieldDecorator('communityName', {
+            rules: [{
+              required: true,
+              message: '小区名称!'
+            }],
+          })(
+            <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+             placeholder="请输入小区名称" />
+            )
+          } 
+          </Form.Item> 
+          <Form.Item label = {'楼栋号'} {...formItemLayout}  > 
+          {getFieldDecorator('buildingNumber', {
+              rules: [{
+                required: true,
+                message: '请输入楼栋号'
+              }],
+            })( <Input  prefix = {< Icon type = "lock" style = {{color: 'rgba(0,0,0,.25)'}}/>} 
+             placeholder="请输入楼栋号" />
+              )
+            } 
+            </Form.Item>
+            <Form.Item label = {'单元号'} {...formItemLayout}  >
+              {getFieldDecorator('unit',{
+                  rules: [{
+                    required: true,
+                    message: '请输入单元号'
+                  }]
+              })(
+                <InputNumber prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+                placeholder="请输入单元号" style={{width:'100%'}}/>
+              )}
+            </Form.Item>
+            <Form.Item label = {'房间号'} {...formItemLayout} >
+              {getFieldDecorator('houseNumbers',{
+                  rules: [{
+                    required: true,
+                    message: '请输入房间号'
+                  }]
+              })(
+                <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+                placeholder="请输入房间号" />
+              )}
+            </Form.Item>
+            <Form.Item label = {'房间面积'} {...formItemLayout} >
+            {getFieldDecorator('houseArea',{
+                  rules: [{
+                    required: true,
+                    message: '房间面积'
+                  }]
+              })(
+                <div style={{display:'inline'}}>
+                <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+                placeholder="请输入房间面积"  style={{width:'90%'}}/>
+                <label>m^2</label>
+                </div>
+                
+              )}
+            </Form.Item> 
+            <Form.Item label={'户型'}  {...formItemLayout}>
+                        {getFieldDecorator('houseStyle', {
+                            rules: [{ required: true, message: '请选择户型' }]
+                        })(
+                            <Select
+                                placeholder={'请选择户型'}
+                            >
+                                {this.state.optionHouseStyle}
+                            </Select>
+                        )}
+                    </Form.Item>
+            <Form.Item label = {'朝向'} {...formItemLayout} >
+            {getFieldDecorator('oriented',{
+                  rules: [{
+                    required: true,
+                    message: '请输入朝向'
+                  }]
+              })(
+                <Select
+                placeholder={'请选择朝向'}
+            >
+                <Option value="东">东</Option>
+                <Option value="南">南</Option>
+                <Option value="西">西</Option>
+                <Option value="北">北</Option>
+            </Select>
+              )}
+            </Form.Item> 
+            <Form.Item label = {'楼层'} {...formItemLayout} >
+            {getFieldDecorator('floor',{
+                  rules: [{
+                    required: true,
+                    message: '请输入楼层'
+                  }]
+              })(
+                <InputNumber prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+                placeholder="请输入楼层" min={300} style={{width:'100%'}}/>
+              )}
+            </Form.Item> 
+            <Form.Item label = {'装修类型'} {...formItemLayout} >
+            {getFieldDecorator('decoration',{
+                  rules: [{
+                    required: true,
+                    message: '请选择装修类型'
+                  }]
+              })(
+                <Select
+                placeholder={'请选择装修类型'}
+            >
+                <Option value="精装修">精装修</Option>
+                <Option value="简装修">简装修</Option>
+                <Option value="豪华装修">豪华装修</Option>
+                <Option value="毛坯房">毛坯房</Option>
+            </Select>
+              )}
+            </Form.Item>
+            <Form.Item label = {'租金'} {...formItemLayout} >
+            {getFieldDecorator('rent',{
+                  rules: [{
+                    required: true,
+                    message: '请输入租金'
+                  }]
+              })(
+                <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+                placeholder="请输入租金" />
+              )}
+            </Form.Item>
+            <Form.Item label = {'付款类型'} {...formItemLayout} >
+            {getFieldDecorator('paymentType',{
+                  rules: [{
+                    required: true,
+                    message: '请输入付款类型'
+                  }]
+              })(
+                <Select
+                placeholder={'请输入付款类型'}
+            >
+                <Option value="支付宝">支付宝</Option>
+                <Option value="银行卡">银行卡</Option>
+                <Option value="微信">微信</Option>
+            </Select>
+              )}
+            </Form.Item>
+            <Form.Item label = {'房东名称'} {...formItemLayout} >
+            {getFieldDecorator('landlordName',{
+                  rules: [{
+                    required: true,
+                    message: '请输入房东名称'
+                  }]
+              })(
+                <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+                placeholder="请输入房东名称" />
+              )}
+            </Form.Item>
+
+            <Form.Item label = {'出租要求'} {...formItemLayout} >
+            {getFieldDecorator('rentalRequest',{
+                  rules: [{
+                    required: true,
+                    message: '请输入出租要求'
+                  }]
+              })(
+                <Select
+                placeholder={'请输入出租要求'}
+            >
+                <Option value="整租">整租</Option>
+                <Option value="合租">合租</Option>
+            </Select>
+              )}
+            </Form.Item>
+
+            <Form.Item label = {'联系方式'} {...formItemLayout} >
+            {getFieldDecorator('contactInformation',{
+                  rules: [{
+                    required: true,
+                    message: '联系方式'
+                  },
+                  {
+                    pattern: /^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$/,
+                    message: '手机号格式错误！'
+                  }
+                ]
+              })(
+                <Input prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+                placeholder="请输入联系方式" />
+              )}
+            </Form.Item>
+
+
+
+            <Form.Item label = {'配套设施'} {...formItemLayout} >
+            {getFieldDecorator('tags',{
+                  rules: [{
+                    // required: true,
+                    message: '付款类型'
+                  }]
+              })(
+                <div>
+                <h6 style={{ marginRight: 8, display: 'inline' }}>Categories:</h6>
+                {tagsFromServer.map((tag,index) => (
+                  <CheckableTag
+                    key={tag}
+                    checked={this.state.selectedTags.indexOf(tag)>-1}
+                    onChange={checked => this.handleChangeTag(tag, checked)}
+                  >
+                    {tag}
+                  </CheckableTag>
+                ))}
+              </div>
+              )}
+            </Form.Item>
+    
+            <Form.Item label = {'房屋描述'} {...formItemLayout} >
+            {getFieldDecorator('houseDescription',{
+                  rules: [{
+                    required: true,
+                    message: '请输入房屋描述'
+                  }]
+              })(
+                <TextArea prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+                placeholder="请输入房屋描述" />
+              )}
+            </Form.Item>
+
+            <Form.Item label = {'请上传图片'} {...formItemLayout} > 
+            {getFieldDecorator('file', {
+                rules: [{
+                  required: true,
+                  message: '请上传图片'
+                }],
+              })( <div >
+                <Upload  
+                min={2}
+                action={`http://localhost:8080/v1/wyw/picture/insertPictures/${this.state.type}`}
+                headers = {
+                  {
+                    Authorization: this.state.authorization
+                  }
+                }
+                listType = "picture-card"
+                fileList = {
+                  fileList
+                }
+                beforeUpload={this.beforeUpload}
+  
+                onRemove={this.onRemove}
+                onPreview = {
+                  this.handlePreview
+                }
+                onChange = {
+                  this.handleChange
+                } >
+                {
+                  fileList.length >= 3 ? null : uploadButton
+                } 
+                </Upload> 
+                <Modal visible = {
+                  previewVisible
+                }
+                footer = {
+                  null
+                }
+                onCancel = {
+                  this.handleCancel
+                } >
+                <img alt = "example"
+                style = {
+                  {
+                    width: '100%'
+                  }
+                }
+                src = {
+                  previewImage
+                }
+                /> </Modal> 
+                </div>
+              )
+            } 
+            </Form.Item> 
+        
+             <Form.Item {...tailFormItemLayout}>
+            <Button type = "primary"
+            htmlType = "submit" >
+            发布
+            </Button> 
+            </Form.Item> 
+            </Form> 
+        </Tabs.TabPane>
+        </Tabs>
+        
             </div>
           )
         }

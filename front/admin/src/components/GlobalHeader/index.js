@@ -237,7 +237,7 @@ componentWillMount(){
                       <Icon type="user" />基本信息
                           </Menu.Item>
                           {
-                         (this.state.list.indexOf('building_user')>-1)&&(this.state.list.indexOf('admin')!=-1)?
+                         (this.state.list.indexOf('building_user')>-1)?
                          <Menu.Item >
                          <a href= " http://localhost:9090/#/renthouse-create"><span style={{fontSize:'15px'}}><strong>成为房东</strong></span></a>
                          </Menu.Item>
@@ -245,7 +245,7 @@ componentWillMount(){
                          <p></p>
                           }
                            {
-                         (this.state.list.indexOf('building_user')>-1)&&(this.state.list.indexOf('admin')!=-1)?
+                         (this.state.list.indexOf('building_user')>-1)?
                          <Menu.Item >
                           <a href= " http://localhost:9090/#/building-create"><span style={{fontSize:'15px'}}><strong>发布房源信息</strong></span></a>
                           </Menu.Item>

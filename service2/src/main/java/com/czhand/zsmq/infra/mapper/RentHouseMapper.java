@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public interface RentHouseMapper extends BaseMapper<RentHouse> {
-    List<RentHouse> queryAllRentHouse();
+    List<RentHouse> queryAllRentHouse(@Param("type") Integer type);
     RentHouse selectOneAndPicture(Long id);
     List<RentHouse> queryAllRentHouseByArea(String province, String city, String area);
     long lastInsertRentHouseId();

@@ -1,10 +1,10 @@
 
 import React from 'react'
 import TableLayout from '../../layouts/TableLayout'
-import { Button, Table, Form, Icon, Tag, Col, Row, Input, Select, message, Tooltip, Popconfirm } from 'antd'
+import { Button, Table, Form, Icon, Tag, message, Tooltip, Popconfirm ,Drawer} from 'antd'
 import request from '../../utils/request'
 
-class RentHouseList extends React.Component {
+class SingerReport extends React.Component {
 
     constructor(props) {
         super(props)
@@ -19,39 +19,24 @@ class RentHouseList extends React.Component {
                 dataIndex: 'order',
                 align: 'center',
                 width: '8%',
+            },{
+                title: '举报人',
+                dataIndex: 'informerUsername',
+                align: 'center',
+                width: '15%',
             }, {
-                title: '小区名称',
-                dataIndex: 'communityName',
+                title: '被举报人',
+                dataIndex: 'againstUsername',
                 align: 'center',
                 width: '15%',
             },
             {
-                title: '楼栋号',
-                dataIndex: 'buildingNumber',
+                title: '举报类型',
+                dataIndex: 'violationType',
                 align: 'center',
-                width: '8%',
-            },
-            {
-                title: '单元号',
-                dataIndex: 'unit',
-                align: 'center',
-                width: '8%',
-            }
-            ,
-            {
-                title: '房间号',
-                dataIndex: 'houseNumbers',
-                align: 'center',
-                width: '8%',
-            }
-            ,
-            {
-                title: '发布人姓名',
-                dataIndex: 'userName',
-                align: 'center',
-                width: '10%',
-            }, {
-                title: '发布时间',
+                width: '15%',
+            },{
+                title: '举报时间',
                 dataIndex: 'createdTime',
                 align: 'center',
                 width: '20%',
@@ -59,32 +44,66 @@ class RentHouseList extends React.Component {
                     return <span title={text}>{text}</span>
                 }
             }, {
-                title: '类别',
-                dataIndex: 'type',
-                align: 'center',
-                width: '10%',
-                render: (text, record) => {
-                    let tag;
-                    if (text === 0) {
-                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, marginLeft: 'auto', marginRight: 'auto' }} color={'#4CAF50'}>普通住房</Tag>
-                    } else if (text === 1) {
-                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, color: 'black', marginLeft: 'auto', marginRight: 'auto' }} color={'#E9E9E9'}>公寓</Tag>
-                    }
-                    return (
-                        tag
-                    )
+                title:'查看举报详细信息',
+                dataIndex:'cation',
+                align:'center',
+                // type:'bu',
+                render:()=>{
+                    <div>
+                    <Button type="primary" onClick={this.showDrawer}>
+                    举报
+                   </Button>
+                   <Drawer
+                    title="举报信息"
+                    placement="right"
+                    closable={false}
+                    onClose={this.onClose}
+                    visible={this.state.visible}
+                   width='30%'
+                  >
+                    <p>请勿恶意举报</p>
+                    <Form onSubmit={this.myHandleSubmit.bind(this)}>
+                    <Form.Item label = {'被举报人'}>
+                      {getFieldDecorator('againstUsername', {
+                        initialValue: this.state.building.userName,
+                      })(<Input size='large'  disabled='disabled' />)}
+                    </Form.Item>
+                    <Form.Item  label={'举报人'}>
+                                  {getFieldDecorator('informerUsername', {
+                                      initialValue: this.state.data.informerUsername,
+                                  })(
+                                      <Input placeholder={'请输入用户名'} disabled='disabled' />
+                                  )}
+                              </Form.Item>
+                
+                    <Form.Item label={'举报类型'}>
+                      {getFieldDecorator('violationType', {
+                        initialValue: this.state.data.violationType,
+                      })(
+                        <Input placeholder={'请输入用户名'} disabled='disabled' />
+                      )}
+                    </Form.Item>
+                    <Form.Item label={'举报描述'}>
+                      {getFieldDecorator('violationContent', {
+                           initialValue: this.state.data.violationContent,
+                      })(<TextArea prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+                      placeholder="请输入举报描述" />)}
+                    </Form.Item>
+                    </Form>
+                  </Drawer>
+                  </div>
                 }
-            }, {
-                title: '是否封禁',
+            },{
+                title: '是否处理',
                 dataIndex: 'isRent',
                 align: 'center',
                 width: '10%',
                 render: (text, record) => {
                     let tag;
                     if (text === 0) {
-                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, marginLeft: 'auto', marginRight: 'auto' }} color={'#4CAF50'}>否</Tag>
+                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, marginLeft: 'auto', marginRight: 'auto' }} color={'#4CAF50'}>未处理</Tag>
                     } else if (text === 1) {
-                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, color: 'black', marginLeft: 'auto', marginRight: 'auto' }} color={'#E9E9E9'}>是</Tag>
+                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, color: 'black', marginLeft: 'auto', marginRight: 'auto' }} color={'#E9E9E9'}>已处理</Tag>
                     }
                     return (
                         tag
@@ -97,23 +116,11 @@ class RentHouseList extends React.Component {
                 width: '30%',
                 render: (text, record) => {
                     let actionDel = '';
-                    if (record.isRent) {
+                    if (!record.isRent) {
                         actionDel =
-                            <Tooltip title={'发布'} placement={'bottom'}>
+                            <Tooltip title={'租赁'} placement={'bottom'}>
                                 <Popconfirm
-                                    title={'确定要重新发布?'}
-                                    okText={'是'}
-                                    cancelText={'否'}
-                                    onConfirm={(e) => this.handleOnDel('on', record.id)}
-                                >
-                                    <Button style={{ marginRight: '5px' }}><Icon type='check-circle-o' style={{ color: '#4CAF50' }} /></Button>
-                                </Popconfirm>
-                            </Tooltip>
-                    } else if (!record.isRent) {
-                        actionDel =
-                            <Tooltip title={'禁用'} placement={'bottom'}>
-                                <Popconfirm
-                                    title={'确定要禁用此信息吗?'}
+                                    title={'确定此房屋已租赁?更改后将无法撤销'}
                                     okText={'是'}
                                     cancelText={'否'}
                                     onConfirm={(e) => this.handleOnDel('off', record.id)}
@@ -133,13 +140,24 @@ class RentHouseList extends React.Component {
                 }
             }],
             data: [],
-            searchContent: '',
             pageSize: 10,
             current: 1,
             total: 0,
+            visible:false,
         }
     }
 
+    onClose = () => {
+        // this.myHandleSubmit()
+        this.setState({
+          visible: false,
+        });
+      };
+      showDrawer = () => {
+        this.setState({
+          visible: true,
+        });
+        };
 
     // componentWillMount() {
     //     this.getListInfo('')
@@ -208,20 +226,30 @@ class RentHouseList extends React.Component {
         })
     }
     componentWillMount(){
-        this.getBuilding()
     }
+    
+          //获取当前登陆人信息
+  getPersonalInfoById = () => {
+    request('/v1/sysUserDomin/getAuth', {
+        method: 'GET',
+        // credentials: 'omit'
+    }).then((res) => {
+        if (res.message === '成功') {
+            let data=[]
+            this.state.myRentHouse.map((item,index)=>{
+                if(res.data.id==item.userId){
+                    data.push(item)
+                }
+            })
+           this.addToTable(data)
+        } else {
+            message.error('获取当前登录人信息失败');
+        }
+    }).catch((err) => {
+        console.log(err)
+    })
+}
 
-    /**
-     *  回车或点击搜索符号时触发搜索事件
-     */
-    // handleOnSearch = (value) => {
-    //     this.setState({
-    //         current: 1,
-    //         searchContent: value
-    //     }, () => {
-    //         this.getListInfo(value)
-    //     })
-    // }
    /** 
     * 获取楼盘信息
     * */ 
@@ -231,55 +259,12 @@ class RentHouseList extends React.Component {
            method: 'GET'
        }).then((res)=>{
            if(res.message=='成功'){
-            this.addToTable(res.data)
+            this.setState({
+                myRentHouse:res.data
+            })
            }
        })
    }
-    /**
-     * 获取用户信息
-     */
-    // getListInfo = (value) => {
-    //     let url = ''
-    //     console.log("value",value)
-    //     if (value.toString().length === 0) {
-    //         url = '/v1/sysuser?pageNo=' + this.state.current + '&pageSize=' + this.state.pageSize
-    //     } else {
-    //         url = '/v1/sysuser?realName=' + value + '&pageNo=' + this.state.current + '&pageSize=' + this.state.pageSize
-    //     }
-    //     const data = request(url, {
-    //         method: 'GET',
-    //         // credentials: 'omit'
-    //     })
-    //     data.then((res) => {
-    //         if (res.message === '成功') {
-    //             this.addToTable(res.data)
-    //             this.setState({
-    //                 searchContent: value,
-    //             })
-    //         } else {
-    //             this.setState({
-    //                 data: []
-    //             })
-    //         }
-    //     }).catch((err) => {
-    //         console.log(err)
-    //     })
-    // }
-
-
-
-    /**
-     *  处理页面跳转
-     */
-    handlePageChange = (page, pageSize) => {
-        this.setState({
-            pageSize,
-            current: page,
-        }, () => {
-            this.getListInfo(this.state.searchContent)
-        })
-    }
-
 
     render() {
         const { getFieldDecorator } = this.props.form
@@ -323,4 +308,4 @@ class RentHouseList extends React.Component {
     }
 }
 
-export default Form.create()(RentHouseList);
+export default Form.create()(SingerReport);

@@ -11,10 +11,10 @@ import java.util.List;
  * @data 2019/3/7 16:18
  */
 public interface RentHouseService {
-    List<RentHouseDTO> queryAllRentHouse()throws CommonException;
+    List<RentHouseDTO> queryAllRentHouse(Integer type)throws CommonException;
     RentHouseDTO selectOneAndPicture(Long id)throws CommonException;
     List<RentHouseDTO> queryAllRentHouseByArea(String province,String city,String area)throws CommonException;
-    RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO,long Uid)throws CommonException;
+    RentHouseDTO createRentHouse(RentHouseDTO rentHouseDTO,long Uid,Integer type)throws CommonException;
     PageInfo<RentHouseDTO> selectAllByPage(int pageNo, int pageSize);
     int stopOrStart(Long id,int isdel) throws CommonException;
 }
