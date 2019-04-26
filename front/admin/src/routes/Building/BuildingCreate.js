@@ -18,6 +18,7 @@ import request from '../../utils/request'
 import TextArea from 'antd/lib/input/TextArea';
 import MyMenu from '../Menu/MyMenu';
 import Data from '../../City'
+import TableLayout from '../../layouts/TableLayout'
 class BuildingCreate extends Component {
   constructor(props) {
     super(props)
@@ -139,19 +140,19 @@ class BuildingCreate extends Component {
         values.area=area
         console.log('Received values of form: ', values);
         this.createBuilding(values)
-        this.addRole()
+        // this.addRole()
       }
     });
   }
-  addRole=()=>{
-    if(this.state.roleList.indexOf('building_user')==-1){
-      let url=`/v1/sysuser/addRole/${this.state.Uid}`
-      request(url,{
-        method:'GET'
-      })
-    }
+  // addRole=()=>{
+  //   if(this.state.roleList.indexOf('building_user')==-1){
+  //     let url=`/v1/sysuser/addRole/${this.state.Uid}`
+  //     request(url,{
+  //       method:'GET'
+  //     })
+  //   }
   
-  }
+  // }
   getAuthorization = async function  () {
     try {
       const accessTokenExpire = localStorage.getItem('accessTokenExpire')
@@ -333,6 +334,9 @@ render() {
     return ( 
       <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
       <MyMenu></MyMenu>
+      <TableLayout
+      title={'增加'}
+  >
       <Form  onSubmit = {this.handleSubmit.bind(this)} >
       <Form.Item  {...formItemLayout} label = {'小区地址'} > 
         {getFieldDecorator('address', {
@@ -547,6 +551,7 @@ render() {
           
           </Form.Item> 
           </Form> 
+          </TableLayout>
           </div>
         )
       }

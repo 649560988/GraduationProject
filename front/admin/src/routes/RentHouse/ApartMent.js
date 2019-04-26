@@ -4,12 +4,12 @@ import GlobalFooter from '../../components/GlobalFooter'
 import request from '../../utils/request'
 import Ellipsis from 'components/Ellipsis';
 import MyMenu from '../Menu/MyMenu';
-import BaseLayout from '../../layouts/BasicLayout'
+import TableLayout from '../../layouts/TableLayout'
 const { Footer, Content } = Layout
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 // const { Content, Header } = Layout
-export default class RentHouse extends React.Component {
+export default class ApartMent extends React.Component {
   constructor(props){
     super(props);
     this.state={
@@ -102,24 +102,11 @@ handclick=(aa)=>{
       const { Meta } = Card;
     return (
       <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
-      {/* <BaseLayout></BaseLayout> */}
-       {/* <Header style={{ padding: 0 }}>
-            <GlobalHeader
-              logo={logo}
-              currentUser={currentUser}
-              fetchingNotices={fetchingNotices}
-              notices={notices}
-              collapsed={collapsed}
-              isMobile={mb}
-              onNoticeClear={this.handleNoticeClear}
-              onCollapse={this.handleMenuCollapse}
-              onMenuClick={this.handleMenuClick}
-              onNoticeVisibleChange={this.handleNoticeVisibleChange}
-            />
-          </Header> */}
       <MyMenu></MyMenu>
+      <TableLayout
+      title={'精品公寓'}
+  >
     <div style={{marginLeft:'10%'}}>
-          <h1 >推荐好屋</h1>
            <List
             rowKey="id"
             grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
@@ -176,8 +163,8 @@ handclick=(aa)=>{
           />
         </Footer>
         </div>
+        </TableLayout>
       </div>
     )
   }
 }
-export default RentHouse ;

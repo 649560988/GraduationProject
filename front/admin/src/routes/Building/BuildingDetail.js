@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react'
 import moment from 'moment';
 import request from '../../utils/request';
+import TableLayout from '../../layouts/TableLayout'
 import {Layout,Carousel, Row, Col,Divider,Tabs,
     Avatar,
     Form,
@@ -213,13 +214,16 @@ class BuildingDetail extends Component{
       } = this.props.form;
 		// const { comments, submitting, value } = this.state;
         return(
-			<div style={{ padding: 20, overflowY: 'auto', flex: 1,marginLeft:'30px',marginRight:'5px' }}>
-			<MyMenu></MyMenu>
+			    <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+            <MyMenu></MyMenu>
+            <TableLayout
+            title={'详细信息'}
+        >
 			<img className={styles.mimg} src="http://localhost:80/3.jpg"></img>
 			<div>
 			<Row>
              <Col span={12} >
-			 <div className={styles.div1}>
+						 <div className={styles.div1}>
 		         <Carousel autoplay>
 		         {
 		         	this.state.pictures.map((item,index)=>{
@@ -361,8 +365,9 @@ class BuildingDetail extends Component{
           </Form.Item> 
           </Form>
         </Drawer>
+				</div>
 				<div style={{marginLeft:'40%',marginTop:'5%'}}><h3> 编号：{this.state.building.id}    发布时间：{this.state.building.createdTime}</h3></div>
-        </div>
+      
 			 </Col>
             </Row>
 						
@@ -436,6 +441,7 @@ class BuildingDetail extends Component{
           )}
         />
       </div>
+			</TableLayout>
 			</div>
         )
     }

@@ -2,10 +2,10 @@
 import React, {Component, Fragment} from 'react';
 import { Card, Cascader, Button, Menu , List} from 'antd';
 import request from '../../utils/request'
-import Address from '../Address/Address';
 import Ellipsis from 'components/Ellipsis';
 import MyMenu from '../Menu/MyMenu';
 import Data from '../../City'
+import TableLayout from '../../layouts/TableLayout'
 class SearchBuilding extends Component {
     constructor(props){
         super(props);
@@ -68,8 +68,11 @@ class SearchBuilding extends Component {
     render(){
     const { Meta } = Card;
         return (
-            <Fragment>
-              <MyMenu></MyMenu>
+          <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+            <MyMenu></MyMenu>
+            <TableLayout
+            title={'搜索'}
+        >
          <Menu  onClick={this.handClick} selectedKeys={[this.state.cuttentItem]} mode='horizontal' >
          <Menu.Item>
             首页
@@ -110,7 +113,8 @@ class SearchBuilding extends Component {
               ) 
             }
           />
-          </Fragment>
+          </TableLayout>
+          </div>
         );
     }
 }

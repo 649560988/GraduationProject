@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czhand.zsmq.infra.mapper.QuestionMapper">
+    <resultMap id="BaseMap" type="com.czhand.zsmq.domain.Question">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="type" jdbcType="BIGINT" property="type"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="count_answer" jdbcType="BIGINT" property="countAnswer"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+    </resultMap>
+    <select id="selectAllByType" resultMap="BaseMap">
+        select question.*
+        from  question
+        where type=#{type}
+    </select>
+    <select id="updateOne" parameterType="com.czhand.zsmq.domain.Question">
+        update question
+        set count_answer = #{countAnswer}
+        where id=#{id}
+    </select>
+</mapper>

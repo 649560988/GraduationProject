@@ -91,10 +91,10 @@ export default async function request (url, options) {
     const defaultOptions = {
       method: 'GET',
       mode: 'cors',
+      // mode:'cors'
       credentials: 'omit'
     }
     const newOptions = { ...defaultOptions, ...options }
-    console.log('request options',options)
     newOptions.method = newOptions.method.toUpperCase()
     const Authorization = await getAuthorization()
     if (Authorization) {
@@ -116,18 +116,18 @@ export default async function request (url, options) {
           ...newOptions.headers
         }
         newOptions.body = JSON.stringify(newOptions.body)
+        console.log('newOptions.body',newOptions.headers)
       } else {
         // newOptions.body is FormData
         newOptions.headers = {
           Accept: 'application/json',
           ...newOptions.headers
         }
+        console.log('newOptions.headers',newOptions.headers)
       }
     }
     url = process.env.server + url
-    console.log('0000000000000000000000000000',url,newOptions)
     let res = await fetch(url, newOptions)
-    console.log('1111111111111111111111111',res)
     res = await checkStatus(res)
 
     if (newOptions.method === 'DELETE' || res.status === 204) {
@@ -135,9 +135,11 @@ export default async function request (url, options) {
     }
     return await res.json()
   } catch (e) {
-    console.log('request e.nam',e.name)
+    console.log('e',e)
+    if(e.name=='TypeError'){
+      e.name=401
+    }
     const { dispatch } = store
-    console.log('request dispatch',dispatch)
     const status = e.name
     if (status === 401) {
       dispatch({

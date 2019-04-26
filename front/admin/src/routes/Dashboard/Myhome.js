@@ -4,6 +4,7 @@ import GlobalFooter from '../../components/GlobalFooter'
 import request from '../../utils/request'
 import Ellipsis from 'components/Ellipsis';
 import MyMenu from '../Menu/MyMenu';
+import TableLayout from '../../layouts/TableLayout'
 import BaseLayout from '../../layouts/BasicLayout'
 const { Footer, Content } = Layout
 const SubMenu = Menu.SubMenu;
@@ -126,6 +127,10 @@ handclick=(aa)=>{
       const { Meta } = Card;
     return (
       <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+          <MyMenu></MyMenu>
+            <TableLayout
+            title={'首页'}
+        >
       {/* <BaseLayout></BaseLayout> */}
        {/* <Header style={{ padding: 0 }}>
             <GlobalHeader
@@ -141,7 +146,6 @@ handclick=(aa)=>{
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
           </Header> */}
-      <MyMenu></MyMenu>
     <div style={{marginLeft:'10%'}}>
     <h1>热门楼盘</h1>
         <List
@@ -225,6 +229,7 @@ handclick=(aa)=>{
           />
         </Footer>
         </div>
+        </TableLayout>
       </div>
     )
   }

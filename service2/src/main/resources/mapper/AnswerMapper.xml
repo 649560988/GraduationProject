@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.czhand.zsmq.infra.mapper.AnswerMapper">
+    <resultMap id="BaseMap" type="com.czhand.zsmq.domain.Answer">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="type" jdbcType="BIGINT" property="type"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="question_id" jdbcType="BIGINT" property="questionId"/>
+    </resultMap>
+    <select id="selectAllById" resultMap="BaseMap">
+        select a.*
+        from answer a
+        where a.question_id=#{questionId}
+    </select>
+</mapper>

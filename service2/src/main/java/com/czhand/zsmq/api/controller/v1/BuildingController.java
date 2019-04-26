@@ -136,6 +136,12 @@ public class BuildingController {
      String message="成功";
      return ResponseUtils.res(result,message);
     }
-
+    @ApiOperation("isLogin")
+    @GetMapping("/isLogin")
+    public ResponseEntity<Data<Integer>> stopOrStart(){
+        String message="成功";
+        Integer result=1;
+        return ResponseUtils.res(result,message);
+    }
 }
 

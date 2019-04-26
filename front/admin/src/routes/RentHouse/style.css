@@ -7,21 +7,20 @@
   height:400px;
   line-height: 160px;
   background: #364d79;
-  overflow: hidden;
 }
 .div1{
     height:400px;
-    width: 98%;
+    width: 100%;
     background-color: aqua;
 }
 .active{
   height:400px;
-  width: 98%;
+  width: 100%;
   background-color: aqua;
 }
 .aaa{
   height:400px;
-  width: 98%;
+  width: 100%;
   background-color: aqua;
 }
 .messageicon{

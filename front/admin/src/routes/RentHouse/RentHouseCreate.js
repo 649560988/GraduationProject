@@ -21,6 +21,7 @@ import React, {
 import TextArea from 'antd/lib/input/TextArea';
 import MyMenu from '../Menu/MyMenu';
 import Data from '../../City'
+import TableLayout from '../../layouts/TableLayout'
   const CheckableTag = Tag.CheckableTag;
   const tagsFromServer = ['Movies', 'Books', 'Music', 'Sports'];
   class RentHouseCreate extends Component {
@@ -37,6 +38,7 @@ import Data from '../../City'
         selectedTags: [],
         optionHouseStyle:[],
         houseStyles:[],
+        type:0
       }
       this.getAuthorization().then((result)=>{
         this.setState({authorization:result})
@@ -369,9 +371,13 @@ import Data from '../../City'
       return ( 
         <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
         <MyMenu></MyMenu>
+        <TableLayout
+        title={'房屋发布'}
+        
+    >
         <Tabs defaultActiveKey="1">
-      {/* 创建出租屋的标签页 */}
-        <Tabs.TabPane tab='出租屋' key="1">
+       {/* 创建出租屋的标签页 */}
+         <Tabs.TabPane tab='出租屋' key="1"> 
         <Form  onSubmit = {this.handleSubmit.bind(this)} style={{marginTop:'10px'}}>
         <Form.Item  {...formItemLayout} label = {'小区地址'} > 
         {getFieldDecorator('address', {
@@ -619,7 +625,7 @@ import Data from '../../City'
               })( <div >
                 <Upload  
                 min={2}
-                action={`http://localhost:8080/v1/wyw/picture/insertPictures/${this.state.type}`}
+                action={`http://localhost:8080/v1/wyw/picture/insertPictures/${this.state.rentHouseType}`}
                 headers = {
                   {
                     Authorization: this.state.authorization
@@ -925,7 +931,7 @@ import Data from '../../City'
               })( <div >
                 <Upload  
                 min={2}
-                action={`http://localhost:8080/v1/wyw/picture/insertPictures/${this.state.type}`}
+                action={`http://localhost:8080/v1/wyw/picture/insertPictures/${this.state.apartmentType}`}
                 headers = {
                   {
                     Authorization: this.state.authorization
@@ -981,7 +987,7 @@ import Data from '../../City'
             </Form> 
         </Tabs.TabPane>
         </Tabs>
-        
+        </TableLayout> 
             </div>
           )
         }

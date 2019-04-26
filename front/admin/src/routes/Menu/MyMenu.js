@@ -60,7 +60,10 @@ class MyMenu extends Component{
          <a href= " http://localhost:9090/#/renthouse"><span style={{fontSize:'15px'}}><strong>推荐好屋</strong></span></a>
          </Menu.Item>
          <Menu.Item>
-         <a href= " "><span style={{fontSize:'15px'}}><strong>品牌公寓</strong></span></a>
+         <a href= " http://localhost:9090/#/seaech-renthouse"><span style={{fontSize:'15px'}}><strong>位置搜索</strong></span></a>
+         </Menu.Item>
+         <Menu.Item>
+         <a href= "http://localhost:9090/#/apartment"><span style={{fontSize:'15px'}}><strong>品牌公寓</strong></span></a>
          </Menu.Item>
          </Menu.SubMenu>
           {/* <Menu.Item>
@@ -74,7 +77,7 @@ class MyMenu extends Component{
          <a href="http://localhost:9090/#/article">楼讯</a>
          </Menu.Item>
          <Menu.Item>
-          <a href="">问答</a>
+          <a href="http://localhost:9090/#/question">问答</a>
          </Menu.Item>
         </Menu> 
         </div>

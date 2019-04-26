@@ -2,6 +2,7 @@ import React,  {Component, Fragment} from 'react'
 import { Divider  ,message} from 'antd'
 import request from '../../utils/request'
 import MyMenu from '../Menu/MyMenu';
+import TableLayout from '../../layouts/TableLayout'
 import styles from './style.css'
 class Article extends Component{
     constructor(props){
@@ -49,9 +50,11 @@ class Article extends Component{
     render(){
         
         return(
-            <div style={{marginLeft:'5px',overflowY:'auto'}}>
-                <MyMenu></MyMenu>
-                <h1>楼讯</h1>
+            <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+            <MyMenu></MyMenu>
+            <TableLayout
+            title={'楼讯'}
+        >
                 {
                     this.state.data.map((item,index)=>{
                         return <div style={{marginLeft:'20%',marginRight:'20%',marginTop:'5px',border:'1px',borderStyle:'solid'}} >
@@ -69,6 +72,7 @@ class Article extends Component{
                         </div>
                     })
                 }
+                </TableLayout>
             </div>
         )
     }

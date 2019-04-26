@@ -2,10 +2,12 @@ import React,{Component} from 'react'
 import {Carousel, Row, Col,Divider,Tabs,Icon,message,
     Avatar,Form,Button, Comment,List,  Input,   Drawer,Select
   } from 'antd';
-  import moment from 'moment';
+import moment from 'moment';
 import request from '../../utils/request';
 import styles from './style.css'
 import MyMenu from '../Menu/MyMenu';
+import TableLayout from '../../layouts/TableLayout'
+import Address from '../Address/Address';
 const TextArea = Input.TextArea;
 const CommentList = ({
        comments
@@ -112,6 +114,7 @@ class RentHouseDetail extends Component{
 	 callback=(key)=> {
 		console.log(key);
     }
+    //当前记录信息
     getAdmin=(id)=>{
       let url=`/v1/sysuser/${id}`
       request(url, {
@@ -214,8 +217,11 @@ getCurrentCommit=()=>{
         getFieldDecorator
       } = this.props.form;
         return(
-            <div style={{ padding: 20, overflowY: 'auto', flex: 1,marginLeft:'30px',marginRight:'5px' }}>
-            <MyMenu></MyMenu>
+          <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+          {/* <MyMenu></MyMenu>
+          <TableLayout
+          title={'详细信息'}
+      > */}
 			     <img className={styles.mimg} src="http://localhost:80/111.jpg"></img>
             <strong><h1 style={{marginLeft:'30px',marginTop:'5px'}}>{this.state.rentHouse.houseDescription}</h1></strong> 
             <Row>
@@ -320,89 +326,85 @@ getCurrentCommit=()=>{
             </div>
             <span ><h1 style={{background:'red',width:'60%',marginLeft:'20%',marginTop:'10px'}}><Icon type="mobile" />电话{this.state.rentHouse.contactInformation}</h1></span>
            
-           <div style={{marginLeft:'50%'}}>
-
-            <Button type="primary" onClick={this.showDrawer}>
-         举报
-         </Button>
-         <Drawer
-          title="举报r"
-          placement="right"
-          closable={false}
-          onClose={this.onClose}
-          visible={this.state.visible}
-         width='30%'
-        >
-          <p>请勿恶意举报</p>
-          <Form onSubmit={this.myHandleSubmit.bind(this)}>
-          <Form.Item label = {'被举报人'}>
-            {getFieldDecorator('againstUsername', {
-              initialValue: this.state.rentHouse.userName,
-              rules: [
-                {
-                  required: true,
-                }
-              ]
-            })(<Input size='large'  disabled='disabled' />)}
-          </Form.Item>
-          <Form.Item  label={'举报人'}>
-                        {getFieldDecorator('informerUsername', {
-                            initialValue: this.state.user.userName,
-                            rules: [{
-                                required: true, message: '请输入用户名'
-                            }]
-                        })(
-                            <Input placeholder={'请输入用户名'} disabled='disabled' />
-                        )}
-                    </Form.Item>
-      
-          <Form.Item label={'举报类型'}>
-            {getFieldDecorator('violationType', {
-              rules: [
-                {
-                  required: true,
-                  message: '请输入用户名！'
-                }
-              ]
-            })(
-            <Select>
-              <Select.Option value="信息错误">
-              信息错误
-              </Select.Option>
-              <Select.Option value="暴力倾向">
-              暴力倾向
+            <div>
+              <Button type="primary" onClick={this.showDrawer}>
+              举报
+              </Button>
+              <Drawer
+              title="举报r"
+              placement="right"
+              closable={false}
+              onClose={this.onClose}
+              visible={this.state.visible}
+              width='30%'
+              >
+              <p>请勿恶意举报</p>
+              <Form onSubmit={this.myHandleSubmit.bind(this)}>
+              <Form.Item label = {'被举报人'}>
+              {getFieldDecorator('againstUsername', {
+                initialValue: this.state.rentHouse.userName,
+                rules: [
+                     {
+                    required: true,
+                  }
+                ]
+              })(<Input size='large'  disabled='disabled' />)}
+              </Form.Item>
+              <Form.Item  label={'举报人'}>
+                          {getFieldDecorator('informerUsername', {
+                              initialValue: this.state.user.userName,
+                              rules: [{
+                                  required: true, message: '请输入用户名'
+                              }]
+                          })(
+                              <Input placeholder={'请输入用户名'} disabled='disabled' />
+                          )}
+                      </Form.Item>
+              
+              <Form.Item label={'举报类型'}>
+              {getFieldDecorator('violationType', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入用户名！'
+                  }
+                ]
+              })(
+              <Select>
+                <Select.Option value="信息错误">
+                信息错误
                 </Select.Option>
-                <Select.Option  value="烟雨误会">
-                烟雨误会
-                </Select.Option>
-            </Select>
-            )}
-          </Form.Item>
-      
-        
-     
-          <Form.Item label={'举报描述'}>
-            {getFieldDecorator('violationContent', {
-              rules: [
-                {
-                  required: true,
-                  message: '请输入用户名！'
-                }
-              ]
-            })(<TextArea prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
-            placeholder="请输入举报描述" />)}
-          </Form.Item>
-          <Form.Item >
-          <Button type = "primary"
-          htmlType = "submit" >
-          Log in
-          </Button> 
-          
-          </Form.Item> 
-          </Form>
-        </Drawer>
-       
-        </div>
+                <Select.Option value="暴力倾向">
+                暴力倾向
+                  </Select.Option>
+                  <Select.Option  value="烟雨误会">
+                  烟雨误会
+                  </Select.Option>
+              </Select>
+              )}
+              </Form.Item>  
+              <Form.Item label={'举报描述'}>
+              {getFieldDecorator('violationContent', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入用户名！'
+                  }
+                ]
+              })(<TextArea prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+              placeholder="请输入举报描述" />)}
+              </Form.Item>
+              <Form.Item >
+              <Button type = "primary"
+              htmlType = "submit" >
+              Log in
+              </Button> 
+              
+              </Form.Item> 
+              </Form>
+              </Drawer>
+              
+              </div>
         <div style={{marginLeft:'40%',marginTop:'20%'}}><h3> 编号：{this.state.rentHouse.id}    发布时间：{this.state.rentHouse.createdTime}</h3></div>
             </Col>
            </Row>
@@ -432,7 +434,7 @@ getCurrentCommit=()=>{
            <Tag {...this.props} checked={this.state.checked} onChange={this.handleChange}>111</Tag>
   </div> */}
            <Divider /> 
-           <h1 style={{ marginTop:'15px'}} >配套设施</h1>
+           {/* <h1 style={{ marginTop:'15px'}} >配套设施</h1>
            <Icon type={this.state.contenet} style={{ fontSize: '16px', color: '#08c' }} />
            {
                this.state.contenet.map((item,index)=>{
@@ -443,8 +445,8 @@ getCurrentCommit=()=>{
                    </div>
                     </div> 
                })
-           }
-           	<div>
+           } */}
+           <Address></Address>
              <div>
              <h1>评论</h1>
 				<List className = "comment-list"
@@ -481,7 +483,7 @@ getCurrentCommit=()=>{
             />
           )}
         />
-      </div>
+      {/* </TableLayout> */}
            </div>
         )
     }

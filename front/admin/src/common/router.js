@@ -129,6 +129,21 @@ export const getRouterData = app => {
       component:dynamicWrapper(app,[],() => import('../routes/RentHouse/RentHouseDetail'))
     }
     ,
+    '/question':{
+      component:dynamicWrapper(app,[],() => import('../routes/QuestionsAndAnswers/Questions'))
+    } ,
+    '/address':{
+      component:dynamicWrapper(app,[],() => import('../routes/Address/Address'))
+    }
+    ,
+    '/question-create':{
+      component:dynamicWrapper(app,[],() => import('../routes/QuestionsAndAnswers/QuestionAndAnswer'))
+    }
+    ,
+    '/answer/:id':{
+      component:dynamicWrapper(app,[],() => import('../routes/QuestionsAndAnswers/Answer'))
+    }
+    ,
     '/renthouse-create':{
       component:dynamicWrapper(app,[],() => import('../routes/RentHouse/RentHouseCreate'))
     }, '/mybuilding':{
@@ -139,6 +154,10 @@ export const getRouterData = app => {
     },
     '/building-create':{
       component:dynamicWrapper(app,[],() => import('../routes/Building/BuildingCreate'))
+    }
+    ,
+    '/apartment':{
+      component:dynamicWrapper(app,[],() => import('../routes/RentHouse/ApartMent'))
     },
     '/base-info-defend/external-consultant-resume/:resumeId': {
       component: dynamicWrapper(app, ['list', 'user'], () => import('../routes/ExternalConsultant/ResumeAdmin.js'))

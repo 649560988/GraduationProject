@@ -4,6 +4,7 @@ import request from '../../utils/request'
 import Ellipsis from 'components/Ellipsis';
 import MyMenu from '../Menu/MyMenu';
 import Data from '../../City'
+import TableLayout from '../../layouts/TableLayout'
 class SerachRentHouse extends Component{
   constructor(props){
     super(props);
@@ -78,8 +79,12 @@ class SerachRentHouse extends Component{
             render(){
             const { Meta } = Card;
               return (
-               <div style={{marginLeft:'5%',marginTop:'20px', overflowY: 'auto', flex: 1,}}>
-               <MyMenu></MyMenu>
+                <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+                <MyMenu></MyMenu>
+                <TableLayout
+                title={'搜索'}
+                
+            >
                 <div >
              <Cascader style={{width: 300 }}  matchInputWidth options={Data.diagnoseReport} onChange={this.onChange} placeholder="Please select" 
              />
@@ -135,7 +140,7 @@ class SerachRentHouse extends Component{
                       ) 
                     }
                   />
-                  
+                  </TableLayout>
                   </div>
         )
     }

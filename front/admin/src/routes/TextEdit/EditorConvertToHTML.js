@@ -5,6 +5,8 @@ import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import { Row, Col ,Divider,Button,Modal,message} from 'antd';
 import request from '../../utils/request'
+import TableLayout from '../../layouts/TableLayout'
+import MyMenu from '../Menu/MyMenu';
 import htmlToDraft from 'html-to-draftjs';
 import mystyles from '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
@@ -103,10 +105,31 @@ class EditorConvertToHTML extends Component {
 onSubmit=()=>{
 
 }
+    /**
+     * 点击页面返回按钮
+     */
+    handleClickBackBtn = (e) => {
+      e.stopPropagation()
+      this.linkToChange(`/myhome`)
+  }
+
+  /***
+   *   路径跳转
+   */
+  linkToChange = url => {
+      const { history } = this.props
+      history.push(url)
+  }
   render() {
     const { editorState } = this.state;
     return (
-      <div style={{marginLeft:'5px',padding:'20px',overflowY:'auto',flex:'1px'}}>
+     <div style={{marginLeft:'5px',padding:'20px',overflowY:'auto',flex:'1px'}}>
+       <MyMenu></MyMenu>
+            <TableLayout
+            title={'发布文章'}
+            showBackBtn
+            onBackBtnClick={this.handleClickBackBtn}
+        >
       <Row>
       <Col span={12}>
       <Editor
@@ -151,6 +174,7 @@ onSubmit=()=>{
         >
           <label>请输入</label><input value={this.state.inputValue} onChange={this.handInputChange.bind(this)}/>
         </Modal>
+        </TableLayout>
       </div>
     );
   }
