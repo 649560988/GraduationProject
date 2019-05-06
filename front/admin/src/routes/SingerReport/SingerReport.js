@@ -230,7 +230,7 @@ class SingerReport extends React.Component {
     
           //获取当前登陆人信息
   getPersonalInfoById = () => {
-    request('/v1/sysUserDomin/getAuth', {
+    request('/v1/wyw/signedreport/selectAll', {
         method: 'GET',
         // credentials: 'omit'
     }).then((res) => {

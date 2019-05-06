@@ -5,10 +5,7 @@ import request from '../../utils/request'
 import Ellipsis from 'components/Ellipsis';
 import MyMenu from '../Menu/MyMenu';
 import TableLayout from '../../layouts/TableLayout'
-const { Footer, Content } = Layout
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
-// const { Content, Header } = Layout
+const { Footer } = Layout
 export default class ApartMent extends React.Component {
   constructor(props){
     super(props);
@@ -24,37 +21,12 @@ export default class ApartMent extends React.Component {
     this.getRentHouseList()
 }
 
-/** 
- * 
- * 
- * 
- */
-
-// handleNoticeVisibleChange = visible => {
-//   const { dispatch } = this.props
-//   if (visible) {
-//     dispatch({
-//       type: 'global/fetchNotices'
-//     })
-//   }
-// };
-
-/** 
- * 
- * 
- * 
- */
-
-
 handclick=(aa)=>{
   // alert("111")
   console.log(aa.id)
 }
   getCurrentRentHouseItem=(item)=>{
-    this.linkToChange(`/renthouse-detail/${item.id}`)
-  }
-  getCurrentBuildingItem=(item)=>{
-    this.linkToChange(`/building-detail/${item.id}`)
+    this.linkToChange(`/apartment-detail/${item.id}`)
   }
   linkToChange = url => {
     const { history } = this.props
@@ -78,26 +50,6 @@ handclick=(aa)=>{
       }
     })
   }
-
-    // const imgStyle
-    // getCurrentUser = () => {
-    //   let url = '/v1/sysUserDomin/getAuth'
-    //   request(url, {
-    //       method: 'GET'
-    //   }).then((res) => {
-    //       if (res.message === '成功') {
-    //         let list=[]
-    //       res.data.sysRoles.map((item,index)=>{
-    //       list.push(item.name)
-    //       })
-    //       this.setState({
-    //         list
-    //       })
-    //       } else {
-    //           console.log(err)
-    //       }
-    //   }).catch(() => {})
-    // }
     render () {
       const { Meta } = Card;
     return (

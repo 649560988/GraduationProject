@@ -53,6 +53,7 @@ handclick=(aa)=>{
   getCurrentRentHouseItem=(item)=>{
     this.linkToChange(`/renthouse-detail/${item.id}`)
   }
+  //点击跳转
   getCurrentBuildingItem=(item)=>{
     this.linkToChange(`/building-detail/${item.id}`)
   }

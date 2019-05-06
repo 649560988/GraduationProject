@@ -43,9 +43,20 @@ public class SwaggerConfig {
 
 
     }
-
-
-
+//    private  ApiInfo apiInfo(){
+//        return  new ApiInfoBuilder()
+//                .title("接口测试文档")
+//                .description("接口测试文档")
+//                .version("1.0")
+//                .build();
+//    }
+//    private ApiInfo apiInfo() {
+//        return new ApiInfoBuilder()
+//                .title("测试接口文档")     //生成接口文档的title
+//                .description("测试接口文档说明")     //接口文档的描述
+//                .version("1.0")    //版本号
+//                .build();
+//    }
 
     private SecurityScheme securityScheme() {
 

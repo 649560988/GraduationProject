@@ -8,8 +8,24 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="house_id" jdbcType="VARCHAR" property="houseId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="house_id" jdbcType="BIGINT" property="houseId" />
+    <result column="house_name" jdbcType="VARCHAR" property="houseName" />
+    <result column="rent_user_id" jdbcType="BIGINT" property="rentUserId" />
+    <result column="rent_user_name" jdbcType="VARCHAR" property="rentUserName" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="rent_time" jdbcType="INTEGER" property="rentTime" />
     <result column="money" jdbcType="VARCHAR" property="money" />
   </resultMap>
+  <select id="selectAllByStatus" resultMap="BaseResultMap">
+    select ro.*
+    from rent_order ro
+    where ro.status=#{status}
+  </select>
+  <update id="upData" parameterType="com.czhand.zsmq.domain.RentOrder">
+    update rent_order
+    set status=#{status}
+    where id=#{id}
+  </update>
 </mapper>

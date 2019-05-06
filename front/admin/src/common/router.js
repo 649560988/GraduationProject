@@ -117,6 +117,12 @@ export const getRouterData = app => {
     },
     '/business/article-list':{
       component: dynamicWrapper(app,[],()=> import('../routes/TextEdit/ArticleList'))
+    },
+    '/singer-report':{
+      component: dynamicWrapper(app,[],()=> import('../routes/SingerReport/SingerReport'))
+    },
+    '/predetermine/:id':{
+      component: dynamicWrapper(app,[],()=> import('../routes/Predetermine/Predetermine'))
     }
     ,
     '/business/housestyle':{
@@ -158,6 +164,9 @@ export const getRouterData = app => {
     ,
     '/apartment':{
       component:dynamicWrapper(app,[],() => import('../routes/RentHouse/ApartMent'))
+    },
+    '/apartment-detail':{
+      component:dynamicWrapper(app,[],() => import('../routes/RentHouse/ApartMentDetail'))
     },
     '/base-info-defend/external-consultant-resume/:resumeId': {
       component: dynamicWrapper(app, ['list', 'user'], () => import('../routes/ExternalConsultant/ResumeAdmin.js'))

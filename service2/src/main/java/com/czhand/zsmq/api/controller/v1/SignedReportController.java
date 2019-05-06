@@ -60,7 +60,7 @@ public class SignedReportController {
     *@Time 10:24
     */
     @ApiOperation("查询所有举报内容")
-    @GetMapping("selectAll")
+    @GetMapping("/selectAll")
     public  ResponseEntity<Data<PageInfo<SingerReportDTO>>> SelectAll(
             @RequestParam(required = true, name = "pageNo") @ApiParam(value = "分页查询中的参数pageNo",example = "1") int pageNo,
             @RequestParam(required = true, name = "pageSize") @ApiParam(value = "分页查询中的参数pageSize",example = "10") int pageSize

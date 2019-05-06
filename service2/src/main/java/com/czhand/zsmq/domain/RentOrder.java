@@ -1,5 +1,6 @@
 package com.czhand.zsmq.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.io.Serializable;
@@ -19,7 +20,7 @@ public class RentOrder implements Serializable {
      * 创建时间
      */
     @Column(name = "CREATED_TIME")
-    @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createdTime;
 
     /**
@@ -28,12 +29,30 @@ public class RentOrder implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "status")
+    private Integer status;
+
+    /**
+     * 用户name
+     */
+    @Column(name = "user_name")
+    private String userName;
     /**
      * 出租房id
      */
     @Column(name = "house_id")
-    private String houseId;
+    private Long houseId;
+    @Column(name = "house_name")
+    private String houseName;
 
+    @Column(name = "rent_user_id")
+    private Long rentUserId;
+
+    @Column(name = "rent_user_name")
+    private String rentUserName;
+
+    @Column(name = "type")
+    private Integer type;
     /**
      * 租赁时常 有1，3，6月，1年选择
      */
@@ -43,114 +62,103 @@ public class RentOrder implements Serializable {
     /**
      * 交付金额
      */
+    @Column(name = "money")
     private String money;
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 获取主键id 主键
-     *
-     * @return id - 主键id 主键
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     * 设置主键id 主键
-     *
-     * @param id 主键id 主键
-     */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * 获取创建时间
-     *
-     * @return CREATED_TIME - 创建时间
-     */
     public Date getCreatedTime() {
         return createdTime;
     }
 
-    /**
-     * 设置创建时间
-     *
-     * @param createdTime 创建时间
-     */
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
     }
 
-    /**
-     * 获取用户id
-     *
-     * @return user_id - 用户id
-     */
     public Long getUserId() {
         return userId;
     }
 
-    /**
-     * 设置用户id
-     *
-     * @param userId 用户id
-     */
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    /**
-     * 获取出租房id
-     *
-     * @return house_id - 出租房id
-     */
-    public String getHouseId() {
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Long getHouseId() {
         return houseId;
     }
 
-    /**
-     * 设置出租房id
-     *
-     * @param houseId 出租房id
-     */
-    public void setHouseId(String houseId) {
+    public void setHouseId(Long houseId) {
         this.houseId = houseId;
     }
 
-    /**
-     * 获取租赁时常 有1，3，6月，1年选择
-     *
-     * @return rent_time - 租赁时常 有1，3，6月，1年选择
-     */
+    public String getHouseName() {
+        return houseName;
+    }
+
+    public void setHouseName(String houseName) {
+        this.houseName = houseName;
+    }
+
+    public Long getRentUserId() {
+        return rentUserId;
+    }
+
+    public void setRentUserId(Long rentUserId) {
+        this.rentUserId = rentUserId;
+    }
+
+    public String getRentUserName() {
+        return rentUserName;
+    }
+
+    public void setRentUserName(String rentUserName) {
+        this.rentUserName = rentUserName;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public Integer getRentTime() {
         return rentTime;
     }
 
-    /**
-     * 设置租赁时常 有1，3，6月，1年选择
-     *
-     * @param rentTime 租赁时常 有1，3，6月，1年选择
-     */
     public void setRentTime(Integer rentTime) {
         this.rentTime = rentTime;
     }
 
-    /**
-     * 获取交付金额
-     *
-     * @return money - 交付金额
-     */
     public String getMoney() {
         return money;
     }
 
-    /**
-     * 设置交付金额
-     *
-     * @param money 交付金额
-     */
     public void setMoney(String money) {
         this.money = money;
     }
