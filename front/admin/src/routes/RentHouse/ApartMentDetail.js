@@ -7,7 +7,6 @@ import request from '../../utils/request';
 import styles from './style.css'
 import MyMenu from '../Menu/MyMenu';
 import TableLayout from '../../layouts/TableLayout'
-import Address from '../Address/Address';
 const TextArea = Input.TextArea;
 const CommentList = ({
        comments
@@ -55,7 +54,7 @@ class ApartMentDetail extends Component{
         Uname:'',
         visible:false,
         houseStyleList:[1],
-        rentHouseAdmin:''
+        rentHouseAdmin:'',
 		}
     }
     componentWillMount(){
@@ -70,15 +69,22 @@ class ApartMentDetail extends Component{
 			method: "GET"
 		}).then((res)=>{
 			if(res.message=='查询成功'){
+        var map = new BMap.Map("orderDetailMap");      
+        // map.centerAndZoom('江苏省常州市钟楼区', 11);     
+        map.centerAndZoom(res.data.province + res.data.city + res.data.area, 11);       
+        var local = new BMap.LocalSearch(map, {      
+            renderOptions:{map: map}      
+        });      
+        local.search(res.data.province + res.data.city + res.data.area + res.data.communityName);
+        console.log('查询结果',local)
+        
 			this.setState({
 				rentHouse:res.data,
 				pictures:res.data.srcs
       })
-    this.getAdmin(this.state.rentHouse.userId)
+    this.getAdmin(res.data.userId)
 			}
 		})
-  }
-  componentDidMount(){
   }
   //举报栏目
   onClose = () => {
@@ -149,7 +155,6 @@ class ApartMentDetail extends Component{
 			method: 'GET'
 		}).then((res) => {
 			if (res.message === '成功') {
-        console.log("getCurrentUser",res.data)
 				this.setState({
           Uid:res.data.id,
           user:res.data
@@ -166,7 +171,6 @@ getCurrentCommit=()=>{
     method:'GET'
   }).then((res)=>{
     if(res.message=='成功'){
-      console.log('评论',res.data)
       this.setState({
         usercomment:res.data
       })
@@ -410,11 +414,9 @@ getCurrentCommit=()=>{
               htmlType = "submit" >
               Log in
               </Button> 
-              
               </Form.Item> 
               </Form>
               </Drawer>
-              
               </div>
         <div style={{marginLeft:'40%',marginTop:'20%'}}><h3> 编号：{this.state.rentHouse.id}    发布时间：{this.state.rentHouse.createdTime}</h3></div>
             </Col>
@@ -457,7 +459,13 @@ getCurrentCommit=()=>{
                     </div> 
                })
            } */}
-           <div style={{marginLeft:'10%',marginRight:'10%'}}><Address></Address></div>
+          
+          <h1>附近地图</h1>
+          <div id="orderDetailMap" style={{width:'100%',height:'500px'}}></div>
+          
+          
+          
+           {/* <div style={{marginLeft:'10%',marginRight:'10%'}}><Address province={province} city={this.state.rentHouse.city }area={this.state.rentHouse.city} name={this.state.rentHouse.communityName}></Address></div> */}
              <div>
              <h1>评论</h1>
 				<List className = "comment-list"
@@ -496,8 +504,8 @@ getCurrentCommit=()=>{
         />
       </TableLayout>
            </div>
-
         )
     }
 }
 export default Form.create()(ApartMentDetail);
+

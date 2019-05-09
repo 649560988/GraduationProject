@@ -2,6 +2,9 @@ import React,{Component} from 'react'
 import request from '../../utils/request';
 import MyMenu from '../Menu/MyMenu';
 import TableLayout from '../../layouts/TableLayout'
+import {
+    Form, Row, Col, Input, Button, Icon,message
+  } from 'antd';
 class Predetermine extends Component{
     constructor(props){
         super(props)
@@ -25,6 +28,7 @@ class Predetermine extends Component{
     }
     componentWillMount(){
         this.getCurrentRentHouse()
+        this.getCurrentUser()
     }
      //获取当前出租屋信息
   getCurrentRentHouse=()=>{
@@ -33,7 +37,8 @@ class Predetermine extends Component{
 			method: "GET"
 		}).then((res)=>{
 			if(res.message=='查询成功'){
-            this.getAdmin(this.state.rentHouse.userId)
+                console.log('获取当前记录信息',res.data);
+            this.getAdmin(res.data.userId)
 			this.setState({
 				rentHouse:res.data,
       })
@@ -48,7 +53,7 @@ class Predetermine extends Component{
       method: 'GET',
   }).then((res) => {
       if (res.message === '成功') {
-        console.log('获取当前记录信息',res.data);
+        
         this.setState({
           rentHouseAdmin:res.data
         })
@@ -75,18 +80,179 @@ class Predetermine extends Component{
     }).catch(() => {})
 }
 //创建订单
-
+/**
+   * 
+   * 确定按钮
+   */
+  myHandleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.createOrder(values)
+      }else{
+        console.log('获取的值',values)
+      }
+    });
+  }
+  //订单创建
+  createOrder=(values)=>{
+    let url=`/v1/wyw/rentOrder/insertOne`
+    request(url,{
+            method: "POST",
+            body: values
+		}).then((res)=>{
+			if(res.message=='查询成功'){
+                message.success('创建成功')
+			}
+		})
+  }
     render(){
+        const {getFieldDecorator} = this.props.form;
         return(
             <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
             <MyMenu></MyMenu>
             <TableLayout
-            title={'详细信息'}
+            title={'订单'}
              >
+         <div style={{marginLeft:'10%',marginRightL:'10%'}}>
+         <Form onSubmit={this.myHandleSubmit}>
+             <h1>卖家信息</h1>
+             <Row>
+                 <Col span={12}>
+                 <Form.Item  label={'卖家ID'}>
+                        {getFieldDecorator('userId', {
+                            initialValue: this.state.rentHouseAdmin.id,
+                            rules: [{
+                                required: true
+                            }]
+                        })(
+                            <Input  disabled='disabled' />
+                        )}
+                    </Form.Item>
+                 </Col>
+                 <Col span={12}>
+                 <Form.Item  label={'卖家姓名'}>
+                        {getFieldDecorator('userName', {
+                            initialValue: this.state.rentHouseAdmin.realName,
+                            rules: [{
+                                required: true
+                            }]
+                        })(
+                            <Input  disabled='disabled' />
+                        )}
+                    </Form.Item>
+                 </Col>
+             </Row>
+             <h1>房屋信息</h1>
+             <Row>
+                 <Col span={12}>
+                 <Form.Item  label={'房屋ID'}>
+                        {getFieldDecorator('houseId', {
+                            initialValue: this.state.rentHouse.id,
+                            rules: [{
+                                required: true
+                            }]
+                        })(
+                            <Input  disabled='disabled' />
+                        )}
+                    </Form.Item>
+                 </Col>
+                 <Col span={12}>
+                 <Form.Item  label={'房屋名称'}>
+                        {getFieldDecorator('houseName', {
+                            initialValue: this.state.rentHouse.communityName,
+                            rules: [{
+                                required: true
+                            }]
+                        })(
+                            <Input  disabled='disabled' />
+                        )}
+                    </Form.Item>
+                 </Col>
+             </Row>
 
+             <Row>
+                 <Col span={12}>
+                 <Form.Item  label={'户型'}>
+                        {getFieldDecorator('houseStyle', {
+                            initialValue: this.state.rentHouse.houseStyle
+                        })(
+                            <Input  disabled='disabled' />
+                        )}
+                    </Form.Item>
+                 </Col>
+                 <Col span={12}>
+                 <Form.Item  label={'房屋地址'}>
+                        {getFieldDecorator('houseName', {
+                            initialValue: this.state.rentHouse.province+this.state.rentHouse.city+this.state.rentHouse.area,
+                            rules: [{
+                                required: true
+                            }]
+                        })(
+                            <Input  disabled='disabled' />
+                        )}
+                    </Form.Item>
+                 </Col>
+             </Row>
+
+             <Row>
+                 <Col span={12}>
+                 <Form.Item  label={'装修'}>
+                        {getFieldDecorator('decoration', {
+                            initialValue: this.state.rentHouse.decoration
+                        })(
+                            <Input  disabled='disabled' />
+                        )}
+                    </Form.Item>
+                 </Col>
+                 <Col span={12}>
+                 <Form.Item  label={'租金'}>
+                        {getFieldDecorator('money', {
+                            initialValue: this.state.rentHouse.rent,
+                            rules: [{
+                                required: true
+                            }]
+                        })(
+                            <Input  disabled='disabled' />
+                        )}
+                    </Form.Item>
+                 </Col>
+             </Row>
+             <h1>买家信息</h1>
+             <Row>
+                 <Col span={12}>
+                 <Form.Item  label={'出租id'}>
+                        {getFieldDecorator('rentUserId', {
+                            initialValue: this.state.user.id
+                        })(
+                            <Input  disabled='disabled' />
+                        )}
+                    </Form.Item>
+                 </Col>
+                 <Col span={12}>
+                 <Form.Item  label={'租赁人姓名'}>
+                        {getFieldDecorator('money', {
+                            initialValue: this.state.user.realName,
+                            rules: [{
+                                required: true
+                            }]
+                        })(
+                            <Input  disabled='disabled' />
+                        )}
+                    </Form.Item>
+                 </Col>
+             </Row>
+             <Form.Item >
+            <Button type = "primary"
+            htmlType = "submit" >
+            发布
+            </Button> 
+            </Form.Item> 
+             </Form>
+         </div>
            </TableLayout>
            </div>
         )
     }
 }
-export default Predetermine;
+export default Form.create()(Predetermine); 

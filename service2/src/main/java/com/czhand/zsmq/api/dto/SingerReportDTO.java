@@ -1,5 +1,6 @@
 package com.czhand.zsmq.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.CreatedDate;
@@ -88,6 +89,7 @@ public class SingerReportDTO {
      */
     @ApiModelProperty("创建时间")
     @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createdTime;
 
     /**
@@ -95,6 +97,7 @@ public class SingerReportDTO {
      */
     @ApiModelProperty("更新时间")
     @LastModifiedDate
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updatedTime;
 
     private static final long serialVersionUID = 1L;

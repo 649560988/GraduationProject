@@ -31,10 +31,10 @@ class MyMenu extends Component{
       return(
           <Fragment>
         <Carousel autoplay>
-        <div><h3>1</h3></div>
-        <div><h3>2</h3></div>
-        <div><h3>3</h3></div>
-         <div><h3>4</h3></div>
+        <img alt=""   size="large" src={`http://localhost:80/hengdu.PNG`} style={{height:'100%' 
+                  ,width:'50px'}}/>
+        <img alt=""   size="large" src={`http://localhost:80/guabfgaoklan.PNG`} style={{height:'100%' 
+                  ,width:'50px'}}/>
        </Carousel>
         <div style={{backgroundColor:'black',width:'100%',borderWidth:'2px',borderStyle:'solid',}}>
         <Menu  theme='dark' mode='horizontal' style={{marginLeft:'10%'}} >
@@ -74,10 +74,10 @@ class MyMenu extends Component{
          <a href="">写字楼</a>
          </Menu.Item> */}
          <Menu.Item>
-         <a href="http://localhost:9090/#/article">楼讯</a>
+         <a href="http://localhost:9090/#/article"><span style={{fontSize:'15px',color:'white'}}><strong>楼讯</strong></span></a>
          </Menu.Item>
          <Menu.Item>
-          <a href="http://localhost:9090/#/question">问答</a>
+          <a href="http://localhost:9090/#/question"><span style={{fontSize:'15px',color:'white'}}><strong>问答</strong></span></a>
          </Menu.Item>
         </Menu> 
         </div>

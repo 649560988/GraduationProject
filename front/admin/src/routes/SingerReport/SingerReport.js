@@ -23,23 +23,23 @@ class SingerReport extends React.Component {
                 title: '举报人',
                 dataIndex: 'informerUsername',
                 align: 'center',
-                width: '15%',
+                width: '8%',
             }, {
                 title: '被举报人',
                 dataIndex: 'againstUsername',
                 align: 'center',
-                width: '15%',
+                width: '8%',
             },
             {
                 title: '举报类型',
                 dataIndex: 'violationType',
                 align: 'center',
-                width: '15%',
+                width: '8%',
             },{
                 title: '举报时间',
                 dataIndex: 'createdTime',
                 align: 'center',
-                width: '20%',
+                width: '15%',
                 render: (text, record) => {
                     return <span title={text}>{text}</span>
                 }
@@ -49,53 +49,58 @@ class SingerReport extends React.Component {
                 align:'center',
                 // type:'bu',
                 render:()=>{
-                    <div>
-                    <Button type="primary" onClick={this.showDrawer}>
-                    举报
-                   </Button>
-                   <Drawer
-                    title="举报信息"
-                    placement="right"
-                    closable={false}
-                    onClose={this.onClose}
-                    visible={this.state.visible}
-                   width='30%'
-                  >
-                    <p>请勿恶意举报</p>
-                    <Form onSubmit={this.myHandleSubmit.bind(this)}>
-                    <Form.Item label = {'被举报人'}>
-                      {getFieldDecorator('againstUsername', {
-                        initialValue: this.state.building.userName,
-                      })(<Input size='large'  disabled='disabled' />)}
-                    </Form.Item>
-                    <Form.Item  label={'举报人'}>
-                                  {getFieldDecorator('informerUsername', {
-                                      initialValue: this.state.data.informerUsername,
-                                  })(
-                                      <Input placeholder={'请输入用户名'} disabled='disabled' />
-                                  )}
-                              </Form.Item>
+                    let tag;
+                    tag= <Button>1111</Button>
+                    return (
+                        tag
+                    )
+                //     <div>
+                //     <Button type="primary" onClick={this.showDrawer}>
+                //     举报
+                //    </Button>
+                //    <Drawer
+                //     title="举报信息"
+                //     placement="right"
+                //     closable={false}
+                //     onClose={this.onClose}
+                //     visible={this.state.visible}
+                //    width='20%'
+                //   >
+                //     <p>请勿恶意举报</p>
+                //     <Form onSubmit={this.myHandleSubmit.bind(this)}>
+                //     <Form.Item label = {'被举报人'}>
+                //       {getFieldDecorator('againstUsername', {
+                //         initialValue: this.state.building.userName,
+                //       })(<Input size='large'  disabled='disabled' />)}
+                //     </Form.Item>
+                //     <Form.Item  label={'举报人'}>
+                //                   {getFieldDecorator('informerUsername', {
+                //                       initialValue: this.state.data.informerUsername,
+                //                   })(
+                //                       <Input placeholder={'请输入用户名'} disabled='disabled' />
+                //                   )}
+                //               </Form.Item>
                 
-                    <Form.Item label={'举报类型'}>
-                      {getFieldDecorator('violationType', {
-                        initialValue: this.state.data.violationType,
-                      })(
-                        <Input placeholder={'请输入用户名'} disabled='disabled' />
-                      )}
-                    </Form.Item>
-                    <Form.Item label={'举报描述'}>
-                      {getFieldDecorator('violationContent', {
-                           initialValue: this.state.data.violationContent,
-                      })(<TextArea prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
-                      placeholder="请输入举报描述" />)}
-                    </Form.Item>
-                    </Form>
-                  </Drawer>
-                  </div>
+                //     <Form.Item label={'举报类型'}>
+                //       {getFieldDecorator('violationType', {
+                //         initialValue: this.state.data.violationType,
+                //       })(
+                //         <Input placeholder={'请输入用户名'} disabled='disabled' />
+                //       )}
+                //     </Form.Item>
+                //     <Form.Item label={'举报描述'}>
+                //       {getFieldDecorator('violationContent', {
+                //            initialValue: this.state.data.violationContent,
+                //       })(<TextArea prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
+                //       placeholder="请输入举报描述" />)}
+                //     </Form.Item>
+                //     </Form>
+                //   </Drawer>
+                //   </div>
                 }
             },{
                 title: '是否处理',
-                dataIndex: 'isRent',
+                dataIndex: 'isResolve',
                 align: 'center',
                 width: '10%',
                 render: (text, record) => {
@@ -113,14 +118,26 @@ class SingerReport extends React.Component {
                 title: '操作',
                 dataIndex: 'action',
                 align: 'center',
-                width: '30%',
+                width: '20%',
                 render: (text, record) => {
                     let actionDel = '';
-                    if (!record.isRent) {
+                    if (record.isResolve) {
                         actionDel =
-                            <Tooltip title={'租赁'} placement={'bottom'}>
+                            <Tooltip title={'发布'} placement={'bottom'}>
                                 <Popconfirm
-                                    title={'确定此房屋已租赁?更改后将无法撤销'}
+                                    title={'确定要重新发布?'}
+                                    okText={'是'}
+                                    cancelText={'否'}
+                                    onConfirm={(e) => this.handleOnDel('on', record.id)}
+                                >
+                                    <Button style={{ marginRight: '5px' }}><Icon type='check-circle-o' style={{ color: '#4CAF50' }} /></Button>
+                                </Popconfirm>
+                            </Tooltip>
+                    } else if (!record.isResolve) {
+                        actionDel =
+                            <Tooltip title={'禁用'} placement={'bottom'}>
+                                <Popconfirm
+                                    title={'确定要禁用此信息吗?'}
                                     okText={'是'}
                                     cancelText={'否'}
                                     onConfirm={(e) => this.handleOnDel('off', record.id)}
@@ -139,7 +156,6 @@ class SingerReport extends React.Component {
                     )
                 }
             }],
-            data: [],
             pageSize: 10,
             current: 1,
             total: 0,
@@ -226,42 +242,41 @@ class SingerReport extends React.Component {
         })
     }
     componentWillMount(){
+        this.getBuilding()
     }
     
-          //获取当前登陆人信息
-  getPersonalInfoById = () => {
-    request('/v1/wyw/signedreport/selectAll', {
-        method: 'GET',
-        // credentials: 'omit'
-    }).then((res) => {
-        if (res.message === '成功') {
-            let data=[]
-            this.state.myRentHouse.map((item,index)=>{
-                if(res.data.id==item.userId){
-                    data.push(item)
-                }
-            })
-           this.addToTable(data)
-        } else {
-            message.error('获取当前登录人信息失败');
-        }
-    }).catch((err) => {
-        console.log(err)
-    })
-}
+//           //获取当前登陆人信息
+//   getPersonalInfoById = () => {
+//     request('/v1/sysUserDomin/getAuth', {
+//         method: 'GET',
+//         // credentials: 'omit'
+//     }).then((res) => {
+//         if (res.message === '成功') {
+//             let data=[]
+//             this.state.myRentHouse.map((item,index)=>{
+//                 if(res.data.id==item.userId){
+//                     data.push(item)
+//                 }
+//             })
+//            this.addToTable(data)
+//         } else {
+//             message.error('获取当前登录人信息失败');
+//         }
+//     }).catch((err) => {
+//         console.log(err)
+//     })
+// }
 
    /** 
     * 获取楼盘信息
     * */ 
    getBuilding=()=>{
-       let url= '/v1/wyw/renthouse/selectAllByPage?pageNo='+this.state.current+'&pageSize=' + this.state.pageSize
+       let url= '/v1/wyw/signedreport/selectAll?pageNo='+this.state.current+'&pageSize=' + this.state.pageSize
        request(url,{
            method: 'GET'
        }).then((res)=>{
            if(res.message=='成功'){
-            this.setState({
-                myRentHouse:res.data
-            })
+            this.addToTable(res.data)
            }
        })
    }
@@ -270,7 +285,7 @@ class SingerReport extends React.Component {
         const { getFieldDecorator } = this.props.form
         return (
             <TableLayout
-                title={'出租屋信息管理'}
+                title={'举报受理'}
             >
                 {/* <Form>
                     <Row style={{ display: 'flex', flexDirection: 'row-reverse' }}>

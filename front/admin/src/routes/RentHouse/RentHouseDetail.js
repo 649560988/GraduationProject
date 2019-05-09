@@ -234,10 +234,10 @@ getCurrentCommit=()=>{
       } = this.props.form;
         return(
           <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
-          {/* <MyMenu></MyMenu>
+          <MyMenu></MyMenu>
           <TableLayout
           title={'详细信息'}
-      > */}
+      >
 			     <img className={styles.mimg} src="http://localhost:80/111.jpg"></img>
             <strong><h1 style={{marginLeft:'30px',marginTop:'5px'}}>{this.state.rentHouse.houseDescription}</h1></strong> 
             <Row>
@@ -462,7 +462,7 @@ getCurrentCommit=()=>{
                })
            } */}
           
-          
+          <h1>附近地图</h1>
           <div id="orderDetailMap" style={{width:'100%',height:'500px'}}></div>
           
           
@@ -504,7 +504,7 @@ getCurrentCommit=()=>{
             />
           )}
         />
-      {/* </TableLayout> */}
+      </TableLayout>
            </div>
         )
     }

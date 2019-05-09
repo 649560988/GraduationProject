@@ -116,7 +116,12 @@ class BuildingDetail extends Component{
 			method: "GET"
 		}).then((res)=>{
 			if(res.message=='查询成功'){
-				console.log('当前楼盘信息',res.data)
+				var map=new BMap.Map("orderDetailMap")
+				map.centerAndZoom(res.data.province + res.data.city + res.data.area, 11);       
+        var local = new BMap.LocalSearch(map, {      
+            renderOptions:{map: map}      
+        });      
+        local.search(res.data.province + res.data.city + res.data.area + res.data.communityName);
 				this.getAdmin(res.data.userId)
 			this.setState({
 				building: res.data,
@@ -359,7 +364,7 @@ class BuildingDetail extends Component{
           <Form.Item >
           <Button type = "primary"
           htmlType = "submit" >
-          Log in
+          举报
           </Button> 
           
           </Form.Item> 
@@ -373,28 +378,30 @@ class BuildingDetail extends Component{
 						
 			<div>
 			<Tabs defaultActiveKey="1" onChange={this.callback} >
-            <Tabs.TabPane tab="Tab 1" key="1">Content of Tab Pane 1</Tabs.TabPane>
+            <Tabs.TabPane tab="周边地图" key="1">
+						<div id="orderDetailMap" style={{width:'100%',height:'500px'}}></div>
+						</Tabs.TabPane>
              <Tabs.TabPane tab="户型图" key="2">
 						 {
 							 this.state.houseStyles.map((item,index)=>{
 								if(item.id==1){
-									return <div key={index}><h3></h3>一室一厅 <img alt=""   size="large" src={`http://localhost:80/111.jpg`} style={{height:'100%' 
+									return <div key={index} style={{width:'500px',height:'500px'}}><h3></h3>一室一厅 <img alt=""   size="large" src={`http://localhost:80/111.jpg`} style={{height:'100%' 
 											,width:'100%'}}/></div>
 									}
 									 if(item.id==2){
-										return  <div key={index}><h3></h3>二室一厅 <img alt=""   size="large" src={`http://localhost:80/211.jpg`} style={{height:'100%' 
+										return  <div key={index}  style={{width:'500px',height:'500px'}}><h3></h3>二室一厅 <img alt=""   size="large" src={`http://localhost:80/211.jpg`} style={{height:'100%' 
 										,width:'100%'}}/></div>
 									} 
 									if(item.id==3){
-										return  <div key={index}><h3></h3>三室一厅 <img alt=""   size="large" src={`http://localhost:80/311.jpg`} style={{height:'100%' 
+										return  <div key={index}  style={{width:'500px',height:'500px'}}><h3></h3>三室一厅 <img alt=""   size="large" src={`http://localhost:80/311.jpg`} style={{height:'100%' 
 										,width:'100%'}}/></div>
 									} 
 									if(item.id==4){
-										return <div key={index}><h3></h3>三室二厅 <img alt=""   size="large" src={`http://localhost:80/121.jpg`} style={{height:'100%' 
+										return <div key={index}  style={{width:'500px',height:'500px'}}><h3></h3>三室二厅 <img alt=""   size="large" src={`http://localhost:80/121.jpg`} style={{height:'100%' 
 										,width:'100%'}}/></div>
 									}
 									 if(item.id==5){
-										return  <div key={index}><h3></h3>一室一厅 <img alt=""   size="large" src={`http://localhost:80/111.jpg`} style={{height:'100%' 
+										return  <div key={index}  style={{width:'500px',height:'500px'}}><h3></h3>一室一厅 <img alt=""   size="large" src={`http://localhost:80/111.jpg`} style={{height:'100%' 
 										,width:'100%'}}/></div>
 									}
 							 })

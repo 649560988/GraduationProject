@@ -78,7 +78,6 @@ import TableLayout from '../../layouts/TableLayout'
           values.city=city
           values.area=area
           this.createRentHouse(values)
-          // this.postUserID(this.state.Uid)
         }
       });
     }
@@ -96,7 +95,6 @@ import TableLayout from '../../layouts/TableLayout'
           values.city=city
           values.area=area
           this.createApartment(values)
-          // this.postUserID(this.state.Uid)
         }
       });
     }
@@ -212,7 +210,8 @@ import TableLayout from '../../layouts/TableLayout'
       body: values
     }).then((res) => {
       if (res.message === '添加成功') {
-        // this.linkToChange('/setting/users')
+        message.success('创建成功')
+        this.linkToChange('/myhome')
       } else {
         // message.error(res.message)
         console.log("创建失败")
@@ -232,7 +231,8 @@ import TableLayout from '../../layouts/TableLayout'
       body: values
     }).then((res) => {
       if (res.message === '添加成功') {
-        // this.linkToChange('/setting/users')
+        message.success('创建成功')
+        this.linkToChange('/myhome')
       } else {
         // message.error(res.message)
         console.log("创建失败")

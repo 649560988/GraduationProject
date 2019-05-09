@@ -39,7 +39,6 @@ class SerachRentHouse extends Component{
                   method: 'GET'
               }).then((res) => {
                   if(res.message == '查询成功'){
-                    console.log(res.data)
                     let rentHouse = []
                     let apertment = []
                     for(let i of res.data){
@@ -52,7 +51,7 @@ class SerachRentHouse extends Component{
                     }
                    this.setState({
                    buildingList: rentHouse,
-                   apertment
+                   apertment:apertment
                    });
                   }
               }
@@ -90,7 +89,7 @@ class SerachRentHouse extends Component{
              />
                <Button type="primary" onClick={this.onClick}>Primary</Button>
             </div>
-            <h1>出租屋</h1>
+            <h1>出租房</h1>
                 <List
                     rowKey="id"
                     grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}

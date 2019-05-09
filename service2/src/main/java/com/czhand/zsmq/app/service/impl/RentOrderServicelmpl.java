@@ -36,6 +36,7 @@ public class RentOrderServicelmpl implements RentOrderService {
     public Integer insertOne(RentOrderDTO rentOrderDTO) throws CommonException {
         RentOrder rentOrder=ConvertHelper.convert(rentOrderDTO,RentOrder.class);
         rentOrder.setCreatedTime(new Date());
+        rentOrder.setStatus(0);
         Integer result=rentOrderMapper.insert(rentOrder);
         if(result != 1){
             throw new CommonException("插入失败");

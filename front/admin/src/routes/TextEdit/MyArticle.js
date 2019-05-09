@@ -110,19 +110,24 @@ class MyArticle extends React.Component {
     // }
 
      //获取当前登陆人信息
-     getPersonalInfoById = () => {
+     getPersonalInfoById = (dataSource) => {
         request('/v1/sysUserDomin/getAuth', {
             method: 'GET',
             // credentials: 'omit'
         }).then((res) => {
             if (res.message === '成功') {
                 let data=[]
-                this.state.myRentHouse.map((item,index)=>{
+                console.log('获得的文章用回到我i为',dataSource)
+                console.log('获得的用回到我i为',res.data)
+
+                dataSource.map((item,index)=>{
                     if(res.data.id==item.userId){
                         data.push(item)
                     }
                 })
-               this.addToTable(data)
+                this.setState({
+                    data: data,
+                })
             } else {
                 message.error('获取当前登录人信息失败');
             }
@@ -189,13 +194,12 @@ class MyArticle extends React.Component {
         let record=item;
         dataSource.push(record)
         })
-        this.setState({
-            data: dataSource,
-        })
+        this.getPersonalInfoById(dataSource)
+      
     }
     componentWillMount(){
         this.getBuilding()
-        this.getPersonalInfoById()
+        
     }
 
     /**
@@ -218,8 +222,7 @@ class MyArticle extends React.Component {
            method: 'GET'
        }).then((res)=>{
            if(res.message=='成功'){
-               console.log('获取的楼盘信息',res.data)
-               myRentHouse:res.data
+            this.addToTable(res.data)
            }
        })
    }

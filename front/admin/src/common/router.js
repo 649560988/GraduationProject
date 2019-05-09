@@ -118,7 +118,7 @@ export const getRouterData = app => {
     '/business/article-list':{
       component: dynamicWrapper(app,[],()=> import('../routes/TextEdit/ArticleList'))
     },
-    '/singer-report':{
+    '/business/singer-report':{
       component: dynamicWrapper(app,[],()=> import('../routes/SingerReport/SingerReport'))
     },
     '/predetermine/:id':{
@@ -165,7 +165,7 @@ export const getRouterData = app => {
     '/apartment':{
       component:dynamicWrapper(app,[],() => import('../routes/RentHouse/ApartMent'))
     },
-    '/apartment-detail':{
+    '/apartment-detail/:id':{
       component:dynamicWrapper(app,[],() => import('../routes/RentHouse/ApartMentDetail'))
     },
     '/base-info-defend/external-consultant-resume/:resumeId': {

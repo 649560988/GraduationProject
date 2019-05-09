@@ -13,6 +13,7 @@ import {
   DatePicker,
   message,
   Cascader
+
 } from 'antd';
 import request from '../../utils/request'
 import TextArea from 'antd/lib/input/TextArea';
@@ -202,17 +203,23 @@ class BuildingCreate extends Component {
       previewImage: file.url || file.thumbUrl,
     });
   }
+  //跳转
+  tiaozhuan=()=>{
+    this.linkToChange(`/myhome`)
+  }
+  linkToChange = url => {
+    const { history } = this.props
+    history.push(url)
+  };
   //创建楼盘信息
 createBuilding = (values) => {
-  console.log('data:', values)
   request(`/v1/wyw/building/createBuilding/${this.state.Uid}`, {
     method: 'POST',
     body: values
   }).then((res) => {
     if (res.message === '添加成功') {
-      // message.success('创建成功')
-      console.log("创建成功")
-      // this.linkToChange('/setting/users')
+      message.success('创建成功')
+      this.tiaozhuan()
     } else {
       // message.error(res.message)
       console.log("创建失败")

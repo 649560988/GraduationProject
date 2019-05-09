@@ -66,9 +66,9 @@ class MyRentHouse extends React.Component {
                 render: (text, record) => {
                     let tag;
                     if (text === 0) {
-                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, marginLeft: 'auto', marginRight: 'auto' }} color={'#4CAF50'}>普通住房</Tag>
+                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 60, marginLeft: 'auto', marginRight: 'auto' }} color={'#4CAF50'}>普通住房</Tag>
                     } else if (text === 1) {
-                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, color: 'black', marginLeft: 'auto', marginRight: 'auto' }} color={'#E9E9E9'}>公寓</Tag>
+                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 60, marginLeft: 'auto', marginRight: 'auto' }} color={'#4CAF50'}>公寓</Tag>
                     }
                     return (
                         tag
@@ -192,29 +192,30 @@ class MyRentHouse extends React.Component {
         let record=item;
         dataSource.push(record)
         })
-        this.setState({
-            data: dataSource,
-        })
+        this.getPersonalInfoById(dataSource)
+      
     }
     componentWillMount(){
         this.getBuilding()
-        this.getPersonalInfoById()
+       
     }
     
-          //获取当前登陆人信息
-  getPersonalInfoById = () => {
+   //获取当前登陆人信息
+  getPersonalInfoById = (dataSource) => {
     request('/v1/sysUserDomin/getAuth', {
         method: 'GET',
         // credentials: 'omit'
     }).then((res) => {
         if (res.message === '成功') {
             let data=[]
-            this.state.myRentHouse.map((item,index)=>{
+            dataSource.map((item,index)=>{
                 if(res.data.id==item.userId){
                     data.push(item)
                 }
             })
-           this.addToTable(data)
+            this.setState({
+                data: data
+            })
         } else {
             message.error('获取当前登录人信息失败');
         }
@@ -242,9 +243,10 @@ class MyRentHouse extends React.Component {
            method: 'GET'
        }).then((res)=>{
            if(res.message=='成功'){
-            this.setState({
-                myRentHouse:res.data
-            })
+            this.addToTable(res.data)
+            // this.setState({
+            //     myRentHouse:res.data
+            // })
            }
        })
    }

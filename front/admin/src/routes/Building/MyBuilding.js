@@ -107,19 +107,21 @@ class MyBuilding extends React.Component {
         }
     }
           //获取当前登陆人信息
-  getPersonalInfoById = () => {
+  getPersonalInfoById = (dataSource) => {
     request('/v1/sysUserDomin/getAuth', {
         method: 'GET',
         // credentials: 'omit'
     }).then((res) => {
         if (res.message === '成功') {
             let data=[]
-            this.state.myBuilding.map((item,index)=>{
+            dataSource.map((item,index)=>{
                 if(res.data.id==item.userId){
                     data.push(item)
                 }
             })
-           this.addToTable(data)
+        this.setState({
+            data: data,
+        })
         } else {
             message.error('获取当前登录人信息失败');
         }
@@ -186,13 +188,14 @@ class MyBuilding extends React.Component {
         let record=item;
         dataSource.push(record)
         })
-        this.setState({
-            data: dataSource,
-        })
+        this.getPersonalInfoById(dataSource)
+        // this.setState({
+        //     data: dataSource,
+        // })
     }
     componentWillMount(){
         this.getBuilding()
-        this.getPersonalInfoById()
+       
     }
 
     /**
@@ -215,6 +218,7 @@ class MyBuilding extends React.Component {
            method: 'GET'
        }).then((res)=>{
            if(res.message=='成功'){
+            this.addToTable(res.data)
                this.setState({
                    myBuilding:res.data
                })
