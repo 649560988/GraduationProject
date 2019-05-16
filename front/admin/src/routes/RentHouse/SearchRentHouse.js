@@ -81,7 +81,7 @@ class SerachRentHouse extends Component{
                 <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
                 <MyMenu></MyMenu>
                 <TableLayout
-                title={'搜索'}
+                title={'出租屋搜索'}
                 
             >
                 <div >
@@ -97,7 +97,7 @@ class SerachRentHouse extends Component{
                     renderItem={item => (
                         <List.Item key={item.id} onClick={() => this.getCurrentRentHouseItem(item)}>
                           <Card hoverable style={{ width: 300 }} 
-                          cover={<img alt=""  size="large" src={item.srcs[0]} style={{height:200 
+                          cover={<img alt=""  size="large" src={`http://localhost:80/${item.srcs[0].src}`} style={{height:200 
                             ,width:300}}/>}
                           >
                             <Card.Meta
@@ -122,9 +122,10 @@ class SerachRentHouse extends Component{
                     renderItem={item => (
                         <List.Item key={item.id} onClick={() => this.getCurrentRentHouseItem(item)}>
                           <Card hoverable style={{ width: 300 }} 
-                          cover={<img alt=""  size="large" src={item.srcs[0]} style={{height:200 
+                          cover={<img alt=""  size="large" src={`http://localhost:80/${item.srcs[0].src}`} style={{height:200 
                             ,width:300}}/>}
                           >
+                          {console.log('1111111111111',item)}
                             <Card.Meta
                               // avatar={ <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                               title={<a href="">{item.name}&nbsp;{item.city}</a>} 

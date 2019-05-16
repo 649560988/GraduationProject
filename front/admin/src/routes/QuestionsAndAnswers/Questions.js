@@ -61,7 +61,7 @@ class Questions extends React.Component {
           <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
           <MyMenu></MyMenu>
           <TableLayout
-          title={'问题'}
+          title={'问答中心'}
       >
            <div style={{marginLeft:'10px'}}>
            

@@ -9,7 +9,6 @@ import Fullscreen from './components/Fullscreen'
 const { ConnectedRouter } = routerRedux
 const { AuthorizedRoute } = Authorized
 function MyRouterConfig ({ history, app }) {
-    console.log('这是myrouter')
   const routerData = getRouterData(app)
   const UserLayout = routerData['/user'].component
   const BasicLayout = routerData['/'].component

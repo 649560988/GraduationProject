@@ -266,7 +266,6 @@ export default class SiderMenu extends PureComponent {
     return (
       <div>
         {
-
           (this.state.name.indexOf('admin')>-1)?
           <Sider
           trigger={null}

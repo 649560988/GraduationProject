@@ -100,7 +100,7 @@ handclick=(aa)=>{
     render () {
       const { Meta } = Card;
     return (
-      <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+      <div style={{ padding: 20, overflowY: 'auto', flex: 1,backgroundImage: "url(" + require("../../assets/images/背景图片.jpg") + ")" }}>
       <MyMenu></MyMenu>
       <TableLayout
       title={'楼盘信息'}

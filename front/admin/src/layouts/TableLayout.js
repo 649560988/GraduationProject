@@ -94,7 +94,7 @@ class TableLayout extends React.Component {
   render () {
     return (
       <Wrapper>
-        <Header bodyStyle={{ padding: '15px' }}>
+        <Header bodyStyle={{ padding: '15px' ,backgroundImage: "url(" + require("../assets/images/背景图片.jpg") + ")"}}>
           <HeaderInner>
             <TitleBar className={styles2.titleBar}>
               {this.props.showBackBtn
@@ -108,9 +108,9 @@ class TableLayout extends React.Component {
             </div>
           </HeaderInner>
         </Header>
-        <Body>
+        <Body style={{background:'red'}}>
           {this.props.wrapBodyWithCard
-            ? <Card style={{ flex: 1, overflow: 'auto' }} bodyStyle={{ padding: 20 }}>{this.props.children}</Card>
+            ? <Card style={{ flex: 1, overflow: 'auto' ,background:'#38BBE7'}} bodyStyle={{ padding: 20 }}>{this.props.children}</Card>
             : <NormalBody>{this.props.children}</NormalBody>
           }
         </Body>

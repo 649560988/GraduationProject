@@ -47,7 +47,6 @@ public class UserEntServiceImpl implements UserEntService {
         if (sysUserMapper.isTel(sysUser.getTelephone()) != null) {
             throw new CommonException("该电话号码已经存在");
         }
-
         //加密密码
         sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
         sysUser.setVersion(1L);
@@ -58,7 +57,7 @@ public class UserEntServiceImpl implements UserEntService {
         Long id=sysUser.getId();
         SysUserRole sysUserRole=new SysUserRole();
         sysUserRole.setUserId(id);
-        sysUserRole.setRoleId(3l);
+        sysUserRole.setRoleId(4l);
         sysUserRole.setCreationBy(1l);
         sysUserRole.setUpdateDate(new Date());
         sysUserRole.setVersion(1l);

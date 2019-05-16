@@ -210,15 +210,11 @@ public class SysUserDominServiceImpl implements SysUserDominService {
 	 */
 	@Override
 	public SysUserDTO selectAuth() throws CommonException {
-
 		Long userId = getUserId();
-
 		if (userId == null) {
 			throw new CommonException("匿名用户！");
 		}
-
 		SysUser sysUser = sysUserMapper.selectAuth(userId);
-
 		if (sysUser == null) {
 			throw new CommonException("没有在数据库查到该用户");
 		}

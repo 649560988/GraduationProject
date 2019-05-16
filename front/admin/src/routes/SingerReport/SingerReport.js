@@ -50,7 +50,7 @@ class SingerReport extends React.Component {
                 // type:'bu',
                 render:()=>{
                     let tag;
-                    tag= <Button>1111</Button>
+                    tag= <Button onClick={() => this.linkToPage()}>1111</Button>
                     return (
                         tag
                     )
@@ -174,7 +174,9 @@ class SingerReport extends React.Component {
           visible: true,
         });
         };
-
+        linkToPage=()=>{
+            message.success('www')
+        }
     // componentWillMount() {
     //     this.getListInfo('')
     // }

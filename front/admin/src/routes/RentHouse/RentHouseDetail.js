@@ -342,13 +342,13 @@ getCurrentCommit=()=>{
             </div>
             <span ><h1 style={{background:'red',width:'60%',marginLeft:'20%',marginTop:'10px'}}><Icon type="mobile" />电话{this.state.rentHouse.contactInformation}</h1></span>
            
-            <div>
+            <div style={{marginLeft:'10%'}}>
               <Button type="primary" onClick={this.showDrawer}>
               举报
               </Button>
               <Button onClick={this.predetermine}>预定</Button>
               <Drawer
-              title="举报r"
+              title="举报"
               placement="right"
               closable={false}
               onClose={this.onClose}

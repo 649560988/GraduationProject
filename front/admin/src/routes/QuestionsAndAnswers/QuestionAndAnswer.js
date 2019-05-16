@@ -6,7 +6,7 @@ import TextArea from 'antd/lib/input/TextArea';
 import MyMenu from '../Menu/MyMenu';
 import TableLayout from '../../layouts/TableLayout'
 import request from '../../utils/request'
-class Questions extends React.Component {
+class QuestionsAndAnswer extends React.Component {
 
     constructor(props) {
         super(props)
@@ -75,7 +75,7 @@ class Questions extends React.Component {
      */
     handleClickBackBtn = (e) => {
         e.stopPropagation()
-        this.linkToChange(`/setting/users`)
+        this.linkToChange(`/myhome`)
     }
 
     /***
@@ -141,4 +141,4 @@ class Questions extends React.Component {
     }
 }
 
-export default Form.create()(Questions);
+export default Form.create()(QuestionsAndAnswer);

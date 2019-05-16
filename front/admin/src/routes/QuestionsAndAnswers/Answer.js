@@ -215,9 +215,8 @@ getCurrentCommit=()=>{
            <Divider type="vertical" />
            {this.state.data.createdTime}
             <Divider type="vertical" />
-            <a href="#">Link</a>
          </div>
-        <span  onClick={this.handOnClick.bind(this)}>点我回答</span> 
+        <span  onClick={this.handOnClick.bind(this)} style={{marginLeft:'20px'}}><h3>点我回答</h3></span> 
         <div style={{display:this.state.visable}}>
         <Comment
           avatar={(

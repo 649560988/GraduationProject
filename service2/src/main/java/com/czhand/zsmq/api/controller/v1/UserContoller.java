@@ -47,17 +47,9 @@ public class UserContoller {
 		if (ArgsUtils.checkArgsNull(sysUserDTO)) {
 			throw new CommonException("参数不正确");
 		}
-
-//        EntBaseDTO entBaseDTO =  entBaseService.queryOneEnterprise(organizationalCode);
-
-//		if(entBaseDTO==null){
-//		    throw  new CommonException("["+organizationalCode+"]该组织机构代码不存在！");
-//        }
-
         SysUserDTO result = null;
 		String message = "Register success";
 		try {
-//          result =  userEntService.addEntUser(sysUserDTO,entBaseDTO.getId());
 			result =  userEntService.addEntUser(sysUserDTO);
 			if (result == null) {
 				message = "Register fail";
