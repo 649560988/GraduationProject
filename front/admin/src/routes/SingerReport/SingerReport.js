@@ -48,9 +48,9 @@ class SingerReport extends React.Component {
                 dataIndex:'cation',
                 align:'center',
                 // type:'bu',
-                render:()=>{
+                render:(text, record)=>{
                     let tag;
-                    tag= <Button onClick={() => this.linkToPage()}>1111</Button>
+                    tag= <Button onClick={() => this.linkToPage(record.infoId,record.type)}>1111</Button>
                     return (
                         tag
                     )
@@ -174,9 +174,18 @@ class SingerReport extends React.Component {
           visible: true,
         });
         };
-        linkToPage=()=>{
-            message.success('www')
+        linkToPage=(id,type)=>{
+            message.success('www',id)
+            console.log('www',id)
+            if(type==1){
+                this.linkToChange(`/building-detail/${id}`)
+            }
+            
         }
+          linkToChange = url => {
+            const { history } = this.props
+            history.push(url)
+          };
     // componentWillMount() {
     //     this.getListInfo('')
     // }
@@ -215,18 +224,18 @@ class SingerReport extends React.Component {
     /**
      *   跳转到编辑或添加页面
      */
-    // handleLinkToDetail = (e, flag, id) => {
-    //     e.stopPropagation()
-    //     this.linkToChange(`/setting/user-update/${flag}/${id}`)
-    // };
+    handleLinkToDetail = (e, flag, id) => {
+        e.stopPropagation()
+        this.linkToChange(`/setting/user-update/${flag}/${id}`)
+    };
 
     /***
      *   路径跳转
      */
-    // linkToChange = url => {
-    //     const { history } = this.props
-    //     history.push(url)
-    // };
+    linkToChange = url => {
+        const { history } = this.props
+        history.push(url)
+    };
 
     /**
      * 将信息填入表格

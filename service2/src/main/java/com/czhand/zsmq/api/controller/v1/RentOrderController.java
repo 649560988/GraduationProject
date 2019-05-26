@@ -39,24 +39,24 @@ public class RentOrderController {
     }
 
     @ApiOperation("查找订单")
-    @GetMapping("/sellectAll/{status}")
-    public ResponseEntity<Data<List<RentOrderDTO>>> sellectAll(@PathVariable("status") Integer status){
-        List<RentOrderDTO> rentOrderDTOList=rentOrderService.sellectAll(status);
+    @GetMapping("/sellectAll")
+    public ResponseEntity<Data<List<RentOrderDTO>>> sellectAll(){
+        List<RentOrderDTO> rentOrderDTOList=rentOrderService.sellectAll();
         String message="成功";
         return  ResponseUtils.res(rentOrderDTOList,message);
     }
 
     @ApiOperation("跟新订单")
-    @PutMapping("/updateOne/{id}/{status}")
-    public ResponseEntity<Data<RentOrderDTO>>updateOne(@PathVariable("id")Long id,@PathVariable("status") Integer status){
+    @GetMapping("/updateOne/{id}/{status}")
+    public ResponseEntity<Data<Integer>>updateOne(@PathVariable("id")Long id,@PathVariable("status") Integer status){
         if(ArgsUtils.checkArgsNull(id)){
             throw new CommonException("参数为空");
         }
         if(ArgsUtils.checkArgsNull(status)){
             throw new CommonException("参数为空");
         }
-        RentOrderDTO rentOrderDTO=rentOrderService.updateOne(id,status);
+        Integer result=rentOrderService.updateOne(id,status);
         String message="成功";
-        return  ResponseUtils.res(rentOrderDTO,message);
+        return  ResponseUtils.res(result,message);
     }
 }

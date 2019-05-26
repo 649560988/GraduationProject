@@ -165,6 +165,18 @@ class BuildingDetail extends Component{
 	 callback=(key)=> {
 		console.log(key);
 		}
+		//预定
+		predetermine=()=>{
+			var r=confirm('由于交易金额过大，请谨慎交易，在未辨别真假前，请勿轻易付款给对方！')
+			if(r){
+				this.linkToChange(`/predetermine/${this.state.Bid}/${this.state.type}`)
+			}
+		}
+		   //点击跳转
+			 linkToChange = url => {
+				const { history } = this.props
+				history.push(url)
+			};
 		//获取当前用户
 	  getCurrentUser = () => {
 		let url = '/v1/sysUserDomin/getAuth'
@@ -294,6 +306,7 @@ class BuildingDetail extends Component{
             <Button type="primary" onClick={this.showDrawer}>
           举报
          </Button>
+				 <Button onClick={this.predetermine}>预定</Button>
          <Drawer
           title="举报r"
           placement="right"

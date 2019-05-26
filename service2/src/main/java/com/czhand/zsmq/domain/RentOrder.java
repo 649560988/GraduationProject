@@ -53,6 +53,8 @@ public class RentOrder implements Serializable {
 
     @Column(name = "type")
     private Integer type;
+    @Column(name = "isdel")
+    private Integer isdel;
     /**
      * 租赁时常 有1，3，6月，1年选择
      */
@@ -64,6 +66,14 @@ public class RentOrder implements Serializable {
      */
     @Column(name = "money")
     private String money;
+
+    public Integer getIsdel() {
+        return isdel;
+    }
+
+    public void setIsdel(Integer isdel) {
+        this.isdel = isdel;
+    }
 
     private static final long serialVersionUID = 1L;
 

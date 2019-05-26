@@ -96,7 +96,7 @@ class ApartMentDetail extends Component{
   predetermine=()=>{
     var r=confirm('由于交易金额过大，请谨慎交易，依据平台交易进程规则有保障，祝您生活愉快')
     if(r){
-      this.linkToChange(`/predetermine/${this.state.rentHouse.id}`)
+      this.linkToChange(`/predetermine/${this.state.rentHouse.id}/${this.state.type}`)
     }
   }
   //举报按钮

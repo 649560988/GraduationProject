@@ -113,7 +113,6 @@ handclick=(aa)=>{
             grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
             dataSource={this.state.rentHouseList}
             renderItem={item => (
-              // <Popover >
                 <List.Item key={item.id} onClick={() => this.getCurrentRentHouseItem(item)}>
                   <Card hoverable style={{ width: 300 }} 
                   cover={<img alt=""  size="large" src={`http://localhost:80/${item.srcs[0].src}`} style={{height:200 

@@ -37,6 +37,7 @@ public class RentOrderServicelmpl implements RentOrderService {
         RentOrder rentOrder=ConvertHelper.convert(rentOrderDTO,RentOrder.class);
         rentOrder.setCreatedTime(new Date());
         rentOrder.setStatus(0);
+        rentOrder.setIsdel(0);
         Integer result=rentOrderMapper.insert(rentOrder);
         if(result != 1){
             throw new CommonException("插入失败");
@@ -45,17 +46,17 @@ public class RentOrderServicelmpl implements RentOrderService {
     }
 
     @Override
-    public List<RentOrderDTO> sellectAll(Integer status) throws CommonException {
-        List<RentOrder> rentOrderList=rentOrderMapper.selectAllByStatus(status);
+    public List<RentOrderDTO> sellectAll() throws CommonException {
+        List<RentOrder> rentOrderList=rentOrderMapper.selectAll();
         return ConvertHelper.convertList(rentOrderList,RentOrderDTO.class);
     }
 
     @Override
-    public RentOrderDTO updateOne(Long id, Integer status) throws CommonException {
+    public Integer updateOne(Long id, Integer status) throws CommonException {
         RentOrder rentOrder=new RentOrder();
         rentOrder.setId(id);
         rentOrder.setStatus(status);
-        RentOrder rentOrder1=rentOrderMapper.upData(rentOrder);
-        return ConvertHelper.convert(rentOrder1,RentOrderDTO.class);
+        Integer result=rentOrderMapper.upData(rentOrder);
+        return result;
     }
 }

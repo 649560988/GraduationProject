@@ -15,6 +15,7 @@
     <result column="rent_user_name" jdbcType="VARCHAR" property="rentUserName" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="isdel" jdbcType="INTEGER" property="isdel" />
     <result column="rent_time" jdbcType="INTEGER" property="rentTime" />
     <result column="money" jdbcType="VARCHAR" property="money" />
   </resultMap>

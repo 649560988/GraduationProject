@@ -91,7 +91,6 @@ class MyBuilding extends React.Component {
                     return (
                         <div>
                             <Tooltip title={'编辑'} placement={'bottom'}>
-                                <Button style={{ marginRight: '5px' }} onClick={(e) => this.handleLinkToDetail(e, 'edit', record.id)}><Icon type={'edit'} /></Button>
                             </Tooltip>
                             {actionDel}
                         </div>

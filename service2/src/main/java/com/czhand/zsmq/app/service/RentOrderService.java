@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface RentOrderService {
     Integer insertOne(RentOrderDTO rentOrderDTO)throws CommonException;
-    List<RentOrderDTO> sellectAll(Integer status)throws CommonException;
-    RentOrderDTO updateOne(Long id,Integer status)throws CommonException;
+    List<RentOrderDTO> sellectAll()throws CommonException;
+    Integer updateOne(Long id,Integer status)throws CommonException;
 }

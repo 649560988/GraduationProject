@@ -10,5 +10,5 @@ import java.util.List;
 @Component
 public interface RentOrderMapper extends BaseMapper<RentOrder> {
     List<RentOrder> selectAllByStatus(@Param("status") Integer status);
-    RentOrder upData( RentOrder rentOrder);
+    Integer upData( RentOrder rentOrder);
 }

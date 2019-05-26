@@ -121,7 +121,7 @@ export const getRouterData = app => {
     '/business/singer-report':{
       component: dynamicWrapper(app,[],()=> import('../routes/SingerReport/SingerReport'))
     },
-    '/predetermine/:id':{
+    '/predetermine/:id/:type':{
       component: dynamicWrapper(app,[],()=> import('../routes/Predetermine/Predetermine'))
     }
     ,
@@ -144,6 +144,18 @@ export const getRouterData = app => {
     ,
     '/question-create':{
       component:dynamicWrapper(app,[],() => import('../routes/QuestionsAndAnswers/QuestionAndAnswer'))
+    }
+    ,
+    '/business/predetermine-list':{
+      component:dynamicWrapper(app,[],() => import('../routes/Predetermine/PredetermineList'))
+    }
+    ,
+    '/my-predetermine':{
+      component:dynamicWrapper(app,[],() => import('../routes/Predetermine/MyPredetermine'))
+    }
+    ,
+    '/my-order':{
+      component:dynamicWrapper(app,[],() => import('../routes/Predetermine/MyOrder'))
     }
     ,
     '/answer/:id':{

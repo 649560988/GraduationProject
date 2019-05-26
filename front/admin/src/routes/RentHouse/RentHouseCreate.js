@@ -136,7 +136,7 @@ import TableLayout from '../../layouts/TableLayout'
   }
 
   /**
-   * 把所有的角色都放到select的option中
+   * 把所有的房屋类型都放到select的option中
    */
   putAllHouseStylesIntoOptions = () => {
       let optionHouseStyle = []

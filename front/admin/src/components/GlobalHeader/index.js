@@ -239,7 +239,7 @@ componentWillMount(){
                           {
                          (this.state.list.indexOf('building_user')>-1)?
                          <Menu.Item >
-                         <a href= " http://localhost:9090/#/renthouse-create"><span style={{fontSize:'15px'}}><strong>成为房东</strong></span></a>
+                         <a href= " http://localhost:9090/#/renthouse-create"><span style={{fontSize:'15px'}}><strong>发布出租屋</strong></span></a>
                          </Menu.Item>
                          :
                          <p></p>
@@ -247,7 +247,7 @@ componentWillMount(){
                            {
                          (this.state.list.indexOf('building_user')>-1)?
                          <Menu.Item >
-                          <a href= " http://localhost:9090/#/building-create"><span style={{fontSize:'15px'}}><strong>发布房源信息</strong></span></a>
+                          <a href= " http://localhost:9090/#/building-create"><span style={{fontSize:'15px'}}><strong>发布楼盘</strong></span></a>
                           </Menu.Item>
                          :
                          <p></p>
@@ -281,6 +281,22 @@ componentWillMount(){
                          (this.state.list.indexOf('building_user')>-1)?
                          <Menu.Item >
                          <a href= " http://localhost:9090/#/myarticle"><span style={{fontSize:'15px'}}><strong>我的楼讯</strong></span></a>
+                         </Menu.Item>
+                         :
+                         <p></p>
+                          }
+                            {
+                         (this.state.list.indexOf('building_user')>-1)?
+                         <Menu.Item >
+                         <a href= " http://localhost:9090/#/my-predetermine"><span style={{fontSize:'15px'}}><strong>我的预定</strong></span></a>
+                         </Menu.Item>
+                         :
+                         <p></p>
+                          }
+                            {
+                         (this.state.list.indexOf('building_user')>-1)?
+                         <Menu.Item >
+                         <a href= " http://localhost:9090/#/my-order"><span style={{fontSize:'15px'}}><strong>我的订单</strong></span></a>
                          </Menu.Item>
                          :
                          <p></p>

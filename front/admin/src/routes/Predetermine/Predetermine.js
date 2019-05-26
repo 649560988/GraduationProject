@@ -10,26 +10,47 @@ class Predetermine extends Component{
         super(props)
         this.state={
             rentHouseId:this.props.match.params.id,
+            type:this.props.match.params.type,
             rentHouse:'',
+            building:'',
             user:'',
             rentHouseAdmin:'',
-            predetermineRentHouse:{
+            predetermineOrder:{
                 userId:'',
                 userName:'',
                 houseId:'',
                 houseName:'',
                 type:'',
-                rentUserIdL:'',
+                rentUserId:'',
                 rentUserName:'',
                 rentTime:'',
-                money:''
+                money:'',
             }
         }
     }
     componentWillMount(){
-        this.getCurrentRentHouse()
+        
+        if(this.state.type==0){
+            this.getCurrentRentHouse()
+        }else{
+            this.getCurrentBuilding()
+        }
         this.getCurrentUser()
     }
+    //获取当前楼盘信息
+    getCurrentBuilding=()=>{
+		let url=`/v1/wyw/building/${this.state.rentHouseId}`
+		request(url,{
+			method: "GET"
+		}).then((res)=>{
+			if(res.message=='查询成功'){
+                this.getAdmin(res.data.userId)
+			this.setState({
+				building:res.data
+			})
+			}
+		})
+	}
      //获取当前出租屋信息
   getCurrentRentHouse=()=>{
     let url=`/v1/wyw/renthouse/${this.state.rentHouseId}`
@@ -53,7 +74,6 @@ class Predetermine extends Component{
       method: 'GET',
   }).then((res) => {
       if (res.message === '成功') {
-        
         this.setState({
           rentHouseAdmin:res.data
         })
@@ -97,6 +117,8 @@ class Predetermine extends Component{
   //订单创建
   createOrder=(values)=>{
     let url=`/v1/wyw/rentOrder/insertOne`
+    values.type=this.state.type
+    console.log('订单创建的值',values)
     request(url,{
             method: "POST",
             body: values
@@ -183,7 +205,7 @@ class Predetermine extends Component{
                  </Col>
                  <Col span={12}>
                  <Form.Item  label={'房屋地址'}>
-                        {getFieldDecorator('houseName', {
+                        {getFieldDecorator('area', {
                             initialValue: this.state.rentHouse.province+this.state.rentHouse.city+this.state.rentHouse.area,
                             rules: [{
                                 required: true
@@ -231,7 +253,7 @@ class Predetermine extends Component{
                  </Col>
                  <Col span={12}>
                  <Form.Item  label={'租赁人姓名'}>
-                        {getFieldDecorator('money', {
+                        {getFieldDecorator('rentUserName', {
                             initialValue: this.state.user.realName,
                             rules: [{
                                 required: true

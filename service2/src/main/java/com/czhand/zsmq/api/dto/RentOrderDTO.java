@@ -28,7 +28,11 @@ public class RentOrderDTO {
      */
     @ApiModelProperty("用户id")
     private Long userId;
-
+    /**
+     * isdel
+     */
+    @ApiModelProperty("quxiao")
+    private Integer isdel;
     /**
      * 用户name
      */
@@ -61,6 +65,10 @@ public class RentOrderDTO {
      */
     @ApiModelProperty("交付金额")
     private String money;
+
+    public void setIsdel(Integer isdel) {
+        this.isdel = isdel;
+    }
 
     public Long getId() {
         return id;
