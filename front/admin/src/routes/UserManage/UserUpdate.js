@@ -88,13 +88,13 @@ class UserUpdate extends React.Component {
     filterAllRoles = (data) => {
         let roles = []
         data.map((item) => {
-            if(item.name!='admin'){
+            // if(item.name!='admin'){
                 let role = {}
                 role.id = item.id
                 role.name = item.name
                 roles.push(role)
                 console.log
-            }
+            // }
         })
         this.setState({
             roles

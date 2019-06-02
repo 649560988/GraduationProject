@@ -153,7 +153,8 @@ class PredetermineList extends React.Component {
             total: 0,
             tg:2,
             finish:[],
-            order:[]
+            order:[],
+            qued:[]
         }
     }
     handleOnDel = ( id) => {
@@ -181,7 +182,7 @@ class PredetermineList extends React.Component {
         this.getBuilding()
     }
    /** 
-    * 获取楼盘信息
+    * 获取所有预定信息
     * */ 
    getBuilding=()=>{
        let url= `/v1/wyw/rentOrder/sellectAll`
@@ -192,9 +193,13 @@ class PredetermineList extends React.Component {
             let list=[]
             let finish=[]
             let order=[]
+            let qued=[]
             for(let i of res.data){
                 if(i.status==1 && i.type==0){
                     list.push(i)
+                }
+                if(i.status==0 && i.type==0){
+                    qued.push(i)
                 }
                 if(i.status==3 && i.type==0){
                     finish.push(i)
@@ -206,7 +211,8 @@ class PredetermineList extends React.Component {
               this.setState({
                         data: list,
                         finish:finish,
-                        order:order
+                        order:order,
+                        qued:qued
                     })
            }
        })
@@ -217,7 +223,6 @@ class PredetermineList extends React.Component {
             pageSize,
             current: page,
         }, () => {
-            this.getListInfo(this.state.searchContent)
         })
     }
 
@@ -246,11 +251,11 @@ class PredetermineList extends React.Component {
                     }}
                 />
                  </Tabs.TabPane>
-                 <Tabs.TabPane tab='待完成订单' key="2"> 
+                 <Tabs.TabPane tab='待确定' key="2"> 
                  <Table
                     size={'middle'}
                     columns={this.state.orderColumns}
-                    dataSource={this.state.order}
+                    dataSource={this.state.qued}
                     rowKey={'id'}
                     pagination={{
                         pageSize: this.state.pageSize,
@@ -263,7 +268,23 @@ class PredetermineList extends React.Component {
                     }}
                 />
                  </Tabs.TabPane>
-                 <Tabs.TabPane tab='已完成' key="3"> 
+                 <Tabs.TabPane tab='待完成订单' key="3"> 
+                 <Table
+                    size={'middle'}
+                    columns={this.state.orderColumns}
+                    dataSource={this.state.order}
+                    rowKey={'id'}
+                    pagination={{
+                        pageSize: this.state.pageSize,
+                        current: this.state.current,
+                        onChange: this.handlePageChange,
+                        total: this.state.total,
+                        showQuickJumper: true,
+                        showSizeChanger: true,
+                    }}
+                />
+                 </Tabs.TabPane>
+                 <Tabs.TabPane tab='已完成' key="4"> 
                  <Table
                     size={'middle'}
                     columns={this.state.orderColumns}

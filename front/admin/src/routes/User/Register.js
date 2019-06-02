@@ -43,22 +43,6 @@ class Register extends Component {
     help: '',
     prefix: '86'
   };
-
-  // componentWillReceiveProps (nextProps) {
-  //   const { form, dispatch } = this.props
-  //   const account = form.getFieldValue('mail')
-  //   if (nextProps.register.status === 'ok') {
-  //     dispatch(
-  //       routerRedux.push({
-  //         pathname: 'user/register-result',
-  //         state: {
-  //           account
-  //         }
-  //       })
-  //     )
-  //   }
-  // }
-
   componentWillUnmount () {
     clearInterval(this.interval)
   }
@@ -116,7 +100,7 @@ class Register extends Component {
         if (res.message === 'Register success') {
           this.linkToChange(`/user/login`)
           console.log("创建成功")
-          this.linkToChange('/setting/users')
+          this.linkToChange('/user/login')
       } else {
           // message.error(res.message)
           console.log("创建失败")
@@ -125,13 +109,11 @@ class Register extends Component {
         console.log(err)
       })
     }
-
   handleConfirmBlur = e => {
     const { value } = e.target
     const { confirmDirty } = this.state
     this.setState({ confirmDirty: confirmDirty || !!value })
   };
-
   // checkConfirm = (rule, value, callback) => {
   //   const { form } = this.props
   //   if (value && value !== form.getFieldValue('password')) {

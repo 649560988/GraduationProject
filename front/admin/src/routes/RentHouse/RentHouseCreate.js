@@ -581,7 +581,7 @@ import TableLayout from '../../layouts/TableLayout'
             </Form.Item>
 
 
-
+{/* 
             <Form.Item label = {'配套设施'} {...formItemLayout} >
             {getFieldDecorator('tags',{
                   rules: [{
@@ -602,7 +602,7 @@ import TableLayout from '../../layouts/TableLayout'
                 ))}
               </div>
               )}
-            </Form.Item>
+            </Form.Item> */}
     
             <Form.Item label = {'房屋描述'} {...formItemLayout} >
             {getFieldDecorator('houseDescription',{
@@ -698,7 +698,7 @@ import TableLayout from '../../layouts/TableLayout'
           } 
           </Form.Item> 
 
-        <Form.Item  {...formItemLayout} label = {'小区名称'} > 
+        <Form.Item  {...formItemLayout} label = {'公寓名称'} > 
         {getFieldDecorator('communityName', {
             rules: [{
               required: true,
@@ -888,7 +888,7 @@ import TableLayout from '../../layouts/TableLayout'
 
 
 
-            <Form.Item label = {'配套设施'} {...formItemLayout} >
+            {/* <Form.Item label = {'配套设施'} {...formItemLayout} >
             {getFieldDecorator('tags',{
                   rules: [{
                     // required: true,
@@ -908,7 +908,7 @@ import TableLayout from '../../layouts/TableLayout'
                 ))}
               </div>
               )}
-            </Form.Item>
+            </Form.Item> */}
     
             <Form.Item label = {'房屋描述'} {...formItemLayout} >
             {getFieldDecorator('houseDescription',{

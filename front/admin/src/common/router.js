@@ -123,6 +123,9 @@ export const getRouterData = app => {
     },
     '/predetermine/:id/:type':{
       component: dynamicWrapper(app,[],()=> import('../routes/Predetermine/Predetermine'))
+    },
+    '/yuyuekf':{
+      component: dynamicWrapper(app,[],()=> import('../routes/Predetermine/Yuyuekf'))
     }
     ,
     '/business/housestyle':{

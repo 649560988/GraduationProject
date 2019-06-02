@@ -13,7 +13,7 @@
     <select id="selectAllByPage" resultMap="BaseResultMap">
     select article.*
     from article
-	ORDER BY CREATED_TIME DESC
+	ORDER BY is_del asc,CREATED_TIME DESC
   </select>
     <update id="stopOrStart" parameterType="com.czhand.zsmq.domain.Article">
     update article

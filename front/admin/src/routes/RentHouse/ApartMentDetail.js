@@ -301,7 +301,7 @@ getCurrentCommit=()=>{
             <div >
             </div>
             <h3></h3>
-            <span> <h3> 小区名：{this.state.rentHouse.communityName}    地址：{this.state.rentHouse.province} {this.state.rentHouse.city}  {this.state.rentHouse.area}</h3></span>
+            <span> <h3> 公寓名：{this.state.rentHouse.communityName}    地址：{this.state.rentHouse.province} {this.state.rentHouse.city}  {this.state.rentHouse.area}</h3></span>
             
             <Divider />  
           <div style={{marginTop:'8px',marginLeft:'20px'}}>

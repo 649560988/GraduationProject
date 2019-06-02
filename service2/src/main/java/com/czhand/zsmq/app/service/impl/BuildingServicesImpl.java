@@ -36,7 +36,7 @@ public class BuildingServicesImpl implements BuildingServices {
     @Override
     public PageInfo<BuildingDTO> selectAllByPage(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        Page<Building> buildingPage=buildingPage=(Page)buildingMapper.selectAllByPage();
+        Page<Building> buildingPage=(Page)buildingMapper.selectAllByPage();
         Page<BuildingDTO> buildingDTOPage=ConvertPageHelper.convertPage(buildingPage,BuildingDTO.class);
         PageInfo<BuildingDTO> pageInfo=new PageInfo<>(buildingDTOPage);
         return pageInfo;

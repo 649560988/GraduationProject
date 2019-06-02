@@ -66,9 +66,9 @@ class RentHouseList extends React.Component {
                 render: (text, record) => {
                     let tag;
                     if (text === 0) {
-                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, marginLeft: 'auto', marginRight: 'auto' }} color={'#4CAF50'}>普通住房</Tag>
+                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 60, marginLeft: 'auto', marginRight: 'auto' }} color={'#4CAF50'}>普通住房</Tag>
                     } else if (text === 1) {
-                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 50, color: 'black', marginLeft: 'auto', marginRight: 'auto' }} color={'#E9E9E9'}>公寓</Tag>
+                        tag = <Tag checked={false} style={{ cursor: 'auto', width: 60, marginLeft: 'auto', marginRight: 'auto' }} color={'#4CAF50'}>公寓</Tag>
                     }
                     return (
                         tag

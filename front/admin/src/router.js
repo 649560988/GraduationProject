@@ -13,10 +13,7 @@ function RouterConfig ({ history, app }) {
   const routerData = getRouterData(app)
   const UserLayout = routerData['/user'].component
   const BasicLayout = routerData['/'].component
-  const RentHouse=routerData['/renthouse'].component
   const MyHome=routerData['/myhome'].component
-  const MyBuilding=routerData['/building'].component
-  const MyArticle=routerData['/article'].component
   return <LocaleProvider>
       <Fullscreen>
         <ConnectedRouter history={history}>
@@ -25,9 +22,6 @@ function RouterConfig ({ history, app }) {
             <Route path='/user' component={UserLayout} />
             <Route path='/exception' component={BasicLayout} />
             <Route path='/myhome' component={MyHome}/>    
-            <Route path='/renthouse' component={RentHouse}/>
-            <Route path='/building' component={MyBuilding}/>
-            <Route path='/article' component={MyArticle}/> 
             
             {/* <Route path='/menu-management' component={require('./routes/MenuManagement').default} /> */}
             <AuthorizedRoute

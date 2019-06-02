@@ -2,8 +2,6 @@ import './polyfill'
 import dva from 'dva'
 import axios from 'axios'
 import createHistory from 'history/createHashHistory'
-// user BrowserHistory
-// import createHistory from 'history/createBrowserHistory';
 import createLoading from 'dva-loading'
 import 'moment/locale/zh-cn'
 import router from './router'
@@ -44,6 +42,8 @@ function getCurrentUser(){
       app.start('#root')
     }
   }).catch(() => {
+    app.router(router)
+      app.start('#root')
     console.log('出错111')
   
   })

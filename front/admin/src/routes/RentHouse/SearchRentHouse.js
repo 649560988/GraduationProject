@@ -21,6 +21,9 @@ class SerachRentHouse extends Component{
             getCurrentRentHouseItem=(item)=>{
               this.linkToChange(`/renthouse-detail/${item.id}`)
             }
+            getCurrentApartmentItem=(item)=>{
+              this.linkToChange(`/apartment-detail/${item.id}`)
+            }
             linkToChange = url => {
               const { history } = this.props
               history.push(url)
@@ -104,7 +107,7 @@ class SerachRentHouse extends Component{
                               // avatar={ <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                               title={<a href="">{item.name}&nbsp;{item.city}</a>} 
                               description={
-                                <Ellipsis  lines={2}>
+                                <Ellipsis  lines={1}>
                                   {item.description}
                                 </Ellipsis>
                               }
@@ -120,17 +123,16 @@ class SerachRentHouse extends Component{
                     grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
                     dataSource={this.state.apertment}
                     renderItem={item => (
-                        <List.Item key={item.id} onClick={() => this.getCurrentRentHouseItem(item)}>
+                        <List.Item key={item.id} onClick={() => this.getCurrentApartmentItem(item)}>
                           <Card hoverable style={{ width: 300 }} 
                           cover={<img alt=""  size="large" src={`http://localhost:80/${item.srcs[0].src}`} style={{height:200 
                             ,width:300}}/>}
                           >
-                          {console.log('1111111111111',item)}
                             <Card.Meta
                               // avatar={ <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                               title={<a href="">{item.name}&nbsp;{item.city}</a>} 
                               description={
-                                <Ellipsis  lines={2}>
+                                <Ellipsis  lines={1}>
                                   {item.description}
                                 </Ellipsis>
                               }

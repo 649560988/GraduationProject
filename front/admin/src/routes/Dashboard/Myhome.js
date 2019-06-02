@@ -1,14 +1,11 @@
 import React, { Fragment } from 'react'
-import { Icon, Layout, Menu, Card, Avatar, List, Carousel, Button,Popover } from 'antd'
+import { Icon, Layout, Menu, Card, Avatar, List,message } from 'antd'
 import GlobalFooter from '../../components/GlobalFooter'
 import request from '../../utils/request'
 import Ellipsis from 'components/Ellipsis';
 import MyMenu from '../Menu/MyMenu';
 import TableLayout from '../../layouts/TableLayout'
-import BaseLayout from '../../layouts/BasicLayout'
 const { Footer, Content } = Layout
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
 // const { Content, Header } = Layout
 export default class Welcome extends React.Component {
   constructor(props){
@@ -16,48 +13,70 @@ export default class Welcome extends React.Component {
     this.state={
       buildingList: [],
       rentHouseList:[],
+      apartmentList:[],
       data: {},
       src:'0ae66068-146e-4984-ba80-b0419141c1f6.jpg',
-      rentHouseType:'0'
+      rentHouseType:'0',
+      apartment:'1',
+      able:false
     }
   }
   componentDidMount(){
     this. getBuildingList()
     this.getRentHouseList()
-    // this.getCurrentUser()
+    this.getapartmentList()
+    this.getCurrentUser()
 }
-
-/** 
- * 
- * 
- * 
- */
-
-// handleNoticeVisibleChange = visible => {
-//   const { dispatch } = this.props
-//   if (visible) {
-//     dispatch({
-//       type: 'global/fetchNotices'
-//     })
-//   }
-// };
-
-/** 
- * 
- * 
- * 
- */
-
-
-handclick=(aa)=>{
-  // alert("111")
-  console.log(aa.id)
+	//获取当前用户
+  getCurrentUser = () => {
+let url = '/v1/sysUserDomin/getAuth'
+request(url, {
+method: 'GET'
+}).then((res) => {
+if (res.message === '成功') {
+        this.setState({
+          able:true
+        })
+        console.log('this.state.able',this.state.able)
+} else {
+  this.setState({
+    able:false
+  })
+}
+}).catch(() => {})
 }
   getCurrentRentHouseItem=(item)=>{
-    this.linkToChange(`/renthouse-detail/${item.id}`)
+    
+    if(this.state.able){
+      this.linkToChange(`/renthouse-detail/${item.id}`)
+    }else{
+      var r=confirm('您还未登录，是否登录？')
+      if(r){
+        this.linkToChange(`/user/login`)
+      }
+    }
   }
   getCurrentBuildingItem=(item)=>{
-    this.linkToChange(`/building-detail/${item.id}`)
+    
+    if(this.state.able){
+      this.linkToChange(`/building-detail/${item.id}`)
+    }else{
+      var r=confirm('您还未登录，是否登录？')
+      if(r){
+        this.linkToChange(`/user/login`)
+      }
+    }
+  }
+  getCurrentApartmentItem=(item)=>{
+    
+    if(this.state.able){
+      this.linkToChange(`/apartment-detail/${item.id}`)
+    }else{
+      var r=confirm('您还未登录，是否登录？')
+      if(r){
+        this.linkToChange(`/user/login`)
+      }
+    }
   }
   linkToChange = url => {
     const { history } = this.props
@@ -92,7 +111,7 @@ handclick=(aa)=>{
       method: 'GET'
     }).then((res)=>{
       if(res.message=== '查询成功'){
-        
+        console.log('所有粗组我',res.data)
         let rentHouse=[]
         for(let i of res.data){
           rentHouse.push(i)
@@ -103,49 +122,36 @@ handclick=(aa)=>{
       }
     })
   }
-
-    // const imgStyle
-    // getCurrentUser = () => {
-    //   let url = '/v1/sysUserDomin/getAuth'
-    //   request(url, {
-    //       method: 'GET'
-    //   }).then((res) => {
-    //       if (res.message === '成功') {
-    //         let list=[]
-    //       res.data.sysRoles.map((item,index)=>{
-    //       list.push(item.name)
-    //       })
-    //       this.setState({
-    //         list
-    //       })
-    //       } else {
-    //           console.log(err)
-    //       }
-    //   }).catch(() => {})
-    // }
+  //获取所有公寓
+  getapartmentList=()=>{
+    let url= `/v1/wyw/renthouse/selectAll/${this.state.apartment}`
+    request(url,{
+      method: 'GET'
+    }).then((res)=>{
+      if(res.message=== '查询成功'){
+        
+        let rentHouse=[]
+        for(let i of res.data){
+          rentHouse.push(i)
+        }
+        this.setState({
+          apartmentList:rentHouse
+        })
+      }
+    })
+  }
     render () {
       const { Meta } = Card;
     return (
       <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
           <MyMenu></MyMenu>
+          {
+        this.state.able?<p></p>:
+        <a href='http://localhost:9090/#/user/login'><p style={{fontSize:'15px',color:'black'}}>还未登录，点击登录</p></a>
+      }
             <TableLayout
             title={'首页'}
         >
-      {/* <BaseLayout></BaseLayout> */}
-       {/* <Header style={{ padding: 0 }}>
-            <GlobalHeader
-              logo={logo}
-              currentUser={currentUser}
-              fetchingNotices={fetchingNotices}
-              notices={notices}
-              collapsed={collapsed}
-              isMobile={mb}
-              onNoticeClear={this.handleNoticeClear}
-              onCollapse={this.handleMenuCollapse}
-              onMenuClick={this.handleMenuClick}
-              onNoticeVisibleChange={this.handleNoticeVisibleChange}
-            />
-          </Header> */}
     <div style={{marginLeft:'10%'}}>
     <h1>热门楼盘</h1>
         <List
@@ -163,7 +169,6 @@ handclick=(aa)=>{
                       description={
                         <Ellipsis  lines={2}>
                           {item.description}
-                          <Button onClick={this.handclick} >oo</Button>
                         </Ellipsis>
                       }
                     />
@@ -174,12 +179,36 @@ handclick=(aa)=>{
           />
           <h1 >推荐好屋</h1>
            <List
-            rowKey="id"
-            grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
+            rowKey="createdTime"
+            grid={{ gutter: 24, column:4 }}
             dataSource={this.state.rentHouseList}
             renderItem={item => (
-              // <Popover >
                 <List.Item key={item.id} onClick={() => this.getCurrentRentHouseItem(item)}>
+                  <Card hoverable style={{ width: 300 }} 
+                  cover={<img alt=""  size="large" src={`http://localhost:80/${item.srcs[0].src}`} style={{height:200 
+                    ,width:300}}/>}
+                  >
+                    <Card.Meta
+                      title={<a href="">{item.communityName}&nbsp;{item.communityName}</a>} 
+                      description={
+                        <Ellipsis  lines={1}>
+                          {item.houseDescription}
+                        </Ellipsis>
+                      }
+                    />
+                  </Card>
+                </List.Item>
+                // </Popover>
+              ) 
+            }
+          />
+          <h1 >品牌公寓</h1>
+           <List
+            rowKey="id"
+            grid={{ gutter: 24, lg: 4, md: 2, sm: 1, xs: 1 }}
+            dataSource={this.state.apartmentList}
+            renderItem={item => (
+                <List.Item key={item.id} onClick={() => this.getCurrentApartmentItem(item)}>
                   <Card hoverable style={{ width: 300 }} 
                   cover={<img alt=""  size="large" src={`http://localhost:80/${item.srcs[0].src}`} style={{height:200 
                     ,width:300}}/>}

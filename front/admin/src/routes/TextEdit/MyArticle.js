@@ -100,7 +100,6 @@ class MyArticle extends React.Component {
             pageSize: 10,
             current: 1,
             total: 0,
-            myRentHouse:[]
         }
     }
 
@@ -108,34 +107,6 @@ class MyArticle extends React.Component {
     // componentWillMount() {
     //     this.getListInfo('')
     // }
-
-     //获取当前登陆人信息
-     getPersonalInfoById = (dataSource) => {
-        request('/v1/sysUserDomin/getAuth', {
-            method: 'GET',
-            // credentials: 'omit'
-        }).then((res) => {
-            if (res.message === '成功') {
-                let data=[]
-                console.log('获得的文章用回到我i为',dataSource)
-                console.log('获得的用回到我i为',res.data)
-
-                dataSource.map((item,index)=>{
-                    if(res.data.id==item.userId){
-                        data.push(item)
-                    }
-                })
-                this.setState({
-                    data: data,
-                })
-            } else {
-                message.error('获取当前登录人信息失败');
-            }
-        }).catch((err) => {
-            console.log(err)
-        })
-    }
-
     /**
      * 禁用或启用用户
      */
@@ -167,21 +138,30 @@ class MyArticle extends React.Component {
         })
     }
 
-    /**
-     *   跳转到编辑或添加页面
-     */
-    // handleLinkToDetail = (e, flag, id) => {
-    //     e.stopPropagation()
-    //     this.linkToChange(`/setting/user-update/${flag}/${id}`)
-    // };
+  	//获取当前用户
+      getCurrentUser = (value) => {
+        console.log('传递的职位',value)
+     let url = '/v1/sysUserDomin/getAuth'
+     request(url, {
+         method: 'GET'
+     }).then((res) => {
+         if (res.message === '成功') {
+            console.log('res.data',res.data)
+             let list=[]
+             for(let i of value){
+                 if(i.userId==res.data.id){
+                     list.push(i)
+                     console.log('接受的i   值为',list)
+                 }
+               }
+               console.log('接受的值为',list)
+    this.addToTable(list)
+         } else {
+             console.log(err)
+         }
+     }).catch(() => {})
+}
 
-    /***
-     *   路径跳转
-     */
-    // linkToChange = url => {
-    //     const { history } = this.props
-    //     history.push(url)
-    // };
 
     /**
      * 将信息填入表格
@@ -189,17 +169,17 @@ class MyArticle extends React.Component {
     addToTable = (data) => {
         let dataSource = []
         console.log(data)
-        data.list.map((item, index) => {
+        data.map((item, index) => {
         item.order=index+1
         let record=item;
         dataSource.push(record)
         })
-        this.getPersonalInfoById(dataSource)
-      
+        this.setState({
+            data: dataSource,
+        })
     }
     componentWillMount(){
         this.getBuilding()
-        
     }
 
     /**
@@ -222,7 +202,7 @@ class MyArticle extends React.Component {
            method: 'GET'
        }).then((res)=>{
            if(res.message=='成功'){
-            this.addToTable(res.data)
+            this.getCurrentUser(res.data.list)
            }
        })
    }

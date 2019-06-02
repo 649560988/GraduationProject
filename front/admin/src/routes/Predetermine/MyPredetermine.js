@@ -2,7 +2,7 @@ import React from 'react'
 import TableLayout from '../../layouts/TableLayout'
 import { Button, Table, Form, Icon, Tag, Tabs , message, Tooltip, Popconfirm} from 'antd'
 import request from '../../utils/request'
-
+import MyMenu from '../Menu/MyMenu';
 class MyPredetermine extends React.Component {
 
     constructor(props) {
@@ -28,6 +28,12 @@ class MyPredetermine extends React.Component {
             {
                 title: '租赁人姓名',
                 dataIndex: 'rentUserName',
+                align: 'center',
+                width: '15%',
+            }, 
+            {
+                title: '联系方式',
+                dataIndex: 'phone',
                 align: 'center',
                 width: '15%',
             }, 
@@ -172,7 +178,7 @@ class MyPredetermine extends React.Component {
             pageSize,
             current: page,
         }, () => {
-            this.getListInfo(this.state.searchContent)
+            // this.getListInfo(this.state.searchContent)
         })
     }
 
@@ -180,6 +186,8 @@ class MyPredetermine extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form
         return (
+            <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+            <MyMenu></MyMenu>
             <TableLayout
                 title={'我的预定'}
             >
@@ -195,12 +203,11 @@ class MyPredetermine extends React.Component {
                         total: this.state.total,
                         showQuickJumper: true,
                         showSizeChanger: true,
-                        onShowSizeChange: this.handlePageChange
+                        // onShowSizeChange: this.handlePageChange
                     }}
                 />
-                 
-                 
             </TableLayout>
+        </div>
         )
     }
 }

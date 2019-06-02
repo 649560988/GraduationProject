@@ -15,8 +15,6 @@ const {
   Tab,
   UserName,
   Password,
-  // Mobile,
-  // Captcha,
   Submit
 } = Login
 

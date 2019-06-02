@@ -15,42 +15,12 @@ class Predetermine extends Component{
             building:'',
             user:'',
             rentHouseAdmin:'',
-            predetermineOrder:{
-                userId:'',
-                userName:'',
-                houseId:'',
-                houseName:'',
-                type:'',
-                rentUserId:'',
-                rentUserName:'',
-                rentTime:'',
-                money:'',
-            }
         }
     }
     componentWillMount(){
-        
-        if(this.state.type==0){
             this.getCurrentRentHouse()
-        }else{
-            this.getCurrentBuilding()
-        }
         this.getCurrentUser()
     }
-    //获取当前楼盘信息
-    getCurrentBuilding=()=>{
-		let url=`/v1/wyw/building/${this.state.rentHouseId}`
-		request(url,{
-			method: "GET"
-		}).then((res)=>{
-			if(res.message=='查询成功'){
-                this.getAdmin(res.data.userId)
-			this.setState({
-				building:res.data
-			})
-			}
-		})
-	}
      //获取当前出租屋信息
   getCurrentRentHouse=()=>{
     let url=`/v1/wyw/renthouse/${this.state.rentHouseId}`
@@ -58,7 +28,6 @@ class Predetermine extends Component{
 			method: "GET"
 		}).then((res)=>{
 			if(res.message=='查询成功'){
-                console.log('获取当前记录信息',res.data);
             this.getAdmin(res.data.userId)
 			this.setState({
 				rentHouse:res.data,
@@ -110,7 +79,7 @@ class Predetermine extends Component{
       if (!err) {
         this.createOrder(values)
       }else{
-        console.log('获取的值',values)
+        
       }
     });
   }
@@ -118,16 +87,22 @@ class Predetermine extends Component{
   createOrder=(values)=>{
     let url=`/v1/wyw/rentOrder/insertOne`
     values.type=this.state.type
+    values.phone=this.state.rentHouse.contactInformation
     console.log('订单创建的值',values)
     request(url,{
             method: "POST",
             body: values
 		}).then((res)=>{
-			if(res.message=='查询成功'){
-                message.success('创建成功')
+			if(res.message=='成功'){
+                message.success('订单已创建，等待屋主确认')
+                this.linkToChange('/myhome')
 			}
 		})
   }
+  linkToChange = url => {
+    const { history } = this.props
+    history.push(url)
+  };
     render(){
         const {getFieldDecorator} = this.props.form;
         return(

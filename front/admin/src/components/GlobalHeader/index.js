@@ -1,5 +1,5 @@
 import React, { PureComponent ,Fragment} from 'react'
-import { Menu, Icon, Spin, Tag, Drawer, Avatar, Dropdown, Divider, Button } from 'antd'
+import { Menu, Icon, Spin, Tag, Drawer, Avatar, Dropdown, Divider, Button,message } from 'antd'
 import moment from 'moment'
 import groupBy from 'lodash/groupBy'
 import Debounce from 'lodash-decorators/debounce'
@@ -36,7 +36,7 @@ class GlobalHeader extends PureComponent {
     this.state={
       cuttentItem: '首页',
       list:[],
-      isCurrentUser:false
+      isCurrentUser:false,
     }
   }
   state = {
@@ -64,9 +64,9 @@ componentWillMount(){
           isCurrentUser:true
         })
         } else {
-            console.log(err)
         }
-    }).catch(() => {})
+    }).catch(() => {
+    })
   }
   getNoticeData () {
     const { notices } = this.props
@@ -129,6 +129,10 @@ componentWillMount(){
   }
 
   onMenuClick = (...args) => {
+    // if(args instanceof 'logout'){
+    console.log('args',args)
+
+    // }
     this.setState({
       drawerVisible: false
     })
@@ -158,13 +162,10 @@ componentWillMount(){
     return (
      
       <div className={styles.header}  >
-          {isMobile && [
-          <Link to="/" className={styles.logo} key="logo">
-            <img src={logo} alt="logo" width="20" />
-          </Link>,
-          <Divider type="vertical" key="line" />,
-        ]}
-        <Icon
+      {
+        this.state.isCurrentUser ?
+        <div>
+         <Icon
           className={styles.trigger}
           type={collapsed ? 'menu-unfold' : 'menu-fold'}
           onClick={this.toggle}
@@ -238,65 +239,60 @@ componentWillMount(){
                           </Menu.Item>
                           {
                          (this.state.list.indexOf('building_user')>-1)?
-                         <Menu.Item >
+                         <Menu.SubMenu  title={<span style={{fontSize:'15px'}}><strong>出租屋中心</strong></span>}>
+                        <Menu.Item >
                          <a href= " http://localhost:9090/#/renthouse-create"><span style={{fontSize:'15px'}}><strong>发布出租屋</strong></span></a>
                          </Menu.Item>
-                         :
-                         <p></p>
-                          }
-                           {
-                         (this.state.list.indexOf('building_user')>-1)?
-                         <Menu.Item >
-                          <a href= " http://localhost:9090/#/building-create"><span style={{fontSize:'15px'}}><strong>发布楼盘</strong></span></a>
-                          </Menu.Item>
-                         :
-                         <p></p>
-                          }
-                       
-                          {
-                         (this.state.list.indexOf('building_user')>-1)?
-                         <Menu.Item >
-                         <a href= " http://localhost:9090/#/edit-html"><span style={{fontSize:'15px'}}><strong>发布楼讯</strong></span></a>
-                         </Menu.Item>
-                         :
-                         <p></p>
-                          }
-                           {
-                         (this.state.list.indexOf('building_user')>-1)&&(this.state.list.indexOf('admin')==-1)?
                          <Menu.Item >
                          <a href= " http://localhost:9090/#/myrenthouse"><span style={{fontSize:'15px'}}><strong>我的出租屋</strong></span></a>
                          </Menu.Item>
+                         </Menu.SubMenu>
                          :
                          <p></p>
                           }
-                             {
+                           {
                          (this.state.list.indexOf('building_user')>-1)?
+                         <Menu.SubMenu  title={<span style={{fontSize:'15px'}}><strong>楼盘中心</strong></span>}>
+                       <Menu.Item >
+                          <a href= " http://localhost:9090/#/building-create"><span style={{fontSize:'15px'}}><strong>发布楼盘</strong></span></a>
+                          </Menu.Item>
+                          <Menu.Item >
+                         <a href= " http://localhost:9090/#/edit-html"><span style={{fontSize:'15px'}}><strong>发布楼讯</strong></span></a>
+                         </Menu.Item>
                          <Menu.Item >
                          <a href= " http://localhost:9090/#/mybuilding"><span style={{fontSize:'15px'}}><strong>我的楼盘信息</strong></span></a>
                          </Menu.Item>
-                         :
-                         <p></p>
-                          }
-                              {
-                         (this.state.list.indexOf('building_user')>-1)?
                          <Menu.Item >
                          <a href= " http://localhost:9090/#/myarticle"><span style={{fontSize:'15px'}}><strong>我的楼讯</strong></span></a>
                          </Menu.Item>
+                         </Menu.SubMenu>
                          :
                          <p></p>
                           }
                             {
                          (this.state.list.indexOf('building_user')>-1)?
                          <Menu.Item >
-                         <a href= " http://localhost:9090/#/my-predetermine"><span style={{fontSize:'15px'}}><strong>我的预定</strong></span></a>
+                         <a href= " http://localhost:9090/#/question-create"><span style={{fontSize:'15px'}}><strong>我要问</strong></span></a>
                          </Menu.Item>
                          :
                          <p></p>
                           }
                             {
                          (this.state.list.indexOf('building_user')>-1)?
+                         <Menu.SubMenu  title={<span style={{fontSize:'15px'}}><strong>预定中心</strong></span>}>
                          <Menu.Item >
-                         <a href= " http://localhost:9090/#/my-order"><span style={{fontSize:'15px'}}><strong>我的订单</strong></span></a>
+                         <a href= " http://localhost:9090/#/my-predetermine"><span style={{fontSize:'15px'}}><strong>我的预定</strong></span></a>
+                          </Menu.Item>
+                          <Menu.Item >
+                        <a href= " http://localhost:9090/#/my-order"><span style={{fontSize:'15px'}}><strong>我的订单</strong></span></a>
+                          </Menu.Item>
+                         </Menu.SubMenu>
+                          :<p></p>
+                            }
+                          {
+                         (this.state.list.indexOf('building_user')>-1)?
+                         <Menu.Item >
+                         <a href= " http://localhost:9090/#/yuyuekf"><span style={{fontSize:'15px'}}><strong>预约看房</strong></span></a>
                          </Menu.Item>
                          :
                          <p></p>
@@ -318,12 +314,10 @@ componentWillMount(){
             </Drawer>
           </React.Fragment>
         </div>
-        <div
-        className={styles.right} >
-     
-     </div>
-  
-        
+        </div>
+        :
+      <p></p>
+      }
       </div>
     );
   }

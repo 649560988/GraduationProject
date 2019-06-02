@@ -89,9 +89,6 @@ class BuildingList extends React.Component {
                     }
                     return (
                         <div>
-                            <Tooltip title={'编辑'} placement={'bottom'}>
-                                <Button style={{ marginRight: '5px' }} onClick={(e) => this.handleLinkToDetail(e, 'edit', record.id)}><Icon type={'edit'} /></Button>
-                            </Tooltip>
                             {actionDel}
                         </div>
                     )
@@ -104,11 +101,6 @@ class BuildingList extends React.Component {
             total: 0,
         }
     }
-
-
-    // componentWillMount() {
-    //     this.getListInfo('')
-    // }
     /**
      * 禁用或启用用户
      */
@@ -240,7 +232,6 @@ class BuildingList extends React.Component {
             pageSize,
             current: page,
         }, () => {
-            this.getListInfo(this.state.searchContent)
         })
     }
 
@@ -279,7 +270,6 @@ class BuildingList extends React.Component {
                         total: this.state.total,
                         showQuickJumper: true,
                         showSizeChanger: true,
-                        onShowSizeChange: this.handlePageChange
                     }}
                 />
             </TableLayout>

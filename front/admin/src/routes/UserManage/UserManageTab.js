@@ -208,7 +208,7 @@ class UserManageTab extends React.Component {
         let dataSource = []
         data.list.map((item, index) => {
           item.sysRoles.map((mitem)=>{
-              if(mitem.name=='common_user'||mitem.name=='building_user'){
+              if(mitem.name!='admin'&& mitem.name=='building_user'){
                 item.order = this.state.order++;
                 let record = item
                 dataSource.push(record)
@@ -250,7 +250,6 @@ class UserManageTab extends React.Component {
         })
         data.then((res) => {
             if (res.message === '成功') {
-                console.log("message",res.data)
                 this.addToTable(res.data)
                 this.setState({
                     searchContent: value,

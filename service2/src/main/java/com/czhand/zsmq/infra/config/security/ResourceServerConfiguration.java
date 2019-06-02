@@ -43,7 +43,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
                 .antMatchers("/swagger-ui.html","/webjars/**","/v2/**","/swagger-resources/**").permitAll()
                 .antMatchers("/oauth/**").permitAll()
-                .antMatchers("/user/register").permitAll()
+                .antMatchers("/user/**").permitAll()
                 .antMatchers("/v1/wyw/**").permitAll()
                 .antMatchers("/v1/sysUserDomin/getAuth").permitAll()
                 .antMatchers("/v1/sysuser/**").permitAll()

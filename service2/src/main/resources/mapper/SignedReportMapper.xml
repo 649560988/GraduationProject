@@ -20,8 +20,13 @@
     <result column="type" jdbcType="INTEGER" property="type" />
   </resultMap>
   <select id="selectAllByPage" resultMap="BaseResultMap">
-    select *
+   select *
     from signed_report
-    where is_resolve = 0
+    ORDER BY is_resolve asc
   </select>
+  <update id="updataOne" parameterType="java.lang.Long">
+    update signed_report
+    set is_resolve=1
+    where id=#{id}
+  </update>
 </mapper>

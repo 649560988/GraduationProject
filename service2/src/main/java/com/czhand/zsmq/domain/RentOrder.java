@@ -66,9 +66,18 @@ public class RentOrder implements Serializable {
      */
     @Column(name = "money")
     private String money;
-
+    @Column(name = "phone")
+    private String phone;
     public Integer getIsdel() {
         return isdel;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void setIsdel(Integer isdel) {

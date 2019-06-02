@@ -2,7 +2,7 @@ import React from 'react'
 import TableLayout from '../../layouts/TableLayout'
 import { Button, Table, Form, Icon, Tag, Tabs, message, Tooltip, Popconfirm } from 'antd'
 import request from '../../utils/request'
-
+import MyMenu from '../Menu/MyMenu';
 class MyOrder extends React.Component {
 
     constructor(props) {
@@ -27,6 +27,12 @@ class MyOrder extends React.Component {
             {
                 title: '租赁人姓名',
                 dataIndex: 'rentUserName',
+                align: 'center',
+                width: '15%',
+            }, 
+            {
+                title: '联系方式',
+                dataIndex: 'phone',
                 align: 'center',
                 width: '15%',
             }, 
@@ -172,7 +178,8 @@ class MyOrder extends React.Component {
             wc:3,
             order:[],
             dfinish:[],
-            finish:[]
+            finish:[],
+            pageSize:10
         }
     }
     handleOnDel = (flag, id,houseId) => {
@@ -180,6 +187,7 @@ class MyOrder extends React.Component {
         if (flag === 'jx') {
             url = `/v1/wyw/rentOrder/updateOne/${id}/${this.state.jx}`
             this.rentRent(houseId)
+            message.success('zhesss')
         } else if (flag === 'wc') {
           url = `/v1/wyw/rentOrder/updateOne/${id}/${this.state.wc}`
         }
@@ -220,7 +228,6 @@ class MyOrder extends React.Component {
     }
     	//获取当前用户
         getCurrentUser = (value) => {
-            console.log('传递的职位',value)
          let url = '/v1/sysUserDomin/getAuth'
          request(url, {
              method: 'GET'
@@ -281,7 +288,6 @@ class MyOrder extends React.Component {
             pageSize,
             current: page,
         }, () => {
-            this.getListInfo(this.state.searchContent)
         })
     }
 
@@ -289,13 +295,12 @@ class MyOrder extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form
         return (
+            <div style={{ padding: 20, overflowY: 'auto', flex: 1 }}>
+            <MyMenu></MyMenu>
             <TableLayout
                 title={'我的订单'}
             >
             <Tabs defaultActiveKey="1">
-                 <Tabs.TabPane tab='出租屋订单' key="1"> 
-
-                 <Tabs defaultActiveKey="1">
                  <Tabs.TabPane tab='等待确定订单' key="1"> 
                  <Table
                     size={'middle'}
@@ -309,7 +314,6 @@ class MyOrder extends React.Component {
                         total: this.state.total,
                         showQuickJumper: true,
                         showSizeChanger: true,
-                        onShowSizeChange: this.handlePageChange
                     }}
                 />
                  </Tabs.TabPane>
@@ -364,16 +368,9 @@ class MyOrder extends React.Component {
                     }}
                 />
                  </Tabs.TabPane>
-                 </Tabs>
-
-
-                 </Tabs.TabPane>
-                 <Tabs.TabPane tab='楼盘订单' key="2"> 
-                 </Tabs.TabPane>
-            </Tabs>     
-              
-               
+                 </Tabs>  
             </TableLayout>
+            </div>
         )
     }
 }

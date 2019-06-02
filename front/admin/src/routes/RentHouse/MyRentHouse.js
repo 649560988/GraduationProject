@@ -288,7 +288,6 @@ class MyRentHouse extends React.Component {
             pageSize,
             current: page,
         }, () => {
-            this.getListInfo(this.state.searchContent)
         })
     }
 
@@ -327,7 +326,6 @@ class MyRentHouse extends React.Component {
                         total: this.state.total,
                         showQuickJumper: true,
                         showSizeChanger: true,
-                        onShowSizeChange: this.handlePageChange
                     }}
                 />
             </TableLayout>

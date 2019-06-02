@@ -172,7 +172,7 @@ onSubmit=()=>{
           confirmLoading={this.state.confirmLoading}
           onCancel={this.handleCancel}
         >
-          <label>请输入</label><input value={this.state.inputValue} onChange={this.handInputChange.bind(this)}/>
+          <label>请输入</label><input value={this.state.inputValue} maxLength='17' onChange={this.handInputChange.bind(this)}/>
         </Modal>
         </TableLayout>
       </div>

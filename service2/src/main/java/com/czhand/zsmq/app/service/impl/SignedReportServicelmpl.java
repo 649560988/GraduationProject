@@ -64,4 +64,13 @@ public class SignedReportServicelmpl implements SignedReportService {
         PageInfo<SingerReportDTO> singerReportDTOPageInfo=new PageInfo<>(singerReportDTOS);
         return singerReportDTOPageInfo;
     }
+
+    @Override
+    public Integer upDataOne(Long id) {
+        Integer result=signedReportMapper.updataOne(id);
+        if(result!=1){
+            throw new CommonException("插入失败");
+        }
+        return result;
+    }
 }

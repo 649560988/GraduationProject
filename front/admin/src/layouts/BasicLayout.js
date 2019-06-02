@@ -20,7 +20,7 @@ import axios from 'axios/index'
 import { FormattedMessage } from 'react-intl'
 import styles from './BasicLayout.less'
 import IndexPage from './IndexPage'
-
+import request from '../utils/request'
 const { Content, Header } = Layout
 const { AuthorizedRoute } = Authorized
 
@@ -371,12 +371,21 @@ class BasicLayout extends React.PureComponent {
       return
     }
     if (key === 'logout') {
+     this.logout()
       dispatch({
         type: 'login/logout'
       })
     }
   };
-
+   /**
+     * 创建新用户
+     */
+    logout= () => {
+      request('/user/logout',{
+        method: 'POST',
+      }
+      )
+    }
   handleOnCancel = () => {
     this.setState({
       visible: false

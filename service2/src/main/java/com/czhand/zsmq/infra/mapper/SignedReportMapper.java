@@ -9,4 +9,5 @@ import java.util.List;
 @Component
 public interface SignedReportMapper extends BaseMapper<SignedReport> {
     List<SignedReport> selectAllByPage();
+    Integer updataOne(Long id);
 }

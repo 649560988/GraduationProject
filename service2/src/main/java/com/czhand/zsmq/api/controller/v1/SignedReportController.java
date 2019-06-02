@@ -74,5 +74,18 @@ public class SignedReportController {
         }
         return  ResponseUtils.res(singerReportDTOPageInfo,message);
     }
-    
+    @ApiOperation("跟新举报")
+    @GetMapping("/upData/{id}")
+    public  ResponseEntity<Data<Integer>> upData(
+            @PathVariable("id")Long id
+    ){
+        String message="成功";
+        Integer result=null;
+        try {
+            result=signedReportService.upDataOne(id);
+        }catch (Exception e){
+            message = "失败";
+        }
+        return  ResponseUtils.res(result,message);
+    }
 }

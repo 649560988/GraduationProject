@@ -621,7 +621,7 @@ class UpdateUserInfo extends React.Component {
                       <Select
                         placeholder={'请选择角色'}
                         defaultActiveFirstOption={false}
-                        mode={'multiple'}
+                        // mode={'multiple'}
                         onChange={this.roleChoose}
                         style={{textAlign: 'center'}} >
                         {this.state.roleOptions}

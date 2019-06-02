@@ -4,8 +4,10 @@ import com.czhand.zsmq.api.controller.v1.validator.UserValidator;
 import com.czhand.zsmq.api.dto.SysUserDTO;
 import com.czhand.zsmq.app.service.EntBaseService;
 import com.czhand.zsmq.app.service.UserEntService;
+import com.czhand.zsmq.domain.SysUser;
 import com.czhand.zsmq.infra.exception.CommonException;
 import com.czhand.zsmq.infra.utils.ArgsUtils;
+import com.czhand.zsmq.infra.utils.security.CurrentUserUtils;
 import com.czhand.zsmq.infra.utils.web.ResponseUtils;
 import com.czhand.zsmq.infra.utils.web.dto.Data;
 import io.swagger.annotations.Api;
@@ -16,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+
+import java.security.Principal;
 
 /**
  * @author:jpf
@@ -81,19 +86,19 @@ public class UserContoller {
 //		return ResponseUtils.res(result, message);
 //	}
 //
-//	@ApiOperation(value = "退出登陆", notes = "退出登陆")
-//	@PostMapping("/logout")
-//	public ResponseEntity<Data<SysUser>> logoutUser(@ApiIgnore Principal principal){
-//
-//		try {
-//			CurrentUserUtils.clear(principal);
-//		}catch (RuntimeException e){
-//
-//			e.printStackTrace();
-//		}
-//
-//		return ResponseUtils.res(null,HttpStatus.NO_CONTENT);
-//	}
+	@ApiOperation(value = "退出登陆", notes = "退出登陆")
+	@PostMapping("/logout")
+	public ResponseEntity<Data<SysUser>> logoutUser(@ApiIgnore Principal principal){
+
+		try {
+			CurrentUserUtils.clear(principal);
+		}catch (RuntimeException e){
+
+			e.printStackTrace();
+		}
+
+		return ResponseUtils.res(null,HttpStatus.NO_CONTENT);
+	}
 
 
 

@@ -18,6 +18,7 @@
     <result column="isdel" jdbcType="INTEGER" property="isdel" />
     <result column="rent_time" jdbcType="INTEGER" property="rentTime" />
     <result column="money" jdbcType="VARCHAR" property="money" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
   </resultMap>
   <select id="selectAllByStatus" resultMap="BaseResultMap">
     select ro.*

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'dva'
 import { Spin } from 'antd'
 import { Redirect } from 'dva/router'
-
+import request from '../../src/utils/request'
 export default
 @connect(({ menu }) => ({
   menu
@@ -38,10 +38,46 @@ class IndexPage extends React.Component {
         return item.children.find(item => getFirstMenu(item))
       }
       const redirect = getFirstMenu({ children: menu.menuData })
-      return redirect ? redirect.path : '/exception/404'
+      console.log('redirect',redirect)
+        return '/home'
+        // return redirect ? redirect.path : '/exception/404'
+      
+      
     }
   }
-
+//   componentWillMount(){
+//     this.getCurrentUser()
+//   }
+//  getCurrentUser(){
+//     console.log('进入函数')
+//     let url = '/v1/sysUserDomin/getAuth'
+//    request(url, {
+//         method: 'GET'
+//     }).then((res) => {
+//       if (res.message === '成功') {
+//         console.log('redirect','吱吱吱吱吱吱吱吱')
+//         res.data.sysRoles.map((item,index)=>{
+//         if(item.indexOf('building_user')>-1){
+//           this.setState({
+//             user:true
+//           })
+//         }
+//         if(item.indexOf('admin')>-1){
+//           this.setState({
+//             admin:true
+//           })
+//         }
+//         })
+//       } 
+//       else 
+//       {
+//         console.log('res.data未登录')
+//       }
+//     }).catch(() => {
+//       console.log('res.data出错')
+    
+//     })
+//   }
   render () {
     const { menu } = this.props
     if (menu.isLoading) return <Spin />

@@ -1,4 +1,3 @@
-
 import React from 'react'
 import TableLayout from '../../layouts/TableLayout'
 import { Button, Table, Form, Icon, Tag, message, Tooltip, Popconfirm ,Drawer} from 'antd'
@@ -50,53 +49,10 @@ class SingerReport extends React.Component {
                 // type:'bu',
                 render:(text, record)=>{
                     let tag;
-                    tag= <Button onClick={() => this.linkToPage(record.infoId,record.type)}>1111</Button>
+                    tag= <Button onClick={() => this.linkToPage(record.infoId,record.type)}>查看详细信息</Button>
                     return (
                         tag
                     )
-                //     <div>
-                //     <Button type="primary" onClick={this.showDrawer}>
-                //     举报
-                //    </Button>
-                //    <Drawer
-                //     title="举报信息"
-                //     placement="right"
-                //     closable={false}
-                //     onClose={this.onClose}
-                //     visible={this.state.visible}
-                //    width='20%'
-                //   >
-                //     <p>请勿恶意举报</p>
-                //     <Form onSubmit={this.myHandleSubmit.bind(this)}>
-                //     <Form.Item label = {'被举报人'}>
-                //       {getFieldDecorator('againstUsername', {
-                //         initialValue: this.state.building.userName,
-                //       })(<Input size='large'  disabled='disabled' />)}
-                //     </Form.Item>
-                //     <Form.Item  label={'举报人'}>
-                //                   {getFieldDecorator('informerUsername', {
-                //                       initialValue: this.state.data.informerUsername,
-                //                   })(
-                //                       <Input placeholder={'请输入用户名'} disabled='disabled' />
-                //                   )}
-                //               </Form.Item>
-                
-                //     <Form.Item label={'举报类型'}>
-                //       {getFieldDecorator('violationType', {
-                //         initialValue: this.state.data.violationType,
-                //       })(
-                //         <Input placeholder={'请输入用户名'} disabled='disabled' />
-                //       )}
-                //     </Form.Item>
-                //     <Form.Item label={'举报描述'}>
-                //       {getFieldDecorator('violationContent', {
-                //            initialValue: this.state.data.violationContent,
-                //       })(<TextArea prefix = {< Icon type = "user" style = {{ color: 'rgba(0,0,0,.25)'} }/>}
-                //       placeholder="请输入举报描述" />)}
-                //     </Form.Item>
-                //     </Form>
-                //   </Drawer>
-                //   </div>
                 }
             },{
                 title: '是否处理',
@@ -128,7 +84,7 @@ class SingerReport extends React.Component {
                                     title={'确定要重新发布?'}
                                     okText={'是'}
                                     cancelText={'否'}
-                                    onConfirm={(e) => this.handleOnDel('on', record.id)}
+                                   
                                 >
                                     <Button style={{ marginRight: '5px' }}><Icon type='check-circle-o' style={{ color: '#4CAF50' }} /></Button>
                                 </Popconfirm>
@@ -140,7 +96,7 @@ class SingerReport extends React.Component {
                                     title={'确定要禁用此信息吗?'}
                                     okText={'是'}
                                     cancelText={'否'}
-                                    onConfirm={(e) => this.handleOnDel('off', record.id)}
+                                    onConfirm={(e) => this.handleOnDel(record.id,record.infoId,record.type)}
                                 >
                                     <Button style={{ marginRight: '5px' }} type={'danger'}><Icon type='minus-circle-o' /></Button>
                                 </Popconfirm>
@@ -153,6 +109,18 @@ class SingerReport extends React.Component {
                             </Tooltip>
                             {actionDel}
                         </div>
+                    )
+                }
+            }, {
+                title:'不制裁',
+                dataIndex:'cation',
+                align:'center',
+                // type:'bu',
+                render:(text, record)=>{
+                    let tag;
+                    tag= <Button onClick={() => this.zhicai(record.id)}>不处理</Button>
+                    return (
+                        tag
                     )
                 }
             }],
@@ -174,47 +142,64 @@ class SingerReport extends React.Component {
           visible: true,
         });
         };
-        linkToPage=(id,type)=>{
-            message.success('www',id)
-            console.log('www',id)
+linkToPage=(id,type)=>{
             if(type==1){
                 this.linkToChange(`/building-detail/${id}`)
+            }else{
+                this.getCurrentRentHouse(id)
             }
             
         }
-          linkToChange = url => {
+zhicai=(id)=>{
+  let url=  `/v1/wyw/signedreport/upData/${id}`
+  request(url,{
+    method: "GET"
+}).then((res)=>{
+    if(res.message=='成功'){
+       this.getBuilding()
+    }
+})              
+            }
+            
+        
+        //获取当前出租屋信息
+  getCurrentRentHouse=(id)=>{
+    let url=`/v1/wyw/renthouse/${id}`
+    request(url,{
+			method: "GET"
+		}).then((res)=>{
+			if(res.message=='查询成功'){
+                if(res.data.type==0){
+                    this.linkToChange(`/renthouse-detail/${id}`)
+                }else{
+                    this.linkToChange(`/apartment-detail/${id}`)
+                }
+			}
+		})
+  }
+    linkToChange = url => {
             const { history } = this.props
             history.push(url)
           };
-    // componentWillMount() {
-    //     this.getListInfo('')
-    // }
     /**
      * 禁用或启用用户
      */
-    handleOnDel = (flag, id) => {
+    handleOnDel = (id,infoId,type) => {
         let url = ''
-        let successMsg = ''
-        let failedMsg = ''
-        if (flag === 'on') {
-            url = `/v1/wyw/renthouse/stopOrStart/${id}/0`
-            successMsg = '启用成功'
-            failedMsg = '启用失败'
-        } else if (flag === 'off') {
-            url = `/v1/wyw/renthouse/stopOrStart/${id}/1`
-            successMsg = '禁用成功'
-            failedMsg = '禁用失败'
+        if(type==0){
+            url = `/v1/wyw/renthouse/stopOrStart/${infoId}/1`
+        }else{
+            url = `/v1/wyw/building/stopOrStart/${infoId}/1`
         }
         request(url, {
             method: 'GET',
             // credentials: 'omit'
         }).then((res) => {
             if (res.message === '成功') {
-                message.success(successMsg)
-                // this.getListInfo(this.state.searchContent)
-                this.getBuilding()
+                message.success('处理')
+                this.zhicai(id)
             } else {
-                message.error(failedMsg)
+                message.error(处理)
             }
         }).catch((err) => {
             console.log(err)
@@ -242,7 +227,6 @@ class SingerReport extends React.Component {
      */
     addToTable = (data) => {
         let dataSource = []
-        console.log(data)
         data.list.map((item, index) => {
         item.order=index+1
         let record=item;
@@ -279,7 +263,7 @@ class SingerReport extends React.Component {
 // }
 
    /** 
-    * 获取楼盘信息
+    * 获取举报信息
     * */ 
    getBuilding=()=>{
        let url= '/v1/wyw/signedreport/selectAll?pageNo='+this.state.current+'&pageSize=' + this.state.pageSize
@@ -288,6 +272,7 @@ class SingerReport extends React.Component {
        }).then((res)=>{
            if(res.message=='成功'){
             this.addToTable(res.data)
+            console.log('获取到的举报为：',res.data)
            }
        })
    }

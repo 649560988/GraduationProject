@@ -55,12 +55,12 @@ class BuildingDetail extends Component{
 			visible:false,
 			rentHouseAdmin:'',
 			building:{},
-			houseStyles:[]
+			houseStyles:[],
+			able:true
 		}
 	}
 	componentWillMount(){
 		this.getCurrentBuilding()
-		this.getCurrentUser()
 		this.getCurrentCommit()
 	}
 	onClose = () => {
@@ -74,6 +74,7 @@ class BuildingDetail extends Component{
       visible: true,
     });
 	};
+	//获取当前登陆人信息
 	getAdmin=(id)=>{
 		let url=`/v1/sysuser/${id}`
 		console.log('获取当前id',id);
@@ -123,6 +124,7 @@ class BuildingDetail extends Component{
         });      
         local.search(res.data.province + res.data.city + res.data.area + res.data.communityName);
 				this.getAdmin(res.data.userId)
+		    this.getCurrentUser(res.data.userId)
 			this.setState({
 				building: res.data,
 				pictures: res.data.srcs,
@@ -167,10 +169,30 @@ class BuildingDetail extends Component{
 		}
 		//预定
 		predetermine=()=>{
-			var r=confirm('由于交易金额过大，请谨慎交易，在未辨别真假前，请勿轻易付款给对方！')
-			if(r){
-				this.linkToChange(`/predetermine/${this.state.Bid}/${this.state.type}`)
+			if(this.state.able){
+				let values={}
+				values.userId=this.state.Uid
+				values.userName=this.state.Uname
+				values.rentUserId=this.state.rentHouseAdmin.id
+				values.rentUserName=this.state.rentHouseAdmin.userName
+				values.houseId=this.state.building.id
+				values.houseName=this.state.building.name
+				values.type=1
+				values.phone=this.state.building.phone
+				let url=`/v1/wyw/rentOrder/insertOne`
+				request(url,{
+					method: "POST",
+					body: values
+	}).then((res)=>{
+		if(res.message=='成功'){
+		message.success('创建成功')
+		// this.linkToChange('/m')
+		}
+	})
+			}else{
+				// alert('')
 			}
+		
 		}
 		   //点击跳转
 			 linkToChange = url => {
@@ -178,13 +200,18 @@ class BuildingDetail extends Component{
 				history.push(url)
 			};
 		//获取当前用户
-	  getCurrentUser = () => {
+	  getCurrentUser = (data) => {
 		let url = '/v1/sysUserDomin/getAuth'
 		request(url, {
 			method: 'GET'
 		}).then((res) => {
 			if (res.message === '成功') {
 				console.log('获取当前用户',res.data)
+				if(data==res.data.id){
+					this.setState({
+						able:false
+					})
+				}
 				this.setState({
 					Uid:res.data.id,
 					Uname:res.data.userName
@@ -303,10 +330,12 @@ class BuildingDetail extends Component{
 			</div>
              </div>
 						 <div>
-            <Button type="primary" onClick={this.showDrawer}>
-          举报
-         </Button>
-				 <Button onClick={this.predetermine}>预定</Button>
+         
+				 {
+					 this.state.able?<div>    <Button type="primary" onClick={this.showDrawer}>
+					 举报
+					</Button><Button onClick={this.predetermine}>预定</Button></div>:<p></p>
+				 }
          <Drawer
           title="举报r"
           placement="right"
@@ -379,7 +408,6 @@ class BuildingDetail extends Component{
           htmlType = "submit" >
           举报
           </Button> 
-          
           </Form.Item> 
           </Form>
         </Drawer>
@@ -423,9 +451,14 @@ class BuildingDetail extends Component{
             <Tabs.TabPane tab="Tab 3" key="3">Content of Tab Pane 3</Tabs.TabPane>
             </Tabs>,	
 			  </div>
+				<Divider /> 
+        <h1 style={{ marginTop:'15px'}}>楼盘描述</h1>
+				<p>{this.state.building.description}</p>
 			</div>
 			<div>
 				<div>
+				<Divider /> 
+				<h1 style={{ marginTop:'15px'}}>评论</h1>
 				<List className = "comment-list"
                     header = {`${this.state.usercomment.length} 条评论`}
                     itemLayout = "horizontal"

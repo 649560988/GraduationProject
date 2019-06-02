@@ -12,4 +12,5 @@ import com.github.pagehelper.PageInfo;
 public interface SignedReportService {
     Integer InsertSignedReport(SingerReportDTO singerReportDTO,Long againstId,Long informerId,Integer type,Long info_id)throws CommonException;
     PageInfo<SingerReportDTO> selectAll(int pageNo, int pageSize);
+    Integer upDataOne(Long id);
 }

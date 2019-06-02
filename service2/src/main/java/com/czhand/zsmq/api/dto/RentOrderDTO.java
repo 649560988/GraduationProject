@@ -65,9 +65,22 @@ public class RentOrderDTO {
      */
     @ApiModelProperty("交付金额")
     private String money;
-
+    @ApiModelProperty("联系方式")
+    private String phone;
     public void setIsdel(Integer isdel) {
         this.isdel = isdel;
+    }
+
+    public Integer getIsdel() {
+        return isdel;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Long getId() {

@@ -55,10 +55,10 @@ class RentHouseDetail extends Component{
         visible:false,
         houseStyleList:[1],
         rentHouseAdmin:'',
+        able:true
 		}
     }
     componentWillMount(){
-    this.getCurrentUser()
     this.getCurrentRentHouse()
     // 
   }
@@ -77,7 +77,7 @@ class RentHouseDetail extends Component{
         });      
         local.search(res.data.province + res.data.city + res.data.area + res.data.communityName);
         console.log('查询结果',local)
-        
+        this.getCurrentUser(res.data.userId)
 			this.setState({
 				rentHouse:res.data,
 				pictures:res.data.srcs
@@ -149,13 +149,17 @@ class RentHouseDetail extends Component{
     })
     }
     //获取当前人登陆信息
-	  getCurrentUser = () => {
+	  getCurrentUser = (id) => {
 		let url = '/v1/sysUserDomin/getAuth'
 		request(url, {
 			method: 'GET'
 		}).then((res) => {
 			if (res.message === '成功') {
-        console.log("getCurrentUser",res.data)
+        if(id==res.data.id){
+					this.setState({
+						able:false
+					})
+				}
 				this.setState({
           Uid:res.data.id,
           user:res.data
@@ -343,10 +347,13 @@ getCurrentCommit=()=>{
             <span ><h1 style={{background:'red',width:'60%',marginLeft:'20%',marginTop:'10px'}}><Icon type="mobile" />电话{this.state.rentHouse.contactInformation}</h1></span>
            
             <div style={{marginLeft:'10%'}}>
-              <Button type="primary" onClick={this.showDrawer}>
+            {
+              this.state.able?<div><Button type="primary" onClick={this.showDrawer}>
               举报
               </Button>
-              <Button onClick={this.predetermine}>预定</Button>
+              <Button onClick={this.predetermine}>预定</Button></div>:<p></p>
+            }
+              
               <Drawer
               title="举报"
               placement="right"
@@ -444,7 +451,8 @@ getCurrentCommit=()=>{
            </Row>
            </div>
            <Divider /> 
-           <h1 style={{ marginTop:'15px'}}>房源概况：{this.state.rentHouse.houseDescription}</h1>
+           <h1 style={{ marginTop:'15px'}}>房源概况</h1>
+           <h2>{this.state.rentHouse.houseDescription}</h2>
            {/* <div>
            <Tag {...this.props} checked={this.state.checked} onChange={this.handleChange}>111</Tag>
   </div> */}
