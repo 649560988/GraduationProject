@@ -73,7 +73,7 @@
     "roadhog-api-doc": "1.0.3",
     "shelljs": "^0.8.2",
     "standard": "^11.0.1",
-    "yarn": "^1.9.4"
+    "yarn": "^1.17.3"
   },
   "engines": {
     "node": ">=8.0.0"
